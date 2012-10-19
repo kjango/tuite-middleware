@@ -1,6 +1,7 @@
-package control;
+package model;
 
 import java.util.Date;
+
 
 public class Tuite {
 	private long id;
