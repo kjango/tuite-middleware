@@ -1,0 +1,9 @@
+package control;
+
+import java.util.Date;
+
+public class Tuite {
+	private long id;
+	private String text;
+	private Date time;
+}

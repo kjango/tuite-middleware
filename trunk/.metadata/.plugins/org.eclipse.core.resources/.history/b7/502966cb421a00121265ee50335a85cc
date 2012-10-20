@@ -1,0 +1,7 @@
+package control;
+
+public class Tuite {
+	private long id;
+	private String text;
+	private calendar
+}
