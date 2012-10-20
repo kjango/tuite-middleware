@@ -118,7 +118,7 @@ public class loginScreen {
 		JButton btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//th
+				System.exit(0);
 			}
 		});
 		btnQuit.setBounds(208, 103, 89, 23);
