@@ -11,10 +11,23 @@ public class User {
 	private String realName;
 	private BufferedImage photo;
 	private Date registerDate;
-
 	private boolean protectedTuite;
 	private ArrayList<User> following;  //deixo em arraylist mesmo?
 	private ArrayList<Tuite> tuites;
+	
+	public User(long id, String email, String realName, BufferedImage photo,
+			Date registerDate, boolean protectedTuite,
+			ArrayList<User> following, ArrayList<Tuite> tuites) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.realName = realName;
+		this.photo = photo;
+		this.registerDate = registerDate;
+		this.protectedTuite = protectedTuite;
+		this.following = following;
+		this.tuites = tuites;
+	}
 	
 	public boolean addFollowing(User user) {
 		following.add(user);
