@@ -1,0 +1,10 @@
+package control;
+
+import java.awt.image.BufferedImage;
+
+public class User {
+	private String email;
+	private String realName;
+	private BufferedImage photo;
+	private boolean protectedTuite;
+}
