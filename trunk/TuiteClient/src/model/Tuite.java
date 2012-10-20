@@ -8,6 +8,15 @@ public class Tuite {
 	private String text;
 	private Date time;
 	private User myUser;
+	private boolean truncated;
+	
+	public Tuite(long id, String text, Date time, User myUser) {
+		super();
+		this.id = id;
+		this.text = text;
+		this.time = time;
+		this.myUser = myUser;
+	}
 	
 	public long getId() {
 		return id;
@@ -15,6 +24,14 @@ public class Tuite {
 	public void setId(long id) {
 		this.id = id;
 	}
+	public boolean isTruncated() {
+		return truncated;
+	}
+
+	public void setTruncated(boolean truncated) {
+		this.truncated = truncated;
+	}
+
 	public String getText() {
 		return text;
 	}
