@@ -111,7 +111,7 @@ public class loginScreen {
 		btnLogin.setBounds(10, 103, 89, 23);
 		panel.add(btnLogin);
 		
-		JButton btnRegister = new JButton("REGISTRAR");
+		JButton btnRegister = new JButton("Register");
 		btnRegister.setBounds(109, 103, 89, 23);
 		panel.add(btnRegister);
 		
