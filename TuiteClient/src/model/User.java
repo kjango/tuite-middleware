@@ -14,10 +14,12 @@ public class User {
 	private boolean protectedTuite;
 	private ArrayList<User> following;  //deixo em arraylist mesmo?
 	private ArrayList<Tuite> tuites;
-	
+	private ArrayList<User> followers;
+
 	public User(long id, String email, String realName, BufferedImage photo,
 			Date registerDate, boolean protectedTuite,
-			ArrayList<User> following, ArrayList<Tuite> tuites) {
+			ArrayList<User> following, ArrayList<Tuite> tuites,
+			ArrayList<User> followers) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -27,9 +29,17 @@ public class User {
 		this.protectedTuite = protectedTuite;
 		this.following = following;
 		this.tuites = tuites;
+		this.followers = followers;
 	}
-	
 	public boolean addFollowing(User user) {
+		following.add(user);
+		return true;
+	}
+	public boolean removeFoller(User user) {
+		following.remove(user);
+		return true;
+	}
+	public boolean addFollower(User user) {
 		following.add(user);
 		return true;
 	}
@@ -52,6 +62,12 @@ public class User {
 	}
 	public void setTuites(ArrayList<Tuite> tuites) {
 		this.tuites = tuites;
+	}
+	public ArrayList<User> getFollowers() {
+		return followers;
+	}
+	public void setFollowers(ArrayList<User> followers) {
+		this.followers = followers;
 	}
 	public long getId() {
 		return id;
