@@ -6,15 +6,15 @@ import java.util.Date;
 public class Tuite {
 	private long id;
 	private String text;
-	private Date time;
+	private Date createdAt;
 	private User myUser;
 	private boolean truncated;
 	
-	public Tuite(long id, String text, Date time, User myUser) {
+	public Tuite(long id, String text, Date createdAt, User myUser) {
 		super();
 		this.id = id;
 		this.text = text;
-		this.time = time;
+		this.createdAt = createdAt;
 		this.myUser = myUser;
 	}
 	
@@ -38,12 +38,14 @@ public class Tuite {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public Date getTime() {
-		return time;
+	
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setTime(Date time) {
-		this.time = time;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+	
 	public User getMyUser() {
 		return myUser;
 	}
