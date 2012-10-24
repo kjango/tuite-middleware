@@ -13,7 +13,7 @@ public class User {
 	private Date registerDate;
 	private boolean protectedTuite;
 	private ArrayList<User> following;  //deixo em arraylist mesmo?
-	private ArrayList<Tuite> tuites;
+	private ArrayList<Tuite> tuites; //Timeline
 	private ArrayList<Tuite> myTuites;
 	private ArrayList<User> followers;
 
