@@ -12,34 +12,30 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import model.User;
 import control.CtrlLogin;
 
-public class LoginScreen {
+public class LoginScreen extends javax.swing.JFrame{
 
-	private JFrame frmTuiter;
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginScreen window = new LoginScreen();
-					window.frmTuiter.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginScreen().setVisible(true);
+            }
+        });
+    }
 
 	/**
 	 * Create the application.
@@ -52,23 +48,22 @@ public class LoginScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmTuiter = new JFrame();
-		frmTuiter.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		frmTuiter.setResizable(false);
-		frmTuiter.setMinimumSize(new Dimension(354, 205));
-		frmTuiter.setLocationByPlatform(true);
-		frmTuiter.addComponentListener(new ComponentAdapter() {
+		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		setResizable(false);
+		setMinimumSize(new Dimension(354, 205));
+		setLocationByPlatform(true);
+		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentHidden(ComponentEvent arg0) {
 			}
 		});
-		frmTuiter.setTitle("Tuiter");
-		frmTuiter.getContentPane().setLayout(null);
+		setTitle("Tuiter");
+		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Login", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(10, 11, 328, 155);
-		frmTuiter.getContentPane().add(panel);
+		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblLogin = new JLabel("Login:");
@@ -90,7 +85,16 @@ public class LoginScreen {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CtrlLogin ctrlLogin = new CtrlLogin();
-				ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
+				User user = null;
+				user = ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
+				if (user != null){
+					MainScreen ms = new MainScreen(user);
+					ms.setVisible(true);
+					dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Invalid login or password", "Warning!", 0);
+				}
 			}
 		});
 		btnLogin.setBounds(10, 103, 89, 23);
