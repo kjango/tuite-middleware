@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
@@ -22,12 +23,20 @@ import javax.swing.border.TitledBorder;
 
 import model.Tuite;
 import model.User;
+import java.awt.CardLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import net.miginfocom.swing.MigLayout;
 
 public class MainScreen {
 
 	private JFrame frmTuite;
 	
 	private static Tuite tuite;
+	private static Tuite tuite2;
 	private static User user;
 
 
@@ -43,6 +52,7 @@ public class MainScreen {
 			photo = ImageIO.read(new File("img1.jpg"));
 			user = new User(0, "user@tests.com", "Hombre De Testes", photo, new Date(), false, null, null, null, null);
 			tuite = new Tuite(0, "Cacete, este é um tuiteste.", new Date(), user);
+			tuite2 = new Tuite(0, "Cacete, este é outro tuiteste.", new Date(), user);
 			System.out.println("mama");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -95,16 +105,30 @@ public class MainScreen {
 		formattedTextFieldTuite.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNewTuite.add(formattedTextFieldTuite, BorderLayout.CENTER);
 		
-		JPanel panelTimeLine = new JPanel();
-		panelTimeLine.setBorder(new TitledBorder(null, "TimeLine", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmTuite.getContentPane().add(panelTimeLine, BorderLayout.CENTER);
-		panelTimeLine.setLayout(new BorderLayout(0, 0));
+		JScrollPane scrollPane = new JScrollPane();
+		frmTuite.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-		JScrollPane scrollPaneTuites = new JScrollPane();
-		panelTimeLine.add(scrollPaneTuites, BorderLayout.CENTER);
+		JPanel panel_1 = new JPanel();
+		scrollPane.setViewportView(panel_1);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		TuitePanel panel_Teste = new TuitePanel(tuite);
-		scrollPaneTuites.setViewportView(panel_Teste);
+		TuitePanel panel_Teste3 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste3);
+		
+		TuitePanel panel_Teste6 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste6);
+		
+		TuitePanel panel_Teste5 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste5);
+		
+		TuitePanel panel_Teste1 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste1);
+		
+		TuitePanel panel_Teste2 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste2);
+		
+		TuitePanel panel_Teste4 = new TuitePanel(tuite);
+		panel_1.add(panel_Teste4);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmTuite.setJMenuBar(menuBar);
