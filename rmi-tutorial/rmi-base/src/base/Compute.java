@@ -10,4 +10,6 @@ public interface Compute extends Remote {
     <T> T executeTask(Task<T> t) throws RemoteException;
     
     public String decirHola() throws RemoteException;
+    
+    public boolean UserLogin(String user) throws RemoteException;
 }
