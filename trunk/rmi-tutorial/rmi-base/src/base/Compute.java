@@ -1,4 +1,4 @@
-package saqib.rasul;
+package base;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

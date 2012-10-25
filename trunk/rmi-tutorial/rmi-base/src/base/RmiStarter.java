@@ -1,5 +1,5 @@
 
-package saqib.rasul;
+package base;
 
 /**
  * class to do some common things for client & server to get RMI working

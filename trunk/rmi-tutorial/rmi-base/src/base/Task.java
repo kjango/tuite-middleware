@@ -1,4 +1,4 @@
-package saqib.rasul;
+package base;
 
 public interface Task<T> {
     T execute();
