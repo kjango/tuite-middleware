@@ -37,7 +37,6 @@ public class Client
             } else {
             	System.out.println("Teste de Banco Falhou!");
             }
-            
         }
         catch(Exception e) {
             e.printStackTrace();
