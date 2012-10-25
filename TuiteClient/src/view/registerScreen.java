@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-public class registerScreen {
+public class RegisterScreen {
 
 	private JFrame frmTuiter;
 	private JTextField textFieldName;
@@ -31,7 +31,7 @@ public class registerScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					registerScreen window = new registerScreen();
+					RegisterScreen window = new RegisterScreen();
 					window.frmTuiter.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class registerScreen {
 	/**
 	 * Create the application.
 	 */
-	public registerScreen() {
+	public RegisterScreen() {
 		initialize();
 	}
 

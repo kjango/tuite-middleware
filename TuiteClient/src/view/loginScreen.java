@@ -19,7 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import control.CtrlLogin;
 
-public class loginScreen {
+public class LoginScreen {
 
 	private JFrame frmTuiter;
 	private JTextField textFieldLogin;
@@ -32,7 +32,7 @@ public class loginScreen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					loginScreen window = new loginScreen();
+					LoginScreen window = new LoginScreen();
 					window.frmTuiter.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +44,7 @@ public class loginScreen {
 	/**
 	 * Create the application.
 	 */
-	public loginScreen() {
+	public LoginScreen() {
 		initialize();
 	}
 
