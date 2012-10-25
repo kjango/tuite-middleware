@@ -11,6 +11,8 @@ import javax.swing.border.TitledBorder;
 
 import model.Tuite;
 import model.User;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public class TuitePanel extends JPanel {
 	
@@ -23,6 +25,9 @@ public class TuitePanel extends JPanel {
 
 	public TuitePanel(Tuite tuite) {
 		super();
+		setSize(new Dimension(450, 80));
+		setPreferredSize(new Dimension(450, 80));
+		setMaximumSize(new Dimension(450, 80));
 		this.tuite = tuite;
 		initilize();
 	}
@@ -32,6 +37,7 @@ public class TuitePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JButton btnFollowUnfollow = new JButton("Follow / Unfollow");
+		btnFollowUnfollow.setPreferredSize(new Dimension(80, 13));
 		add(btnFollowUnfollow, BorderLayout.EAST);
 		
 		JLabel labelTuite = new JLabel(tuite.getText());
