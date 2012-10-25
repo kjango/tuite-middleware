@@ -1,12 +1,12 @@
 
-package saqib.rasul.client;
+package client;
 
-import java.math.BigDecimal;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import saqib.rasul.Compute;
-import saqib.rasul.RmiStarter;
+import base.Compute;
+import base.RmiStarter;
+
 
 /**
  * get the RMI Compute service and send a task to compute PI to N digits
@@ -26,9 +26,6 @@ public class StartComputeTaskPI
         try {
             Registry registry = LocateRegistry.getRegistry();
             Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
-            PI task = new PI(50);
-            BigDecimal pi = compute.executeTask(task);
-            System.out.println("computed pi: " + pi);
             
             String returned = compute.decirHola();
             System.out.println(returned);

@@ -1,12 +1,13 @@
 
-package saqib.rasul.server;
+package server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import saqib.rasul.Compute;
-import saqib.rasul.RmiStarter;
+import base.Compute;
+import base.RmiStarter;
+
 
 /**
  * start the server component. this exposes the an implementation of the Compute interface as a service over RMI
@@ -29,6 +30,7 @@ public class ComputeEngineStarter
 
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind(Compute.SERVICE_NAME, engineStub);
+            System.out.println("RMI Server is ready for use...");
         }
         catch(Exception e) {
             e.printStackTrace();
