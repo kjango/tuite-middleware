@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -10,9 +11,6 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import model.Tuite;
-import model.User;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 
 public class TuitePanel extends JPanel {
 	
@@ -25,10 +23,10 @@ public class TuitePanel extends JPanel {
 
 	public TuitePanel(Tuite tuite) {
 		super();
+		this.tuite = tuite;
 		setSize(new Dimension(450, 80));
 		setPreferredSize(new Dimension(450, 80));
 		setMaximumSize(new Dimension(450, 80));
-		this.tuite = tuite;
 		initilize();
 	}
 	
@@ -47,8 +45,6 @@ public class TuitePanel extends JPanel {
 		add(lblImage, BorderLayout.WEST);
 		
 		lblImage.setIcon(new ImageIcon(tuite.getMyUser().getPhoto()));
-
-		System.out.println("lala");
 	}
 
 }
