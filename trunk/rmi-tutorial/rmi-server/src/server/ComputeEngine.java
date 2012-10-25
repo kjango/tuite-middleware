@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import base.Compute;
 import base.Task;
+import dao.LoginDao;
 
 
 public class ComputeEngine
@@ -15,7 +16,14 @@ public class ComputeEngine
         return t.execute();
     }
     
-	public String decirHola() throws RemoteException{
+    public boolean UserLogin(String user) throws RemoteException{
+    	
+    	LoginDao loginDao = new LoginDao();
+    	return loginDao.LoginUser(user);
+    	
+    }
+	
+    public String decirHola() throws RemoteException{
 		return "Hola a todos!";
 	}
 }
