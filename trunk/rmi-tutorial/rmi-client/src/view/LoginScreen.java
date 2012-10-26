@@ -84,6 +84,9 @@ public class LoginScreen extends javax.swing.JFrame{
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//CtrlLogin ctrlLogin = new CtrlLogin();
+				//ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
+				
 				CtrlLogin ctrlLogin = new CtrlLogin();
 				User user = null;
 				user = ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
