@@ -31,7 +31,7 @@ public class MainScreen extends javax.swing.JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		setTitle("Tuite");
+		setTitle("Tuite - " + user.getRealName());
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -55,6 +55,7 @@ public class MainScreen extends javax.swing.JFrame {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		panelTimeLine = new JPanel();
+		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPane.setViewportView(panelTimeLine);
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -76,9 +77,9 @@ public class MainScreen extends javax.swing.JFrame {
 	}
 	
 	public void updateTimeLine(){
-		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() - 10 && i >= 0 ; i--) {
+		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() - 11 && i >= 0 ; i--) {
 			Tuite tu = user.getTuites().get(i);
-			TuitePanel t = new TuitePanel(tu);
+			TuitePanel t = new TuitePanel(user, tu);
 			panelTimeLine.add(t);
 		}
 //		this.
