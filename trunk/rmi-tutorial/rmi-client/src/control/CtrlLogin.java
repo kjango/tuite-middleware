@@ -7,10 +7,14 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
+
+import base.Compute;
 
 import model.Tuite;
 import model.User;
@@ -21,19 +25,18 @@ public class CtrlLogin {
 		//Codigo para enviar login e senha por rmi para o servidor
 		User user = null;
 		
-		String url = new String("rmi://localhost/Login");
+		//String url = new String("rmi://localhost/Login");
 		try{
-		InterfaceLogin interfaceL = (InterfaceLogin)  Naming.lookup(url);
-		user = interfaceL.doLogin(name, password);
+		Registry registry = LocateRegistry.getRegistry();
+	    Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
+		//InterfaceLogin interfaceL = (InterfaceLogin)  Naming.lookup(url);
+		user = compute.doLogin(name, password);
 		} catch (RemoteException e){
 			e.printStackTrace();
 		} catch (NotBoundException e){
 			e.printStackTrace();
-		} catch (MalformedURLException e){
-			e.printStackTrace();
 		}
-		
-				
+
 		
 		
 		
