@@ -3,6 +3,10 @@ package control;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,7 +18,23 @@ import model.User;
 public class CtrlLogin {
 
 	public User login(String name, char[] password){
-		//TODO tudo aqui xD
+		//Codigo para enviar login e senha por rmi para o servidor
+		
+		/*String url = new String("rmi://localhost/Login");
+		try{
+		InterfaceLogin interfaceL = (InterfaceLogin)  Naming.lookup(url);
+		interfaceL.doLogin(name, password);
+		} catch (RemoteException e){
+			e.printStackTrace();
+		} catch (NotBoundException e){
+			e.printStackTrace();
+		} catch (MalformedURLException e){
+			e.printStackTrace();
+		}*/
+		
+				
+		
+		
 		User user = null;
 
 		if (true){
@@ -22,7 +42,7 @@ public class CtrlLogin {
 
 			/*
 			 * Só para testes
-			 */
+			*/ 
 			BufferedImage photo;
 			try {
 				ArrayList<Tuite> alTuites = new ArrayList<Tuite>();
@@ -55,5 +75,6 @@ public class CtrlLogin {
 			 */
 		}
 		return user;
+		
 	}
 }
