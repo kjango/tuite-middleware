@@ -58,7 +58,7 @@ public class TuitePanel extends JPanel {
 		add(lblImage, BorderLayout.WEST);
 		
 		BufferedImage photo = null;
-		photo = tuite.getMyUser().getPhoto();
+		//photo = tuite.getMyUser().getPhoto();
 		if (photo == null){
 			try {
 				photo = ImageIO.read(new File("noImg.jpg"));

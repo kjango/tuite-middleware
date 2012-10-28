@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Tuite {
+public class Tuite implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String text;
 	private Date createdAt;

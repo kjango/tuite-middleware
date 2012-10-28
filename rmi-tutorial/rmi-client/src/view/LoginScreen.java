@@ -23,7 +23,7 @@ import control.CtrlLogin;
 
 public class LoginScreen extends javax.swing.JFrame{
 
-	private JTextField textFieldLogin;
+	private JTextField loginField;
 	private JPasswordField passwordField;
 
 	/**
@@ -76,20 +76,21 @@ public class LoginScreen extends javax.swing.JFrame{
 		lblPassword.setBounds(10, 57, 60, 22);
 		panel.add(lblPassword);
 		
-		textFieldLogin = new JTextField();
-		textFieldLogin.setBounds(80, 27, 217, 20);
-		panel.add(textFieldLogin);
-		textFieldLogin.setColumns(10);
+		loginField = new JTextField();
+		loginField.setBounds(80, 27, 217, 20);
+		panel.add(loginField);
+		loginField.setColumns(10);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//CtrlLogin ctrlLogin = new CtrlLogin();
-				//ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
 				
-				CtrlLogin ctrlLogin = new CtrlLogin();
+				
 				User user = null;
-				user = ctrlLogin.login(textFieldLogin.getText(), passwordField.getPassword());
+			 
+				CtrlLogin ctrlLogin = new CtrlLogin(loginField.getText(), passwordField.getPassword().toString());
+				user = ctrlLogin.CtrlLoginTO.getUser();
+				
 				if (user != null){
 					MainScreen ms = new MainScreen(user);
 					ms.setVisible(true);

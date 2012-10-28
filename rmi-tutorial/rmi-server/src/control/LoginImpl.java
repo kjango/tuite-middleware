@@ -1,53 +1,43 @@
 //Implementação do objeto remoto para fazer Login
 package control;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-
+import model.LoginTO;
 import model.Tuite;
 import model.User;
 
-public class LoginImpl extends UnicastRemoteObject implements InterfaceLogin, Serializable{
+public class LoginImpl {
 
-	public LoginImpl() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
+	public LoginImpl(){
+		
 	}
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5188638482852544904L;
-
-	@Override
-	public User doLogin(String name, char[] password) throws RemoteException {
+	public LoginTO doLogin(LoginTO loginTO)  {
 		//TODO implementar o corpo desse código (aqui chega o login e a senha)
-		
+
 		User user = null;
-		System.out.println(name);
-		System.out.println(password);
-		
+
 		/**
 		 * TESTES
 		 */
-		try {
-		BufferedImage photo;
+		//try {
+		//BufferedImage photo;
 		ArrayList<Tuite> alTuites = new ArrayList<Tuite>();
 		ArrayList<Tuite> alTuites1 = new ArrayList<Tuite>();
 		ArrayList<User> alUser = new ArrayList<User>();
 		
-		photo = ImageIO.read(new File("img1.jpg"));
-		user = new User(1, "user2@tests.com", "Seguidor De Testes", null, new Date(), false, alUser, alTuites, null, null);
-		User user2 = new User(0, "user@tests.com", "Hombre De Testes", photo, new Date(), false, null, null, alTuites1, null);
-		User user3 = new User(2, "user3@tests.com", "Terceiro De Testes", null, new Date(), false, null, null, null, null);
+		//photo = ImageIO.read(new File("img1.jpg"));
+		user = new User(1, "user2@tests.com", "Seguidor De Testes", //null, 
+				new Date(), false, alUser, alTuites, null, null);
+		User user2 = new User(0, "user@tests.com", "Hombre De Testes", //photo, 
+				new Date(), false, null, null, alTuites1, null);
+		User user3 = new User(2, "user3@tests.com", "Terceiro De Testes", //null, 
+				new Date(), false, null, null, null, null);
 		Tuite tuite1 = new Tuite(0, "Cacete, este é um tuiteste.", new Date(), user2);
 		Tuite tuite2 = new Tuite(0, "OMG estou tuitando.", new Date(), user3);
 
@@ -61,13 +51,15 @@ public class LoginImpl extends UnicastRemoteObject implements InterfaceLogin, Se
 		
 		user.addTuite(tuite2);
 		
-		} catch (IOException e) {
+		//} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
 		
-		
-		return user;
+		loginTO.setValidated(true);
+		loginTO.setErrorMessage("Success!!");
+		loginTO.setUser(user);
+		return loginTO;
 	}
 	
 }
