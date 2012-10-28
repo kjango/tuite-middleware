@@ -4,6 +4,8 @@ package client;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import model.LoginTO;
+import model.User;
 import base.Compute;
 import base.RmiStarter;
 
@@ -15,7 +17,7 @@ import base.RmiStarter;
  * 
  */
 public class Client
-    extends RmiStarter {
+	extends RmiStarter {
 
     public Client() {
         super(PI.class);
@@ -24,13 +26,13 @@ public class Client
     @Override
     public void doCustomRmiHandling() {
         try {
-            Registry registry = LocateRegistry.getRegistry();
-            Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
+            //Registry registry = LocateRegistry.getRegistry();
+            //Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
             
-            String returned = compute.decirHola();
-            System.out.println(returned);
+            //String returned = compute.decirHola();
+            //System.out.println(returned);
             
-            boolean login = compute.UserLogin("teste");
+            boolean login = false; //compute.UserLogin("teste");
             if (login)
             {
             	System.out.println("Teste de Banco OK!");

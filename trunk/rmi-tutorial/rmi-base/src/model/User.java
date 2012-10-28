@@ -1,15 +1,18 @@
 package model;
 
-import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-public class User {
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String email;
 	private String realName;
-	private BufferedImage photo;
+	//private BufferedImage photo;
 	private Date registerDate;
 	private boolean protectedTuite;
 	private ArrayList<User> following;  //deixo em arraylist mesmo?
@@ -17,7 +20,7 @@ public class User {
 	private ArrayList<Tuite> myTuites;
 	private ArrayList<User> followers;
 
-	public User(long id, String email, String realName, BufferedImage photo,
+	public User(long id, String email, String realName, //BufferedImage photo,
 			Date registerDate, boolean protectedTuite,
 			ArrayList<User> following, ArrayList<Tuite> tuites,
 			ArrayList<Tuite> myTuites, ArrayList<User> followers) {
@@ -25,7 +28,7 @@ public class User {
 		this.id = id;
 		this.email = email;
 		this.realName = realName;
-		this.photo = photo;
+		//this.photo = photo;
 		this.registerDate = registerDate;
 		this.protectedTuite = protectedTuite;
 		this.following = following;
@@ -33,6 +36,10 @@ public class User {
 		this.myTuites = myTuites;
 		this.followers = followers;
 	}
+	
+	public User(){
+	
+	}	
 
 	public boolean addFollowing(User user) {
 		following.add(user);
@@ -100,12 +107,12 @@ public class User {
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
-	public BufferedImage getPhoto() {
-		return photo;
-	}
-	public void setPhoto(BufferedImage photo) {
-		this.photo = photo;
-	}
+	//public BufferedImage getPhoto() {
+	//	return photo;
+	//}
+	//public void setPhoto(BufferedImage photo) {
+	//	this.photo = photo;
+	//}
 	public boolean isProtectedTuite() {
 		return protectedTuite;
 	}
