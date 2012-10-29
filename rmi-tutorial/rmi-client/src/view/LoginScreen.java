@@ -84,7 +84,6 @@ public class LoginScreen extends javax.swing.JFrame{
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				
 				User user = null;
 				LoginTO loginTO = new LoginTO(loginField.getText(), passwordField.getPassword().toString());
 			 
