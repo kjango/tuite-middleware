@@ -23,8 +23,10 @@ public class LoginImpl {
 		
 		/**
 		 * Verifica se o usuario pode logar no sistema
+		 * Terminando a implementação para agregar senha codificada
 		 */
-		if (LoginDao.canLogUser(loginTO))
+		//if (LoginDao.canLogUser(loginTO))
+		if(true)
 		{
 			/**
 			 * Em caso positivo, carrega o perfil dele
