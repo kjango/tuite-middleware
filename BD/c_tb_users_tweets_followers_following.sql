@@ -7,7 +7,7 @@ CREATE TABLE tb_users (
     real_name		varchar(40) NOT NULL,
     register_date   	date,
     photo		bytea,
-    protected_tweet	bit
+    protected_tweet	boolean
 );
 
 INSERT INTO tb_users (id, email, real_name, register_date, protected_tweet)
