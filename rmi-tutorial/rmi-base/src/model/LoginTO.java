@@ -1,8 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.net.InterfaceAddress;
 
-/*
+/**
  * Classe que implementa o Objeto de Transporte de Login
  * Serializable pois necessita trafegar pelo PROXY do RMI
  */
@@ -59,6 +60,10 @@ public class LoginTO implements Serializable {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+	
+	public void showMessage(String test){
+		
 	}
 	
 }

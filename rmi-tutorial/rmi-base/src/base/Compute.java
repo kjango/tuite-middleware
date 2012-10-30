@@ -11,6 +11,9 @@ public interface Compute extends Remote {
     
     <T> T executeTask(Task<T> t) throws RemoteException;
     
-    LoginTO executeLogin(LoginTO loginTO) throws RemoteException;
+    public LoginTO executeLogin(LoginTO loginTO, Compute cpt) throws RemoteException;
+    
+    public void showMessage(String test) throws RemoteException;
+    public void sendMessage(String test) throws RemoteException;
     
 }
