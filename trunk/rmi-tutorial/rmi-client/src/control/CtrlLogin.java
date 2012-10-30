@@ -34,10 +34,11 @@ public class CtrlLogin extends RmiStarter {
     	if ((loginTO != null) && (compute != null))
     	{
 			try {
-				loginTO = compute.executeLogin(loginTO);
+				loginTO = compute.executeLogin(loginTO, compute);
 	   	 		user = loginTO.getUser();
-				System.out.println("User Name: " + user.getRealName() + "\nEmail: " + user.getEmail());
-	 			System.out.println("Message: " + loginTO.getErrorMessage());	
+				//System.out.println("User Name: " + user.getRealName() + "\nEmail: " + user.getEmail());
+	 			//System.out.println("Message: " + loginTO.getErrorMessage());
+	   	 		compute.sendMessage("teste1");
 			} catch (RemoteException e){
 				System.out.println("Message: " + loginTO.getErrorMessage() + "\nException: " + e.toString());
 			}
