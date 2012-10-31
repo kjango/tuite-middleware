@@ -1,6 +1,7 @@
 
 package server;
 
+import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -27,9 +28,9 @@ public class ComputeEngineStarter
         try {
             Compute engine = new ComputeEngine();
             Compute engineStub = (Compute)UnicastRemoteObject.exportObject(engine, 0);
-
             Registry registry = LocateRegistry.getRegistry();
-            registry.rebind(Compute.SERVICE_NAME, engineStub);
+            registry.rebind(Compute.SERVICE_NAME, engineStub);            
+            
             System.out.println("RMI Server is ready for use...");
         }
         catch(Exception e) {
