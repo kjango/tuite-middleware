@@ -2,12 +2,13 @@ package server;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import model.LoginTO;
+import model.RegisterTO;
 import base.Compute;
 import base.Task;
 import control.LoginImpl;
+import control.RegisterImpl;
 
 
 public class ComputeEngine
@@ -41,5 +42,9 @@ public class ComputeEngine
     		Compute cpt = ConectedUsers.get(i);
     		cpt.showMessage(test + "ID: " + cpt.toString());
     	}
+    }
+    public boolean executeRegistry(RegisterTO registerTO) throws RemoteException{
+    	
+    	return new RegisterImpl().doRegister(registerTO);
     }
 }

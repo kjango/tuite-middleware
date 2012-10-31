@@ -17,13 +17,19 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import model.LoginTO;
+import model.RegisterTO;
 import model.User;
+import base.Compute;
 import control.CtrlLogin;
+import control.CtrlRMI;
+import control.CtrlRegister;
 
 public class LoginScreen extends javax.swing.JFrame{
 
 	private JTextField loginField;
 	private JPasswordField passwordField;
+	private Compute compute;
+	private CtrlRMI ctrlRMI;
 
 	/**
 	 * Launch the application.
@@ -40,6 +46,8 @@ public class LoginScreen extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public LoginScreen() {
+		ctrlRMI = new CtrlRMI();
+		compute = ctrlRMI.getCompute();
 		initialize();
 	}
 
@@ -85,10 +93,11 @@ public class LoginScreen extends javax.swing.JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				User user = null;
+				//TODO verificar esse password.string
 				LoginTO loginTO = new LoginTO(loginField.getText(), passwordField.getPassword().toString());
 			 
 				CtrlLogin ctrlLogin = new CtrlLogin();
-				user = ctrlLogin.doLogin(loginTO);
+				user = ctrlLogin.doLogin(loginTO, compute);
 				
 				if (user != null){
 					MainScreen ms = new MainScreen(user);
@@ -104,6 +113,14 @@ public class LoginScreen extends javax.swing.JFrame{
 		panel.add(btnLogin);
 		
 		JButton btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//vou pegar os dados do cara
+				RegisterTO registerTO = new RegisterTO("mama@mama.com", "mama", "123", true);
+				CtrlRegister ctrlRegister = new CtrlRegister();
+				ctrlRegister.doRegistry(registerTO, compute);
+			}
+		});
 		btnRegister.setBounds(109, 103, 89, 23);
 		panel.add(btnRegister);
 		
