@@ -21,12 +21,12 @@ public class ComputeEngine
         return t.execute();
     }
 
-    public LoginTO executeLogin(LoginTO loginTO, Compute cpt) throws RemoteException {
+    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
     	if (ConectedUsers == null) {
     		ConectedUsers = new ArrayList<Compute>();
-    		ConectedUsers.add(cpt);
+    		ConectedUsers.add(loginTO.getCompute());
     	} else {
-    		ConectedUsers.add(cpt);
+    		ConectedUsers.add(loginTO.getCompute());
     	}
     	
     	return new LoginImpl().doLogin(loginTO);

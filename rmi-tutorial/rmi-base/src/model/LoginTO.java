@@ -1,7 +1,8 @@
 package model;
 
 import java.io.Serializable;
-import java.net.InterfaceAddress;
+
+import base.Compute;
 
 /**
  * Classe que implementa o Objeto de Transporte de Login
@@ -16,12 +17,21 @@ public class LoginTO implements Serializable {
 	private String errorMessage;
 	private boolean isValidated;
 	private User user;
+	private Compute compute;
 		
 	public LoginTO (String login, String password){
 		this.userLogin = login;
 		this.userPassword = password;
 	}
 	
+	public Compute getCompute() {
+		return compute;
+	}
+
+	public void setCompute(Compute compute) {
+		this.compute = compute;
+	}
+
 	public User getUser() {
 		return user;
 	}

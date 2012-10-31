@@ -1,5 +1,6 @@
 package control;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -34,7 +35,8 @@ public class CtrlLogin extends RmiStarter {
     	if ((loginTO != null) && (compute != null))
     	{
 			try {
-				loginTO = compute.executeLogin(loginTO, compute);
+				loginTO.setCompute(compute);
+				loginTO = compute.executeLogin(loginTO);
 	   	 		user = loginTO.getUser();
 				//System.out.println("User Name: " + user.getRealName() + "\nEmail: " + user.getEmail());
 	 			//System.out.println("Message: " + loginTO.getErrorMessage());
@@ -52,7 +54,7 @@ public class CtrlLogin extends RmiStarter {
     @Override
     public void doCustomRmiHandling() {
         try {
-            Registry registry = LocateRegistry.getRegistry();
+        	Registry registry = LocateRegistry.getRegistry("localhost");
             compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
         }
         catch(Exception e) {
