@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -16,6 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import control.CtrlTuite;
+
+import base.Compute;
+
 import model.Tuite;
 import model.User;
 
@@ -24,9 +29,11 @@ public class MainScreen extends javax.swing.JFrame {
 	private User user;
 	private JPanel panelTimeLine;
 	private JFormattedTextField formattedTextFieldTuite;
+	private Compute compute;
 
-	public MainScreen(User user) {
+	public MainScreen(User user,Compute compute) {
 		this.user = user;
+		this.compute = compute;
 		initialize();
 	}
 
@@ -54,7 +61,23 @@ public class MainScreen extends javax.swing.JFrame {
 		JButton btnTuite = new JButton("Tuite");
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.err.println(formattedTextFieldTuite.getText() + "chora ae  xD");
+				Tuite tuite;
+				//TODO Finalizar a implementação dessa ação
+				System.err.println(formattedTextFieldTuite.getText());
+
+				//Criando o TO
+				Tuite t = new Tuite(0,formattedTextFieldTuite.getText().toString(), new Date(), user);
+				
+				//Criando o controle
+				CtrlTuite ctrl = new CtrlTuite();
+				ctrl.truncate(t);
+				
+				//Chamar doTuite
+				tuite = ctrl.doTuite(t, compute);
+				
+				//Print de teste
+				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
+				
 			}
 		});
 		panelNewTuite.add(btnTuite, BorderLayout.EAST);
