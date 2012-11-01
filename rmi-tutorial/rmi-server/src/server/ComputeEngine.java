@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 import model.LoginTO;
 import model.RegisterTO;
+import model.Tuite;
 import base.Compute;
 import base.Task;
 import control.LoginImpl;
 import control.RegisterImpl;
+import control.TuitarImpl;
 
 
 public class ComputeEngine
@@ -47,4 +49,9 @@ public class ComputeEngine
     	
     	return new RegisterImpl().doRegister(registerTO);
     }
+
+	@Override
+	public Tuite executeTuite(Tuite t) throws RemoteException {
+		return new TuitarImpl().Tuitar(t);
+	}
 }

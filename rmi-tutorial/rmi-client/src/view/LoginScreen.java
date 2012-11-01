@@ -101,7 +101,7 @@ public class LoginScreen extends javax.swing.JFrame{
 				user = ctrlLogin.doLogin(loginTO, compute);
 				
 				if (user != null){
-					MainScreen ms = new MainScreen(user);
+					MainScreen ms = new MainScreen(user,compute);
 					ms.setVisible(true);
 					dispose();
 				}
