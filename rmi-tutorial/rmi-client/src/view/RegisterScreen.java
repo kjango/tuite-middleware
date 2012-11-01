@@ -1,49 +1,48 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-public class RegisterScreen {
+import control.CtrlRegister;
 
-	private JFrame frmTuiter;
+import model.RegisterTO;
+
+import base.Compute;
+
+public class RegisterScreen extends javax.swing.JFrame{
+
+	private JFrame frmTuite;
 	private JTextField textFieldName;
 	private JTextField textFieldEmail;
+	private JLabel lblPassword;
 	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
-	private JButton btnConfirm;
+	private JLabel label;
+	private JCheckBox chckbxProtectTuite;
+	private JButton btnRegister;
 	private JButton btnCancel;
+	
+	private Compute compute;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterScreen window = new RegisterScreen();
-					window.frmTuiter.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
-	public RegisterScreen() {
+	public RegisterScreen(Compute compute) {
+		this.compute = compute;
 		initialize();
 	}
 
@@ -51,67 +50,95 @@ public class RegisterScreen {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmTuiter = new JFrame();
-		frmTuiter.setResizable(false);
-		frmTuiter.setTitle("Tuiter");
-		frmTuiter.setBounds(100, 100, 266, 262);
-		frmTuiter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmTuite = new JFrame();
+		frmTuite.setTitle("Tuite");
+		frmTuite.setBounds(100, 100, 250, 197);
+		frmTuite.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Register", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmTuiter.getContentPane().add(panel, BorderLayout.CENTER);
+		frmTuite.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Full name:");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 31, 110, 25);
+		JLabel lblName = new JLabel("Name:");
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		panel.add(lblName);
 		
 		textFieldName = new JTextField();
-		textFieldName.setBounds(118, 31, 110, 25);
+		panel.add(textFieldName);
 		textFieldName.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Email:");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 67, 110, 25);
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		panel.add(lblEmail);
 		
 		textFieldEmail = new JTextField();
-		textFieldEmail.setBounds(118, 67, 110, 25);
+		panel.add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Password:");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(10, 103, 110, 25);
+		lblPassword = new JLabel("Password:");
+		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		panel.add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(118, 103, 110, 25);
-		
-		JLabel lblRepeatPassword = new JLabel("Repeat password:");
-		lblRepeatPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRepeatPassword.setBounds(10, 139, 110, 25);
-		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(118, 139, 110, 25);
-		panel.setLayout(null);
-		panel.add(lblNewLabel);
-		panel.add(textFieldName);
-		panel.add(lblNewLabel_1);
-		panel.add(textFieldEmail);
-		panel.add(lblNewLabel_2);
 		panel.add(passwordField);
-		panel.add(lblRepeatPassword);
-		panel.add(passwordField_1);
 		
-		btnConfirm = new JButton("Confirm");
-		btnConfirm.setBounds(31, 200, 89, 23);
-		panel.add(btnConfirm);
+		label = new JLabel("");
+		panel.add(label);
 		
-		btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		chckbxProtectTuite = new JCheckBox("Protect Tuite?");
+		panel.add(chckbxProtectTuite);
+		
+		btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				boolean ok = true;
+				if (textFieldName.getText().isEmpty()){
+					ok = false;
+				}
+				if (textFieldEmail.getText().isEmpty()){
+					ok = false;
+				}
+				if (passwordField.getText().isEmpty()){
+					ok = false;
+				}
+				if (ok){
+					//crio o TO pra fazer o registro
+
+					RegisterTO registerTO = new RegisterTO(textFieldEmail.getText(), textFieldName.getText(), passwordField.getText(), chckbxProtectTuite.isSelected());
+					CtrlRegister ctrlRegister = new CtrlRegister();
+					ok = ctrlRegister.doRegistry(registerTO, compute);
+					
+					if (ok){
+						JOptionPane.showMessageDialog(null, "User registered!", "Success!", 0);
+					}else{
+						JOptionPane.showMessageDialog(null, "Sorry, user not created.", "Warning!", 0);
+					}
+					
+					dispose();
+				}else{
+					JOptionPane.showMessageDialog(null, "All fields required!", "Warning!", 0);
+				}
+				
 				
 			}
 		});
-		btnCancel.setBounds(139, 200, 89, 23);
+		panel.add(btnRegister);
+		
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		panel.add(btnCancel);
+		
+		
+		repaint();
 	}
 
 }
