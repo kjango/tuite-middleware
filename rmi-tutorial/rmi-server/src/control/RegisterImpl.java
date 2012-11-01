@@ -8,8 +8,10 @@ public class RegisterImpl {
 		//TODO implementar essa classe
 		boolean res = false;
 		
-		System.err.println("Monga");
 		System.out.println(registerTO.getUserRealName() + "foi registrado...  ou não");
+		if (registerTO.getUserRealName().equals("OK")){
+			res = true;
+		}
 		
 		return res;
 	}

@@ -46,6 +46,7 @@ public class LoginScreen extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public LoginScreen() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		ctrlRMI = new CtrlRMI();
 		compute = ctrlRMI.getCompute();
@@ -116,10 +117,9 @@ public class LoginScreen extends javax.swing.JFrame{
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				RegisterScreen rs = new RegisterScreen(compute);
+				RegisterScreen rs = new RegisterScreen(compute, me);
 				rs.setVisible(true);
-//				setEnabled(false);
-//				setVisible(false);
+				setEnabled(false);
 			}
 		});
 		btnRegister.setBounds(109, 121, 89, 23);
