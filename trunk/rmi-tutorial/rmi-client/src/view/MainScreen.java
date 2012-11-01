@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -21,6 +23,7 @@ public class MainScreen extends javax.swing.JFrame {
 
 	private User user;
 	private JPanel panelTimeLine;
+	private JFormattedTextField formattedTextFieldTuite;
 
 	public MainScreen(User user) {
 		this.user = user;
@@ -42,14 +45,20 @@ public class MainScreen extends javax.swing.JFrame {
 		JPanel panelNewTuite = new JPanel();
 		panelNewTuite.setBorder(new TitledBorder(null, "Tuite", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panelNewTuite);
-		panelNewTuite.setLayout(new BorderLayout(0, 0));
+		panelNewTuite.setLayout(new BorderLayout(0, 0));	
 		
-		JButton btnTuite = new JButton("Tuite");
-		panelNewTuite.add(btnTuite, BorderLayout.EAST);
-		
-		JFormattedTextField formattedTextFieldTuite = new JFormattedTextField();
+		formattedTextFieldTuite = new JFormattedTextField();
 		formattedTextFieldTuite.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNewTuite.add(formattedTextFieldTuite, BorderLayout.CENTER);
+		
+		JButton btnTuite = new JButton("Tuite");
+		btnTuite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.err.println(formattedTextFieldTuite.getText() + "chora ae  xD");
+			}
+		});
+		panelNewTuite.add(btnTuite, BorderLayout.EAST);
+
 		
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -63,7 +72,7 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnArchive = new JMenu("Archive");
+		JMenu mnArchive = new JMenu("File");
 		menuBar.add(mnArchive);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");

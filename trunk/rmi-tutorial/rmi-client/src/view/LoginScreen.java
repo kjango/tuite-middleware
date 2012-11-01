@@ -9,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,12 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import model.LoginTO;
-import model.RegisterTO;
 import model.User;
 import base.Compute;
 import control.CtrlLogin;
 import control.CtrlRMI;
-import control.CtrlRegister;
 
 public class LoginScreen extends javax.swing.JFrame{
 
@@ -30,6 +29,7 @@ public class LoginScreen extends javax.swing.JFrame{
 	private JPasswordField passwordField;
 	private Compute compute;
 	private CtrlRMI ctrlRMI;
+	private JFrame me;
 
 	/**
 	 * Launch the application.
@@ -46,8 +46,10 @@ public class LoginScreen extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public LoginScreen() {
+		setResizable(false);
 		ctrlRMI = new CtrlRMI();
 		compute = ctrlRMI.getCompute();
+		me = this;
 		initialize();
 	}
 
@@ -56,7 +58,6 @@ public class LoginScreen extends javax.swing.JFrame{
 	 */
 	private void initialize() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		setResizable(false);
 		setMinimumSize(new Dimension(354, 205));
 		setLocationByPlatform(true);
 		addComponentListener(new ComponentAdapter() {
@@ -109,19 +110,19 @@ public class LoginScreen extends javax.swing.JFrame{
 				}
 			}
 		});
-		btnLogin.setBounds(10, 103, 89, 23);
+		btnLogin.setBounds(10, 121, 89, 23);
 		panel.add(btnLogin);
 		
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//vou pegar os dados do cara
-				RegisterTO registerTO = new RegisterTO("mama@mama.com", "mama", "123", true);
-				CtrlRegister ctrlRegister = new CtrlRegister();
-				ctrlRegister.doRegistry(registerTO, compute);
+				RegisterScreen rs = new RegisterScreen(compute);
+				rs.setVisible(true);
+//				setEnabled(false);
+//				setVisible(false);
 			}
 		});
-		btnRegister.setBounds(109, 103, 89, 23);
+		btnRegister.setBounds(109, 121, 89, 23);
 		panel.add(btnRegister);
 		
 		JButton btnQuit = new JButton("Quit");
@@ -130,7 +131,7 @@ public class LoginScreen extends javax.swing.JFrame{
 				System.exit(0);
 			}
 		});
-		btnQuit.setBounds(208, 103, 89, 23);
+		btnQuit.setBounds(208, 121, 89, 23);
 		panel.add(btnQuit);
 		
 		passwordField = new JPasswordField();
