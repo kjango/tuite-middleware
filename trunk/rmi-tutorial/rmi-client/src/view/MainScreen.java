@@ -23,12 +23,21 @@ import base.Compute;
 
 import model.Tuite;
 import model.User;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import java.awt.event.KeyAdapter;
 
 public class MainScreen extends javax.swing.JFrame {
 
 	private User user;
 	private JPanel panelTimeLine;
 	private JFormattedTextField formattedTextFieldTuite;
+	JButton btnTuite;
 	private Compute compute;
 
 	public MainScreen(User user,Compute compute) {
@@ -55,10 +64,29 @@ public class MainScreen extends javax.swing.JFrame {
 		panelNewTuite.setLayout(new BorderLayout(0, 0));	
 		
 		formattedTextFieldTuite = new JFormattedTextField();
+		formattedTextFieldTuite.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					btnTuite.doClick();
+				}
+			}
+		});
+		formattedTextFieldTuite.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				if(!formattedTextFieldTuite.getText().isEmpty()){
+					btnTuite.setEnabled(true);
+				}else{
+					btnTuite.setEnabled(false);
+				}
+			}
+		});
 		formattedTextFieldTuite.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelNewTuite.add(formattedTextFieldTuite, BorderLayout.CENTER);
 		
-		JButton btnTuite = new JButton("Tuite");
+		btnTuite = new JButton("Tuite");
+		btnTuite.setEnabled(false);
+		btnTuite.setMnemonic('t');
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tuite tuite;
@@ -78,6 +106,7 @@ public class MainScreen extends javax.swing.JFrame {
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
 				
+				formattedTextFieldTuite.setText("");
 			}
 		});
 		panelNewTuite.add(btnTuite, BorderLayout.EAST);
@@ -96,13 +125,38 @@ public class MainScreen extends javax.swing.JFrame {
 		setJMenuBar(menuBar);
 		
 		JMenu mnArchive = new JMenu("File");
+		mnArchive.setMnemonic('f');
 		menuBar.add(mnArchive);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		mntmExit.setMnemonic('e');
+		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 		mnArchive.add(mntmExit);
 		
-		JMenu mnFriends = new JMenu("Friends");
+		JMenu mnEdit = new JMenu("Edit");
+		mnEdit.setMnemonic('e');
+		menuBar.add(mnEdit);
+		
+		JMenuItem mntmEdit = new JMenuItem("Profile");
+		mntmEdit.setMnemonic('r');
+		mnEdit.add(mntmEdit);
+		
+		JMenu mnFriends = new JMenu("Search");
+		mnFriends.setMnemonic('s');
 		menuBar.add(mnFriends);
+		
+		JMenuItem mntmSearchPeople = new JMenuItem("People");
+		mntmSearchPeople.setMnemonic('p');
+		mnFriends.add(mntmSearchPeople);
+		
+		JMenuItem mntmSearchTuites = new JMenuItem("Tuites");
+		mntmSearchTuites.setMnemonic('t');
+		mnFriends.add(mntmSearchTuites);
 		
 		updateTimeLine();
 		
