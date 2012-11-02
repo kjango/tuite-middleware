@@ -14,6 +14,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
+
+import model.User;
+
+import base.Compute;
 
 public class EditProfileScreen extends JFrame {
 
@@ -22,6 +27,10 @@ public class EditProfileScreen extends JFrame {
 	private JTextField textFieldUserName;
 	private JTextField textFieldPassword;
 	private JTextField textFieldEmail;
+	private JCheckBox chckbxProtecTuite;
+	
+	private Compute compute;
+	private User user;
 	/**
 	 * Launch the application.
 	 */
@@ -29,7 +38,7 @@ public class EditProfileScreen extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditProfileScreen frame = new EditProfileScreen();
+					EditProfileScreen frame = new EditProfileScreen(new User(0,"@teste","rafael",null,true,null,null,null,null),null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,13 +46,24 @@ public class EditProfileScreen extends JFrame {
 			}
 		});
 	}
+	
+	public EditProfileScreen(User user, Compute compute){
+		this.compute = compute;
+		this.user = user;
+		initialize();
+		
+		if(user.isProtectedTuite())
+			chckbxProtecTuite.setSelected(true);
+		else
+			chckbxProtecTuite.setSelected(false);
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	public EditProfileScreen() {
+	public void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 312, 358);
+		setBounds(100, 100, 312, 375);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -151,11 +171,17 @@ public class EditProfileScreen extends JFrame {
 				
 			}
 		});
-		btnEdit.setBounds(12, 248, 97, 25);
+		btnEdit.setBounds(8, 283, 97, 25);
 		panel.add(btnEdit);
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(152, 248, 97, 25);
+		btnCancel.setBounds(152, 283, 97, 25);
 		panel.add(btnCancel);
+		
+		chckbxProtecTuite = new JCheckBox("Protect Tuite");
+		chckbxProtecTuite.setBounds(8, 234, 113, 25);
+		panel.add(chckbxProtecTuite);
+		
+	
 	}
 }
