@@ -143,6 +143,12 @@ public class MainScreen extends javax.swing.JFrame {
 		menuBar.add(mnEdit);
 		
 		JMenuItem mntmEdit = new JMenuItem("Profile");
+		mntmEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EditProfileScreen editProfileScreen = new EditProfileScreen(user, compute);
+				editProfileScreen.setVisible(true);
+			}
+		});
 		mntmEdit.setMnemonic('r');
 		mnEdit.add(mntmEdit);
 		
