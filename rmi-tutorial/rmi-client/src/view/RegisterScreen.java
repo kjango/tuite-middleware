@@ -19,11 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import control.CtrlRegister;
-
 import model.RegisterTO;
-
 import base.Compute;
+import control.CtrlRegister;
 
 public class RegisterScreen extends javax.swing.JFrame{
 
@@ -38,6 +36,8 @@ public class RegisterScreen extends javax.swing.JFrame{
 	
 	private Compute compute;
 	private JFrame mother;
+	private JLabel lblUserName;
+	private JTextField textFieldUserName;
 
 
 	/**
@@ -111,7 +111,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("Real Name:");
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		panel.add(lblName);
@@ -119,6 +119,15 @@ public class RegisterScreen extends javax.swing.JFrame{
 		textFieldName = new JTextField();
 		panel.add(textFieldName);
 		textFieldName.setColumns(10);
+		
+		lblUserName = new JLabel("User Name:");
+		lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		panel.add(lblUserName);
+		
+		textFieldUserName = new JTextField();
+		panel.add(textFieldUserName);
+		textFieldUserName.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
@@ -141,6 +150,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 		panel.add(label);
 		
 		chckbxProtectTuite = new JCheckBox("Protect Tuite?");
+		chckbxProtectTuite.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		panel.add(chckbxProtectTuite);
 		
 		btnRegister = new JButton("Register");
@@ -157,12 +167,15 @@ public class RegisterScreen extends javax.swing.JFrame{
 				if (passwordField.getText().isEmpty()){
 					ok = false;
 				}
+				if (textFieldUserName.getText().isEmpty()){
+					ok = false;
+				}
 				if (ok){
 					//crio o TO pra fazer o registro
 
-					RegisterTO registerTO = new RegisterTO(textFieldEmail.getText(), textFieldName.getText(), passwordField.getText(), chckbxProtectTuite.isSelected());
+					RegisterTO registerTO = new RegisterTO(textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), passwordField.getText(), chckbxProtectTuite.isSelected());
 					CtrlRegister ctrlRegister = new CtrlRegister();
-					ok = ctrlRegister.doRegistry(registerTO, compute);
+					registerTO = ctrlRegister.doRegistry(registerTO, compute);
 					
 					if (ok){
 						JOptionPane.showMessageDialog(null, "User registered!", "Success!", 1);
