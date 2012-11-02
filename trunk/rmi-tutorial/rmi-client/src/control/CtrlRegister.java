@@ -8,8 +8,8 @@ import base.Compute;
 
 public class CtrlRegister{
 
-	public boolean doRegistry(RegisterTO registerTO, Compute compute){
-		boolean res = false;
+	public RegisterTO doRegistry(RegisterTO registerTO, Compute compute){
+		RegisterTO res = null;
 
     	if ((registerTO != null) && (compute != null))
     	{

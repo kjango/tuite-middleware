@@ -11,7 +11,7 @@ public class RegisterTO implements Serializable{
 	
 //	private long userId;
 	private String userEmail;
-	private String ScreenName;
+	private String userLoginName;
 	private String UserRealName;
 	private String UserPassword;
 //	private BufferedImage userPhoto;  //TODO ver essa poha das imagens, e criar os getters e setters dela aqui
@@ -21,11 +21,11 @@ public class RegisterTO implements Serializable{
 	private User user;   //For returning to client when user changes its status
 	
 	
-	public RegisterTO(String userEmail, String userRealName,String screenName,
+	public RegisterTO(String userEmail, String userRealName, String userLoginName,
 			String userPassword, boolean protectedTuite) {
 		super();
 		this.userEmail = userEmail;
-		ScreenName = screenName;
+		this.userLoginName = userLoginName;
 		UserRealName = userRealName;
 		UserPassword = userPassword;
 		this.protectedTuite = protectedTuite;
@@ -74,14 +74,12 @@ public class RegisterTO implements Serializable{
 		UserPassword = userPassword;
 	}
 
-	public String getScreenName() {
-		return ScreenName;
+	public String getUserLoginName() {
+		return userLoginName;
 	}
 
-	public void setScreenName(String screenName) {
-		ScreenName = screenName;
+	public void setUserLoginName(String userLoginName) {
+		this.userLoginName = userLoginName;
 	}
-
-	
 
 }

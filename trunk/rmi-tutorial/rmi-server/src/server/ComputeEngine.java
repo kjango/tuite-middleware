@@ -45,7 +45,7 @@ public class ComputeEngine
     		cpt.showMessage(test + "ID: " + cpt.toString());
     	}
     }
-    public boolean executeRegistry(RegisterTO registerTO) throws RemoteException{
+    public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException{
     	
     	return new RegisterImpl().doRegister(registerTO);
     }
