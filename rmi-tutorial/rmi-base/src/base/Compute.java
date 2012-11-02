@@ -17,6 +17,7 @@ public interface Compute extends Remote {
     public void showMessage(String test) throws RemoteException;
     public void sendMessage(String test) throws RemoteException;
     public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException;
+    public RegisterTO executeEditProfile(RegisterTO registerTO) throws RemoteException;
     public Tuite executeTuite(Tuite t) throws RemoteException;
     
 }
