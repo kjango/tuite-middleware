@@ -92,8 +92,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 			
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub				
 				mother.setExtendedState(NORMAL);
 				mother.setEnabled(true);
 				
@@ -177,11 +176,11 @@ public class RegisterScreen extends javax.swing.JFrame{
 					CtrlRegister ctrlRegister = new CtrlRegister();
 					registerTO = ctrlRegister.doRegistry(registerTO, compute);
 					
-					if (ok){
+					if (registerTO.isRegistered()){
 						JOptionPane.showMessageDialog(null, "User registered!", "Success!", 1);
 						dispose();
 					}else{
-						JOptionPane.showMessageDialog(null, "Sorry, user not created.", "Warning!", 0);
+						JOptionPane.showMessageDialog(null, registerTO.getErrorMessage(), "Warning!", 0);
 					}
 					
 				}else{
