@@ -14,8 +14,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Date;
+
 import javax.swing.JCheckBox;
 
+import control.CtrlTuite;
+
+import model.RegisterTO;
+import model.Tuite;
 import model.User;
 
 import base.Compute;
@@ -24,7 +30,7 @@ public class EditProfileScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldRealName;
-	private JTextField textFieldUserName;
+	private JTextField textFieldScreenName;
 	private JTextField textFieldPassword;
 	private JTextField textFieldEmail;
 	private JCheckBox chckbxProtecTuite;
@@ -90,19 +96,19 @@ public class EditProfileScreen extends JFrame {
 		btnRealName.setBounds(8, 36, 127, 25);
 		panel.add(btnRealName);
 		
-		final JRadioButton btnUserName = new JRadioButton("User Name:");
-		btnUserName.addActionListener(new ActionListener() {
+		final JRadioButton btnScreenName = new JRadioButton("User Name:");
+		btnScreenName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(btnUserName.isSelected())
-					textFieldUserName.setEditable(true);
+				if(btnScreenName.isSelected())
+					textFieldScreenName.setEditable(true);
 				else{
-					textFieldUserName.setText(null);
-					textFieldUserName.setEditable(false);
+					textFieldScreenName.setText(null);
+					textFieldScreenName.setEditable(false);
 				}
 			}
 		});
-		btnUserName.setBounds(8, 81, 127, 25);
-		panel.add(btnUserName);
+		btnScreenName.setBounds(8, 81, 127, 25);
+		panel.add(btnScreenName);
 		
 		final JRadioButton btnPassword = new JRadioButton("Password:");
 		btnPassword.addActionListener(new ActionListener() {
@@ -138,11 +144,11 @@ public class EditProfileScreen extends JFrame {
 		panel.add(textFieldRealName);
 		textFieldRealName.setColumns(10);
 		
-		textFieldUserName = new JTextField();
-		textFieldUserName.setEditable(false);
-		textFieldUserName.setBounds(133, 82, 116, 22);
-		panel.add(textFieldUserName);
-		textFieldUserName.setColumns(10);
+		textFieldScreenName = new JTextField();
+		textFieldScreenName.setEditable(false);
+		textFieldScreenName.setBounds(133, 82, 116, 22);
+		panel.add(textFieldScreenName);
+		textFieldScreenName.setColumns(10);
 		
 		textFieldPassword = new JTextField();
 		textFieldPassword.setEditable(false);
@@ -160,9 +166,29 @@ public class EditProfileScreen extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO implementar a ação de editar
+//				private JTextField textFieldRealName;
+//				private JTextField textFieldUserName;
+//				private JTextField textFieldPassword;
+//				private JTextField textFieldEmail;
+//				//Criando o TO
+				RegisterTO t = new RegisterTO(textFieldEmail.getText(),textFieldRealName.getText(),textFieldScreenName.getText(),textFieldPassword.getText(),true);
+//				
+//				//Criando o controle
+//				CtrlTuite ctrl = new CtrlTuite();
+//				ctrl.truncate(t);
+//				
+//				//Chamar doTuite
+//				tuite = ctrl.doTuite(t, compute);
+//				
+//				//Print de teste
+//				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
+				
+				
+				
+				
 				if(btnRealName.isSelected())
 					System.out.println("RealName");
-				if(btnUserName.isSelected())
+				if(btnScreenName.isSelected())
 					System.out.println("UserName");
 				if(btnPassword.isSelected())
 					System.out.println("Password");
