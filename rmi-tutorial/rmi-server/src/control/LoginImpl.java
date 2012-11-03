@@ -49,7 +49,7 @@ public class LoginImpl {
 					new Date(), false, null, null, alTuites1, null);
 			User user3 = new User(2, "user3@tests.com", "Terceiro De Testes", "lili",//null, 
 					new Date(), false, null, null, null, null);
-			Tuite tuite1 = new Tuite(0, "Cacete, este é um tuiteste.", new Date(), user2);
+			Tuite tuite1 = new Tuite(0, "Cacete, este é um tuiteste.Cacete, este é um tuiteste.Cacete, este é um tuiteste.Cacete, este é um tuiteste.Cacete, este é um tuiteste.12345", new Date(), user2);
 			Tuite tuite2 = new Tuite(0, "OMG estou tuitando.", new Date(), user3);
 
 			user.addFollowing(user2);
