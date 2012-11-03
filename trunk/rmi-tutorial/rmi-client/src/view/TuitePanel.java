@@ -19,6 +19,9 @@ import model.User;
 import control.CtrlClient;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class TuitePanel extends JPanel {
 	
@@ -64,9 +67,6 @@ public class TuitePanel extends JPanel {
 		btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
 		add(btnFollowUnfollow, BorderLayout.EAST);
 		
-		JLabel labelTuite = new JLabel(tuite.getText());
-		add(labelTuite, BorderLayout.CENTER);
-		
 		JLabel lblImage = new JLabel("");
 		add(lblImage, BorderLayout.WEST);
 		
@@ -81,6 +81,14 @@ public class TuitePanel extends JPanel {
 			}
 		}
 		lblImage.setIcon(new ImageIcon(photo));
+		
+		JTextArea textAreaTuite = new JTextArea(tuite.getText());
+		textAreaTuite.setEditable(false);
+		textAreaTuite.setWrapStyleWord(true);
+		textAreaTuite.setLineWrap(true);
+		textAreaTuite.setBackground(new Color(240, 240, 240));
+		add(textAreaTuite, BorderLayout.CENTER);
+
 	}
 
 }

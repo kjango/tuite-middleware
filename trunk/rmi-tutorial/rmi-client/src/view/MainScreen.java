@@ -31,14 +31,18 @@ import java.awt.event.InputMethodEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
 import java.awt.event.KeyAdapter;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class MainScreen extends javax.swing.JFrame {
 
 	private User user;
 	private JPanel panelTimeLine;
-	private JFormattedTextField formattedTextFieldTuite;
-	JButton btnTuite;
 	private Compute compute;
+	private JTextArea textAreaTuite;
+	private JButton btnTuite;
+	private JLabel lblCharCount;
 
 	public MainScreen(User user,Compute compute) {
 		this.user = user;
@@ -61,10 +65,12 @@ public class MainScreen extends javax.swing.JFrame {
 		JPanel panelNewTuite = new JPanel();
 		panelNewTuite.setBorder(new TitledBorder(null, "Tuite", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.add(panelNewTuite);
-		panelNewTuite.setLayout(new BorderLayout(0, 0));	
+		panelNewTuite.setLayout(new BorderLayout(0, 0));
 		
-		formattedTextFieldTuite = new JFormattedTextField();
-		formattedTextFieldTuite.addKeyListener(new KeyAdapter() {
+		textAreaTuite = new JTextArea();
+		textAreaTuite.setLineWrap(true);
+		textAreaTuite.setRows(3);
+		textAreaTuite.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -72,29 +78,33 @@ public class MainScreen extends javax.swing.JFrame {
 				}
 			}
 		});
-		formattedTextFieldTuite.addCaretListener(new CaretListener() {
+		textAreaTuite.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
-				if(!formattedTextFieldTuite.getText().isEmpty()){
-					btnTuite.setEnabled(true);
-				}else{
+				lblCharCount.setText(String.valueOf(140 - textAreaTuite.getText().length()));
+				
+				if(textAreaTuite.getText().isEmpty()){
 					btnTuite.setEnabled(false);
+				}else{
+					btnTuite.setEnabled(true);
 				}
 			}
 		});
-		formattedTextFieldTuite.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panelNewTuite.add(formattedTextFieldTuite, BorderLayout.CENTER);
+		panelNewTuite.add(textAreaTuite, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		panelNewTuite.add(panel_1, BorderLayout.EAST);
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		btnTuite = new JButton("Tuite");
-		btnTuite.setEnabled(false);
-		btnTuite.setMnemonic('t');
 		btnTuite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
+				
 				Tuite tuite;
 				//TODO Finalizar a implementação dessa ação
-				System.err.println(formattedTextFieldTuite.getText());
+				System.err.println(textAreaTuite.getText());
 
 				//Criando o TO
-				Tuite t = new Tuite(0,formattedTextFieldTuite.getText().toString(), new Date(), user);
+				Tuite t = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
 				
 				//Criando o controle
 				CtrlTuite ctrl = new CtrlTuite();
@@ -106,10 +116,16 @@ public class MainScreen extends javax.swing.JFrame {
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
 				
-				formattedTextFieldTuite.setText("");
+				textAreaTuite.setText("");
 			}
 		});
-		panelNewTuite.add(btnTuite, BorderLayout.EAST);
+		btnTuite.setMnemonic('t');
+		btnTuite.setEnabled(false);
+		panel_1.add(btnTuite, BorderLayout.CENTER);
+		
+		lblCharCount = new JLabel("140");
+		panel_1.add(lblCharCount, BorderLayout.SOUTH);
+		lblCharCount.setHorizontalAlignment(SwingConstants.CENTER);
 
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -164,12 +180,12 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmSearchTuites.setMnemonic('t');
 		mnFriends.add(mntmSearchTuites);
 		
-		updateTimeLine();
+		updateTimeLine(10);
 		
 	}
 	
-	public void updateTimeLine(){
-		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() - 11 && i >= 0 ; i--) {
+	public void updateTimeLine(int n){
+		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 -n && i >= 0 ; i--) {
 			Tuite tu = user.getTuites().get(i);
 			TuitePanel t = new TuitePanel(user, tu);
 			panelTimeLine.add(t);
