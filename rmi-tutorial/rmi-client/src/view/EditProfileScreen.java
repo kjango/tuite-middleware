@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -175,19 +177,34 @@ public class EditProfileScreen extends JFrame {
 				String ScreenName = null;
 				String Password = null;
 				boolean ProtectTuite;
+				boolean ok = true;
 				
-				if(btnRealName.isSelected())
+				if(btnRealName.isSelected()){
 					RealName = textFieldRealName.getText();
-				if(btnScreenName.isSelected())
+					if(textFieldRealName.getText().isEmpty())
+						ok = false;
+				}
+				if(btnScreenName.isSelected()){
 					ScreenName = textFieldScreenName.getText();
-				if(btnPassword.isSelected())
+					if(textFieldScreenName.getText().isEmpty())
+						ok = false;
+				}
+				if(btnPassword.isSelected()){
 					Password = textFieldPassword.getText();
-				if(btnEmail.isSelected())
+					if(textFieldPassword.getText().isEmpty())
+						ok = false;
+				}
+				if(btnEmail.isSelected()){
 					Email = textFieldEmail.getText();
+					if(textFieldEmail.getText().isEmpty())
+						ok = false;
+				}
 				if(chckbxProtecTuite.isSelected())
 					ProtectTuite = true;
 				else
 					ProtectTuite = false;
+				
+				if(ok){
 				
 //				//Criando o TO
 				RegisterTO t = new RegisterTO(Email,RealName,ScreenName,Password,ProtectTuite);
@@ -208,7 +225,9 @@ public class EditProfileScreen extends JFrame {
 //				//Print de teste
 //				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
 				
-
+				}
+				else
+					JOptionPane.showMessageDialog(null, "All fields required!", "Warning!", 0);
 				
 			}
 		});
