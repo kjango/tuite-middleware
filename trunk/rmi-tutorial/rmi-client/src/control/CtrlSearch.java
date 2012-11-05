@@ -10,7 +10,7 @@ public class CtrlSearch {
 
 	public SearchTO doSearch(SearchTO searchTO, Compute compute){
 		SearchTO obj = null;
-		if (searchTO != null)
+		if ((searchTO != null) && (compute != null))
     	{
 			try {
 				obj = compute.executeSearch(searchTO);
