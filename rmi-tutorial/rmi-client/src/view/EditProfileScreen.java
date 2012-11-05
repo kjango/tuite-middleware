@@ -44,18 +44,7 @@ public class EditProfileScreen extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditProfileScreen frame = new EditProfileScreen(new User(0,"@teste","rafael","loginame",null,true,null,null,null,null),null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 	
 	public EditProfileScreen(User user, Compute compute){
 		setTitle("Tuite");
@@ -218,7 +207,7 @@ public class EditProfileScreen extends JFrame {
 				User u = t.getUser();
 				
 				System.out.println("Usuário Editado:");
-				System.out.println("\n\n\nUsuario: "+ u.getRealName());
+				System.out.println("Usuario: "+ u.getRealName());
 				System.out.println("Email: "+u.getEmail());
 				System.out.println("LoginName: "+ u.getLoginName());
 //				
