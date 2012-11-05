@@ -1,39 +1,37 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-
-import control.CtrlTuite;
-
-import base.Compute;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import model.Tuite;
 import model.User;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.CaretEvent;
-import java.awt.event.KeyAdapter;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
+import base.Compute;
+import control.CtrlTuite;
+import javax.swing.UIManager;
+import javax.swing.JTextField;
 
 public class MainScreen extends javax.swing.JFrame {
 
@@ -43,6 +41,9 @@ public class MainScreen extends javax.swing.JFrame {
 	private JTextArea textAreaTuite;
 	private JButton btnTuite;
 	private JLabel lblCharCount;
+	private JScrollPane scrollPane;
+	private JTextField textFieldSearchPeople;
+	private JTextField textFieldSearchTuites;
 
 	public MainScreen(User user,Compute compute) {
 		this.user = user;
@@ -58,14 +59,22 @@ public class MainScreen extends javax.swing.JFrame {
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		JPanel panelTuites = new JPanel();
+		tabbedPane.addTab("Timeline", null, panelTuites, null);
+		tabbedPane.setMnemonicAt(0, 1);
+		panelTuites.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNewTuite = new JPanel();
-		panelNewTuite.setBorder(new TitledBorder(null, "Tuite", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.add(panelNewTuite);
-		panelNewTuite.setLayout(new BorderLayout(0, 0));
+		panelTuites.add(panelNewTuite, BorderLayout.NORTH);
+		panelNewTuite.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panelButtons = new JPanel();
+		panelButtons.setBorder(new TitledBorder(null, "Tuite", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelNewTuite.add(panelButtons);
+		panelButtons.setLayout(new BorderLayout(0, 0));
 		
 		textAreaTuite = new JTextArea();
 		textAreaTuite.setLineWrap(true);
@@ -89,10 +98,10 @@ public class MainScreen extends javax.swing.JFrame {
 				}
 			}
 		});
-		panelNewTuite.add(textAreaTuite, BorderLayout.CENTER);
+		panelButtons.add(textAreaTuite, BorderLayout.CENTER);
 		
 		JPanel panel_1 = new JPanel();
-		panelNewTuite.add(panel_1, BorderLayout.EAST);
+		panelButtons.add(panel_1, BorderLayout.EAST);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		btnTuite = new JButton("Tuite");
@@ -128,13 +137,68 @@ public class MainScreen extends javax.swing.JFrame {
 		lblCharCount.setHorizontalAlignment(SwingConstants.CENTER);
 
 		
-		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		scrollPane = new JScrollPane();
+		panelTuites.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setAutoscrolls(true);
 		
 		panelTimeLine = new JPanel();
 		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPane.setViewportView(panelTimeLine);
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panelTuiteSearch = new JPanel();
+		tabbedPane.addTab("Search Tuites", null, panelTuiteSearch, null);
+		tabbedPane.setMnemonicAt(1, 2);
+		panelTuiteSearch.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTuiteSearch.add(panel, BorderLayout.NORTH);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		textFieldSearchTuites = new JTextField();
+		textFieldSearchTuites.setColumns(10);
+		panel.add(textFieldSearchTuites, BorderLayout.CENTER);
+		
+		JButton btnSearchTuites = new JButton("Search");
+		panel.add(btnSearchTuites, BorderLayout.EAST);
+		
+		JScrollPane scrollPaneSearchTuites = new JScrollPane();
+		panelTuiteSearch.add(scrollPaneSearchTuites, BorderLayout.CENTER);
+		scrollPaneSearchTuites.setAutoscrolls(true);
+		
+		JPanel panelResTuites = new JPanel();
+		panelResTuites.setBorder(new TitledBorder(null, "Results", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelTuiteSearch.add(panelResTuites, BorderLayout.SOUTH);
+		scrollPaneSearchTuites.setViewportView(panelResTuites);
+		panelResTuites.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panelPeopleSearch = new JPanel();
+		tabbedPane.addTab("Search People", null, panelPeopleSearch, null);
+		tabbedPane.setMnemonicAt(2, 3);
+		panelPeopleSearch.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(null, "Search", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPeopleSearch.add(panel_3, BorderLayout.NORTH);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		textFieldSearchPeople = new JTextField();
+		panel_3.add(textFieldSearchPeople, BorderLayout.CENTER);
+		textFieldSearchPeople.setColumns(10);
+		
+		JButton btnSearchPeople = new JButton("Search");
+		panel_3.add(btnSearchPeople, BorderLayout.EAST);
+		
+		JScrollPane scrollPaneSearchPeople = new JScrollPane();
+		scrollPaneSearchPeople.setAutoscrolls(true);
+		panelPeopleSearch.add(scrollPaneSearchPeople, BorderLayout.CENTER);
+		
+		JPanel panelResPeople = new JPanel();
+		panelResPeople.setBorder(new TitledBorder(null, "Results", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelPeopleSearch.add(panelResPeople, BorderLayout.WEST);
+		scrollPaneSearchPeople.setViewportView(panelResPeople);
+		panelResPeople.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -168,18 +232,6 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmEdit.setMnemonic('r');
 		mnEdit.add(mntmEdit);
 		
-		JMenu mnFriends = new JMenu("Search");
-		mnFriends.setMnemonic('s');
-		menuBar.add(mnFriends);
-		
-		JMenuItem mntmSearchPeople = new JMenuItem("People");
-		mntmSearchPeople.setMnemonic('p');
-		mnFriends.add(mntmSearchPeople);
-		
-		JMenuItem mntmSearchTuites = new JMenuItem("Tuites");
-		mntmSearchTuites.setMnemonic('t');
-		mnFriends.add(mntmSearchTuites);
-		
 		updateTimeLine(10);
 		
 	}
@@ -190,7 +242,12 @@ public class MainScreen extends javax.swing.JFrame {
 			TuitePanel t = new TuitePanel(user, tu);
 			panelTimeLine.add(t);
 		}
-//		this.
+		scrollPane.getVerticalScrollBar().setValue(0);
+//		this.    
+		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+	    JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+	    verticalScrollBar.setValue(verticalScrollBar.getMinimum());
+	    horizontalScrollBar.setValue(horizontalScrollBar.getMinimum());
 	}
 
 }
