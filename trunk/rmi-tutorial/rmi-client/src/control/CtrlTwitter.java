@@ -8,7 +8,6 @@ import model.User;
 import twitter4j.IDs;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 public class CtrlTwitter {
 	
@@ -45,13 +44,13 @@ public class CtrlTwitter {
     public ArrayList<User> getFollowers(Twitter t){
     	ArrayList<User> alFollowers = new ArrayList<User>();
     	
-		try {
-			IDs ids = twitter.getFollowersIDs();
-
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			IDs ids = twitter.getFollowersIDs();
+//
+//		} catch (TwitterException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	
     	return alFollowers;
     }
