@@ -26,7 +26,8 @@ import java.awt.SystemColor;
 public class TuitePanel extends JPanel {
 	
 	private Tuite tuite;
-	private User user;
+	private User myUser;
+	private User User;
 	private JButton btnFollowUnfollow;
 
 	/**
@@ -34,23 +35,30 @@ public class TuitePanel extends JPanel {
 	 */
 
 
-	public TuitePanel(User user, Tuite tuite) {
+	public TuitePanel(User myUser, Tuite tuite) {
 		super();
 		this.tuite = tuite;
-		this.user = user;
+		this.myUser = myUser;
+		initilizeTuite();
+	}
+	
+	public TuitePanel(User myUser, User user) {
+		super();
+		this.myUser = myUser;
+		this.User = user;
+		initilizeUser();
+	}
+	
+	private void initilizeTuite(){
 		setSize(new Dimension(450, 80));
 		setPreferredSize(new Dimension(450, 80));
 		setMaximumSize(new Dimension(450, 80));
-		initilize();
-	}
-	
-	private void initilize(){
 		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName() + " @ " + tuite.getCreatedAt(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
 		
 		CtrlClient cc = new CtrlClient();
 		String btnText = "Follow";
-		if(cc.follows(user, tuite.getMyUser())){
+		if(cc.follows(myUser, tuite.getMyUser())){
 			btnText = "Unfollow";
 		}
 		btnFollowUnfollow = new JButton(btnText);
@@ -59,7 +67,7 @@ public class TuitePanel extends JPanel {
 				if (btnFollowUnfollow.getText().equals("Follow")){
 					//TODO seguir
 				}else{
-					//TODO desseguirxD
+					//TODO desseguir xD
 				}
 				repaint();
 			}
@@ -70,19 +78,59 @@ public class TuitePanel extends JPanel {
 		JLabel lblImage = new JLabel("");
 		add(lblImage, BorderLayout.WEST);
 		
-		BufferedImage photo = null;
-		//photo = tuite.getMyUser().getPhoto();
+		ImageIcon photo = new ImageIcon();
+		photo = tuite.getMyUser().getPhoto();
 		if (photo == null){
-			try {
-				photo = ImageIO.read(new File("noImg.jpg"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			photo = new ImageIcon("noImg.jpg");
 		}
-		lblImage.setIcon(new ImageIcon(photo));
+		lblImage.setIcon(photo);
 		
 		JTextArea textAreaTuite = new JTextArea(tuite.getText());
+		textAreaTuite.setEditable(false);
+		textAreaTuite.setWrapStyleWord(true);
+		textAreaTuite.setLineWrap(true);
+		textAreaTuite.setBackground(new Color(240, 240, 240));
+		add(textAreaTuite, BorderLayout.CENTER);
+
+	}
+	
+	private void initilizeUser(){
+		setSize(new Dimension(450, 80));
+		setPreferredSize(new Dimension(450, 80));
+		setMaximumSize(new Dimension(450, 80));
+		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setLayout(new BorderLayout(0, 0));
+		
+		CtrlClient cc = new CtrlClient();
+		String btnText = "Follow";
+		if(cc.follows(myUser, tuite.getMyUser())){
+			btnText = "Unfollow";
+		}
+		btnFollowUnfollow = new JButton(btnText);
+		btnFollowUnfollow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnFollowUnfollow.getText().equals("Follow")){
+					//TODO seguir
+				}else{
+					//TODO desseguir xD
+				}
+				repaint();
+			}
+		});
+		btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
+		add(btnFollowUnfollow, BorderLayout.EAST);
+		
+		JLabel lblImage = new JLabel("");
+		add(lblImage, BorderLayout.WEST);
+		
+		ImageIcon photo = new ImageIcon();
+		photo = tuite.getMyUser().getPhoto();
+		if (photo == null){
+			photo = new ImageIcon("noImg.jpg");
+		}
+		lblImage.setIcon(photo);
+		
+		JTextArea textAreaTuite = new JTextArea(User.getRealName());
 		textAreaTuite.setEditable(false);
 		textAreaTuite.setWrapStyleWord(true);
 		textAreaTuite.setLineWrap(true);

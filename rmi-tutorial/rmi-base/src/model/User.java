@@ -25,7 +25,7 @@ public class User implements Serializable {
 	private ArrayList<User> followers;
 	private ImageIcon photo;
 
-	public User(long id, String email, String realName, String loginName, //BufferedImage photo,
+	public User(long id, String email, String realName, String loginName, ImageIcon photo,
 			Date registerDate, boolean protectedTuite,
 			ArrayList<User> following, ArrayList<Tuite> tuites,
 			ArrayList<Tuite> myTuites, ArrayList<User> followers) {
@@ -34,7 +34,7 @@ public class User implements Serializable {
 		this.email = email;
 		this.realName = realName;
 		this.loginName = loginName;
-		//this.photo = photo;
+		this.photo = photo;
 		this.registerDate = registerDate;
 		this.protectedTuite = protectedTuite;
 		this.following = following;
@@ -141,13 +141,12 @@ public class User implements Serializable {
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
-
-	//public BufferedImage getPhoto() {
-	//	return photo;
-	//}
-	//public void setPhoto(BufferedImage photo) {
-	//	this.photo = photo;
-	//}
+	public ImageIcon getPhoto() {
+		return photo;
+	}
+	public void ImageIcon(ImageIcon photo) {
+		this.photo = photo;
+	}
 	public boolean isProtectedTuite() {
 		return protectedTuite;
 	}
