@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 
 import model.LoginTO;
 import model.RegisterTO;
+import model.SearchTO;
 import model.Tuite;
 
 public interface Compute extends Remote {
@@ -19,5 +20,6 @@ public interface Compute extends Remote {
     public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException;
     public RegisterTO executeEditProfile(RegisterTO registerTO) throws RemoteException;
     public Tuite executeTuite(Tuite t) throws RemoteException;
+    public SearchTO executeSearch(SearchTO t) throws RemoteException;
     
 }

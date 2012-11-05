@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import model.LoginTO;
 import model.RegisterTO;
+import model.SearchTO;
 import model.Tuite;
 import base.Compute;
 import base.Task;
 import control.EditProfileImpl;
 import control.LoginImpl;
 import control.RegisterImpl;
+import control.SearchImpl;
 import control.TuitarImpl;
 
 
@@ -59,5 +61,11 @@ public class ComputeEngine
 	@Override
 	public RegisterTO executeEditProfile(RegisterTO registerTO)throws RemoteException {
 		return new EditProfileImpl().Edit(registerTO);
+	}
+
+	@Override
+	public SearchTO executeSearch(SearchTO t) throws RemoteException {
+		return new SearchImpl().Search(t);
+		
 	}
 }
