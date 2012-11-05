@@ -1,8 +1,11 @@
 package model;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.swing.ImageIcon;
 
 public class User implements Serializable {
 	/**
@@ -14,13 +17,13 @@ public class User implements Serializable {
 	private String email;
 	private String realName;
 	private String loginName;
-	//private BufferedImage photo;
 	private Date registerDate;
 	private boolean protectedTuite;
 	private ArrayList<User> following;  //deixo em arraylist mesmo?
 	private ArrayList<Tuite> tuites; //Timeline
 	private ArrayList<Tuite> myTuites;
 	private ArrayList<User> followers;
+	private ImageIcon photo;
 
 	public User(long id, String email, String realName, String loginName, //BufferedImage photo,
 			Date registerDate, boolean protectedTuite,
@@ -42,7 +45,28 @@ public class User implements Serializable {
 	
 	public User(){
 	
-	}	
+	}
+	
+
+	public User(long id, String loginName, String realName, ArrayList<User> following,
+			ArrayList<Tuite> tuites, ArrayList<User> followers,
+			ImageIcon photo) {
+		super();
+		this.id = id;
+		this.loginName = loginName;
+		this.realName = realName;
+		this.following = following;
+		this.tuites = tuites;
+		this.followers = followers;
+		this.photo = photo;
+	}
+
+	public User(long id, String loginName, ImageIcon photo) {
+		super();
+		this.id = id;
+		this.loginName = loginName;
+		this.photo = photo;
+	}
 
 	public boolean addFollowing(User user) {
 		following.add(user);
