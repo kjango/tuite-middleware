@@ -29,18 +29,23 @@ import model.Tuite;
 import model.User;
 
 import base.Compute;
+import javax.swing.JPasswordField;
 
 public class EditProfileScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldRealName;
 	private JTextField textFieldScreenName;
-	private JTextField textFieldPassword;
 	private JTextField textFieldEmail;
 	private JCheckBox chckbxProtecTuite;
+	private JCheckBox chckbxRealName;
+	private JCheckBox chckbxUserName;
+	private JCheckBox chckbxPassword;
+	private JCheckBox chckbxEmail;
 	
 	private Compute compute;
 	private User user;
+	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
 	 */
@@ -51,12 +56,19 @@ public class EditProfileScreen extends JFrame {
 		this.compute = compute;
 		this.user = user;
 		initialize();
+		setFields();
 		
 		if(user.isProtectedTuite()){
 			chckbxProtecTuite.setSelected(true);
 		}else{
 			chckbxProtecTuite.setSelected(false);
 		}
+	}
+	
+	public void setFields(){
+		textFieldRealName.setText(user.getRealName());
+		textFieldScreenName.setText(user.getLoginName());
+		textFieldEmail.setText(user.getEmail());
 	}
 
 	/**
@@ -75,64 +87,6 @@ public class EditProfileScreen extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		final JRadioButton btnRealName = new JRadioButton("Real Name:");
-		btnRealName.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(btnRealName.isSelected())
-					textFieldRealName.setEditable(true);
-				else{
-					textFieldRealName.setText(null);
-					textFieldRealName.setEditable(false);
-				}
-					
-					
-			}
-		});
-		btnRealName.setBounds(8, 36, 127, 25);
-		panel.add(btnRealName);
-		
-		final JRadioButton btnScreenName = new JRadioButton("User Name:");
-		btnScreenName.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(btnScreenName.isSelected())
-					textFieldScreenName.setEditable(true);
-				else{
-					textFieldScreenName.setText(null);
-					textFieldScreenName.setEditable(false);
-				}
-			}
-		});
-		btnScreenName.setBounds(8, 81, 127, 25);
-		panel.add(btnScreenName);
-		
-		final JRadioButton btnPassword = new JRadioButton("Password:");
-		btnPassword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(btnPassword.isSelected())
-					textFieldPassword.setEditable(true);
-				else{
-					textFieldPassword.setText(null);
-					textFieldPassword.setEditable(false);
-				}
-			}
-		});
-		btnPassword.setBounds(8, 129, 127, 25);
-		panel.add(btnPassword);
-		
-		final JRadioButton btnEmail = new JRadioButton("Email:");
-		btnEmail.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(btnEmail.isSelected())
-					textFieldEmail.setEditable(true);
-				else{
-					textFieldEmail.setText(null);
-					textFieldEmail.setEditable(false);
-				}
-			}
-		});
-		btnEmail.setBounds(8, 181, 127, 25);
-		panel.add(btnEmail);
-		
 		textFieldRealName = new JTextField();
 		textFieldRealName.setEditable(false);
 		textFieldRealName.setBounds(133, 37, 116, 22);
@@ -144,12 +98,6 @@ public class EditProfileScreen extends JFrame {
 		textFieldScreenName.setBounds(133, 82, 116, 22);
 		panel.add(textFieldScreenName);
 		textFieldScreenName.setColumns(10);
-		
-		textFieldPassword = new JTextField();
-		textFieldPassword.setEditable(false);
-		textFieldPassword.setBounds(133, 130, 116, 22);
-		panel.add(textFieldPassword);
-		textFieldPassword.setColumns(10);
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setEditable(false);
@@ -168,22 +116,22 @@ public class EditProfileScreen extends JFrame {
 				boolean ProtectTuite;
 				boolean ok = true;
 				
-				if(btnRealName.isSelected()){
+				if(chckbxRealName.isSelected()){
 					RealName = textFieldRealName.getText();
 					if(textFieldRealName.getText().isEmpty())
 						ok = false;
 				}
-				if(btnScreenName.isSelected()){
+				if(chckbxUserName.isSelected()){
 					ScreenName = textFieldScreenName.getText();
 					if(textFieldScreenName.getText().isEmpty())
 						ok = false;
 				}
-				if(btnPassword.isSelected()){
-					Password = textFieldPassword.getText();
-					if(textFieldPassword.getText().isEmpty())
+				if(chckbxPassword.isSelected()){
+					Password = passwordField.getText();
+					if(passwordField.getText().isEmpty())
 						ok = false;
 				}
-				if(btnEmail.isSelected()){
+				if(chckbxEmail.isSelected()){
 					Email = textFieldEmail.getText();
 					if(textFieldEmail.getText().isEmpty())
 						ok = false;
@@ -204,12 +152,21 @@ public class EditProfileScreen extends JFrame {
 				
 //				//Chamar doEditProfile e receber no retorno o RegisterTO com dados editados
 				t = ctrl.doEditProfile(t, compute);
-				User u = t.getUser();
+				user = t.getUser();
 				
-				System.out.println("Usuário Editado:");
-				System.out.println("Usuario: "+ u.getRealName());
-				System.out.println("Email: "+u.getEmail());
-				System.out.println("LoginName: "+ u.getLoginName());
+				//Fill the fields;
+				setFields();
+				
+				JOptionPane.showMessageDialog(null, 
+						"Usuário Editado:"+
+						"\nUsuario: "+ user.getRealName()+
+						"\nEmail: "+user.getEmail()+
+						"\nLoginName: "+ user.getLoginName(), "Success!", 1);
+				
+//				System.out.println("Usuário Editado:");
+//				System.out.println("Usuario: "+ u.getRealName());
+//				System.out.println("Email: "+u.getEmail());
+//				System.out.println("LoginName: "+ u.getLoginName());
 //				
 //				//Print de teste
 //				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
@@ -217,6 +174,7 @@ public class EditProfileScreen extends JFrame {
 				}
 				else
 					JOptionPane.showMessageDialog(null, "All fields required!", "Warning!", 0);
+
 				
 			}
 		});
@@ -235,6 +193,74 @@ public class EditProfileScreen extends JFrame {
 		chckbxProtecTuite = new JCheckBox("Protect Tuite");
 		chckbxProtecTuite.setBounds(8, 234, 113, 25);
 		panel.add(chckbxProtecTuite);
+		
+		chckbxRealName = new JCheckBox("Real Name:");
+		chckbxRealName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(chckbxRealName.isSelected()){
+					textFieldRealName.setText(null);
+					textFieldRealName.setEditable(true);
+				}
+				else{
+					textFieldRealName.setText(user.getRealName());
+					textFieldRealName.setEditable(false);
+				}
+			}
+		});
+		chckbxRealName.setBounds(8, 36, 113, 25);
+		panel.add(chckbxRealName);
+		
+		chckbxUserName = new JCheckBox("User Name:");
+		chckbxUserName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxUserName.isSelected()){
+					textFieldScreenName.setText(null);
+					textFieldScreenName.setEditable(true);
+				}
+				else{
+					textFieldScreenName.setText(user.getLoginName());
+					textFieldScreenName.setEditable(false);
+				}
+			}
+		});
+		chckbxUserName.setBounds(8, 81, 113, 25);
+		panel.add(chckbxUserName);
+		
+		chckbxPassword = new JCheckBox("Password:");
+		chckbxPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxPassword.isSelected()){
+					passwordField.setEditable(true);
+				}
+				else{
+					passwordField.setText(null);
+					passwordField.setEditable(false);
+				}
+			}
+		});
+		chckbxPassword.setBounds(8, 129, 113, 25);
+		panel.add(chckbxPassword);
+		
+		chckbxEmail = new JCheckBox("Email:");
+		chckbxEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxEmail.isSelected()){
+					textFieldEmail.setText(null);
+					textFieldEmail.setEditable(true);
+				}
+				else{
+					textFieldEmail.setText(user.getEmail());
+					textFieldEmail.setEditable(false);
+				}
+			}
+		});
+		chckbxEmail.setBounds(8, 181, 113, 25);
+		panel.add(chckbxEmail);
+		
+		passwordField = new JPasswordField();
+		passwordField.setEditable(false);
+		passwordField.setBounds(133, 130, 116, 22);
+		panel.add(passwordField);
 		
 	
 	}
