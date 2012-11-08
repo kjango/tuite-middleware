@@ -16,9 +16,6 @@ public class LoginDao {
 	public static boolean canLogUser(LoginTO loginTO)
 	{
 		boolean autenticated = false;
-
-		RegisterTO res = new RegisterTO("joao@gmail.com", "João Gilmar", "joao", Util.GeraMD5("joao"), false);
-		RegisterDao.insertUser(res);
 		
 		String pass = loginTO.getUserPassword().trim();
 		
