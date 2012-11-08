@@ -1,13 +1,15 @@
 package dao;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import base.Util;
+
 import model.LoginTO;
+import model.RegisterTO;
+import control.RegisterImpl;
 
 public class LoginDao {
 	
@@ -15,6 +17,11 @@ public class LoginDao {
 	{
 		boolean autenticated = false;
 
+		RegisterTO res = new RegisterTO("joao@gmail.com", "João Gilmar", "joao", Util.GeraMD5("joao"), false);
+		RegisterDao.insertUser(res);
+		
+		String pass = loginTO.getUserPassword().trim();
+		
 		Connection con = Connections.getConnection();
 		String sql = "SELECT user_password FROM tb_login where login = '" + loginTO.getUserLogin() + "'";
 
@@ -24,9 +31,9 @@ public class LoginDao {
             
             while (rs.next())
             {
-            	String password = rs.getString("user_password");
+            	String password = rs.getString("user_password").trim();
             	
-            	if (password.startsWith(loginTO.getUserPassword()))
+            	if (password.startsWith(pass))
             	{
             		autenticated = true;
             	}
@@ -41,22 +48,35 @@ public class LoginDao {
 		return autenticated;
 	}
 
-	/**
-	 * Gera senha codificada em MD5
-	 * @param Senha_Plaintext: Formato "puro" da senha
-	 * @return: Formato codificado MD5
-	 */
-    public static String GeraMD5(String Senha_Plaintext)
-    {
-        try {
-            byte[] byteArray = Senha_Plaintext.getBytes();
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            BigInteger hash = new BigInteger(1, md.digest(byteArray));
-            String senha_MD5 = hash.toString(16);
-            return senha_MD5;
-        } catch (Exception e){
+	public static boolean verifyLogin(String login){
+		
+		boolean exist = false;
 
-        }
-        return "";
-    }
+		Connection con = Connections.getConnection();
+		String sql = "SELECT login FROM tb_login where login = '" + login + "'";
+
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next())
+            {
+            	String loginBD = rs.getString("login").trim();
+            	
+            	if (loginBD.startsWith(login))
+            	{
+            		exist = true;
+            	}
+            }
+            rs.close();
+            stmt.close();
+            
+		} catch (SQLException e) {
+			System.out.println("Sql Error: " + e.toString());
+			return exist;
+		}	
+	
+		return exist;
+	}
+	
 }

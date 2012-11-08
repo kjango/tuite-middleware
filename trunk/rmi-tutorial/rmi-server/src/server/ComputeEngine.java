@@ -49,7 +49,6 @@ public class ComputeEngine
     	}
     }
     public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException{
-    	
     	return new RegisterImpl().doRegister(registerTO);
     }
 

@@ -25,6 +25,7 @@ import model.LoginTO;
 import model.User;
 import twitter4j.Twitter;
 import base.Compute;
+import base.Util;
 import control.CtrlLogin;
 import control.CtrlRMI;
 import control.CtrlTwitter;
@@ -119,12 +120,15 @@ public class LoginScreen extends javax.swing.JFrame{
 					//using Twitter
 					if (rdbtnTwitter.isSelected()){
 						CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
-						user = ctrlTwitter.twLogin(loginField.getText(), passwordField.getText());
+						user = ctrlTwitter.twLogin(loginField.getText(), Util.GeraMD5(passwordField.getPassword().toString()));
+						
+						String pass1 = passwordField.getPassword().toString();
+						String pass2 = Util.GeraMD5(passwordField.getPassword().toString());
 						
 					}else{	
 						//TODO verificar esse password.string
 						CtrlLogin ctrlLogin = new CtrlLogin();
-						LoginTO loginTO = new LoginTO(loginField.getText(), passwordField.getPassword().toString());
+						LoginTO loginTO = new LoginTO(loginField.getText(), Util.GeraMD5(passwordField.getText().toString()));
 						user = ctrlLogin.doLogin(loginTO, compute);
 					}
 					

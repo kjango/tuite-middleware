@@ -10,6 +10,7 @@ import model.LoginTO;
 import model.Tuite;
 import model.User;
 import dao.LoginDao;
+import dao.UserDao;
 
 public class LoginImpl {
 
@@ -25,15 +26,14 @@ public class LoginImpl {
 		
 		/**
 		 * Verifica se o usuario pode logar no sistema
-		 * Terminando a implementação para agregar senha codificada
 		 */
-		//if (LoginDao.canLogUser(loginTO))
-		if(true)
+		if (LoginDao.canLogUser(loginTO))
+		//if(true)
 		{
 			/**
 			 * Em caso positivo, carrega o perfil dele
 			 */
-			User user = null;
+			User user = UserDao.returnUser(loginTO, true);
 
 			/**
 			 * TESTES
