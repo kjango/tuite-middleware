@@ -37,7 +37,7 @@ public class LoginImpl {
 
 			/**
 			 * TESTES
-			 */
+			 
 			ImageIcon photo;
 			ArrayList<Tuite> alTuites = new ArrayList<Tuite>();
 			ArrayList<Tuite> alTuites1 = new ArrayList<Tuite>();
@@ -71,7 +71,9 @@ public class LoginImpl {
 			loginTO.setValidated(false);
 			loginTO.setErrorMessage("Error!! - User Not Allowed");
 		}
-
+			 */
+		}
+		
 		return loginTO;
 	}
 	
