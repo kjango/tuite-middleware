@@ -9,13 +9,13 @@ public class Tuite implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long id;
+	private Integer id;
 	private String text;
 	private Date createdAt;
 	private User myUser;
 	private boolean truncated;
 	
-	public Tuite(long id, String text, Date createdAt, User myUser) {
+	public Tuite(Integer id, String text, Date createdAt, User myUser) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -23,10 +23,10 @@ public class Tuite implements Serializable {
 		this.myUser = myUser;
 	}
 	
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public boolean isTruncated() {

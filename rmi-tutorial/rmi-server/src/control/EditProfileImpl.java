@@ -8,21 +8,21 @@ public class EditProfileImpl {
 	public RegisterTO Edit(RegisterTO registerTO){
 		//TODO implementar corretamen este método
 		User user = registerTO.getUser();
-		String Email = registerTO.getUserEmail();
-		String LoginName = registerTO.getUserLoginName();
-		String RealName = registerTO.getUserRealName();
-		String Password = registerTO.getUserPassword();
+		//String Email = regsterTO.getUserEmail();
+		//String LoginName = registerTO.getUserLoginName();
+		//String RealName = registerTO.getUserRealName();
+		//String Password = registerTO.getUserPassword();
 		
-		if(Email!=null)
-			user.setEmail(Email);
+		//if(Email!=null)
+			//user.setEmail(Email);
 		
-		if(LoginName!=null)
-			user.setLoginName(LoginName);
+		//if(LoginName!=null)
+		//	user.setLoginName(LoginName);
 		
-		if(RealName!=null)
-			user.setRealName(RealName);
+		//if(RealName!=null)
+		//	user.setRealName(RealName);
 		
-		registerTO.setUser(user);
+		//registerTO.setUser(user);
 		
 		//if(Password!=null)
 		//Seta o password do cara no bnco de dados	
