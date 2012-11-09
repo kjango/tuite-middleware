@@ -31,8 +31,8 @@ public class RmiServer extends Observable implements RmiService {
 	            try {
 	                ro.update(o.toString(), arg);
 	            } catch (RemoteException e) {
-	                System.out
-	                        .println("Remote exception removing observer:" + this);
+	                System.out.println("Remote exception removing observer:" + this);
+	                System.err.println(e.toString());
 	                o.deleteObserver(this);
 	            }
 	        }
