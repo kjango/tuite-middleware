@@ -127,7 +127,7 @@ public class EditProfileScreen extends JFrame {
 						ok = false;
 				}
 				if(chckbxPassword.isSelected()){
-					Password = passwordField.getText();
+					Password = passwordField.getText().toString();
 					if(passwordField.getText().isEmpty())
 						ok = false;
 				}
