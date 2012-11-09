@@ -192,10 +192,10 @@ public class UserDao {
 		}
 
 		followTO.setSuccess(true);
-		
+
 		return followTO;
 	}
-	
+
 	public static FollowTO removeFollower(FollowTO followTO) {
 
 		Connection con = null;
@@ -221,7 +221,7 @@ public class UserDao {
 		}
 
 		followTO.setSuccess(true);
-		
+
 		return followTO;
 	}
 }
