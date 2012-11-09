@@ -15,6 +15,7 @@ public class SearchTO implements Serializable{
 	private int tipoBusca; //This attribute accepts the following values:  1 (tuiteSearch) or 2 (userSearch)
 	private ArrayList<User> searchedUsers;
 	private ArrayList<Tuite> searchedTuites;
+	private String errorMessage;
 	
 	
 	public SearchTO(String text, int tipoBusca) {
@@ -50,6 +51,14 @@ public class SearchTO implements Serializable{
 
 	public void setSearchedTuites(ArrayList<Tuite> searchedTuites) {
 		this.searchedTuites = searchedTuites;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 	
 	

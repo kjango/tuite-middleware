@@ -15,7 +15,7 @@ public class CtrlSearch {
 			try {
 				obj = compute.executeSearch(searchTO);
 			} catch (RemoteException e){
-				System.out.println("Exception: " + e.toString());
+				System.out.println("Message: " + searchTO.getErrorMessage() + "\nException: " + e.toString());
 			}
     	}
 		return obj;
