@@ -155,6 +155,7 @@ public class LoginScreen extends javax.swing.JFrame{
 				RegisterScreen rs = new RegisterScreen(compute, me);
 				rs.setVisible(true);
 				setEnabled(false);
+				
 			}
 		});
 		btnRegister.setBounds(109, 121, 89, 23);

@@ -1,35 +1,27 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.swing.JCheckBox;
-
-import control.CtrlRegister;
-import control.CtrlTuite;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.RegisterTO;
-import model.Tuite;
 import model.User;
-
 import base.Compute;
-import javax.swing.JPasswordField;
+import control.CtrlRegister;
 
 public class EditProfileScreen extends JFrame {
 
@@ -45,6 +37,7 @@ public class EditProfileScreen extends JFrame {
 	
 	private Compute compute;
 	private User user;
+	private User modUser;
 	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
@@ -55,6 +48,7 @@ public class EditProfileScreen extends JFrame {
 		setTitle("Tuite");
 		this.compute = compute;
 		this.user = user;
+		modUser = new User();
 		initialize();
 		setFields();
 		
@@ -108,43 +102,49 @@ public class EditProfileScreen extends JFrame {
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				modUser = user;
+				
+				modUser.setEmail("mudei");
+				System.out.println("user: " + user.getEmail());
+				System.out.println("modUser: " + modUser.getEmail());
 				//TODO implementar a ação de editar
-				String Email = null;
-				String RealName = null;
-				String ScreenName = null;
-				String Password = null;
-				boolean ProtectTuite;
+				String email = null;
+				String realName = null;
+				String screenName = null;
+				String password = null;
+				boolean protectTuite;
 				boolean ok = true;
 				
 				if(chckbxRealName.isSelected()){
-					RealName = textFieldRealName.getText();
+					realName = textFieldRealName.getText();
 					if(textFieldRealName.getText().isEmpty())
 						ok = false;
 				}
 				if(chckbxUserName.isSelected()){
-					ScreenName = textFieldScreenName.getText();
+					screenName = textFieldScreenName.getText();
 					if(textFieldScreenName.getText().isEmpty())
 						ok = false;
 				}
 				if(chckbxPassword.isSelected()){
-					Password = passwordField.getText().toString();
+					password = passwordField.getText();
 					if(passwordField.getText().isEmpty())
 						ok = false;
 				}
 				if(chckbxEmail.isSelected()){
-					Email = textFieldEmail.getText();
+					email = textFieldEmail.getText();
 					if(textFieldEmail.getText().isEmpty())
 						ok = false;
 				}
 				if(chckbxProtecTuite.isSelected())
-					ProtectTuite = true;
+					protectTuite = true;
 				else
-					ProtectTuite = false;
+					protectTuite = false;
 				
 				if(ok){
 				
 //				//Criando o TO
-				RegisterTO t = new RegisterTO(Email,RealName,ScreenName,Password,ProtectTuite);
+				RegisterTO t = new RegisterTO(modUser, password);
 				t.setUser(user);
 			
 //				//Criando o controle
@@ -154,22 +154,21 @@ public class EditProfileScreen extends JFrame {
 				t = ctrl.doEditProfile(t, compute);
 				user = t.getUser();
 				
-				//Fill the fields;
-				setFields();
-				
-				JOptionPane.showMessageDialog(null, 
-						"Usuário Editado:"+
-						"\nUsuario: "+ user.getRealName()+
-						"\nEmail: "+user.getEmail()+
-						"\nLoginName: "+ user.getLoginName(), "Success!", 1);
-				
-//				System.out.println("Usuário Editado:");
-//				System.out.println("Usuario: "+ u.getRealName());
-//				System.out.println("Email: "+u.getEmail());
-//				System.out.println("LoginName: "+ u.getLoginName());
-//				
-//				//Print de teste
-//				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
+				if(t.isRegistered()){
+					//Fill the fields;
+					setFields();
+					
+					JOptionPane.showMessageDialog(null, "Changes saved!", "Success!", 1);
+					
+//					JOptionPane.showMessageDialog(null, 
+//					"Usuário Editado:"+
+//					"\nUsuario: "+ user.getRealName()+
+//					"\nEmail: "+user.getEmail()+
+//					"\nLoginName: "+ user.getLoginName(), "Success!", 1);
+				}else{
+					JOptionPane.showMessageDialog(null, t.getErrorMessage(), "Warning!", 0);
+				}
+
 				
 				}
 				else
@@ -198,7 +197,7 @@ public class EditProfileScreen extends JFrame {
 		chckbxRealName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(chckbxRealName.isSelected()){
-					textFieldRealName.setText(null);
+//					textFieldRealName.setText(null);
 					textFieldRealName.setEditable(true);
 				}
 				else{
@@ -214,7 +213,7 @@ public class EditProfileScreen extends JFrame {
 		chckbxUserName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxUserName.isSelected()){
-					textFieldScreenName.setText(null);
+//					textFieldScreenName.setText(null);
 					textFieldScreenName.setEditable(true);
 				}
 				else{
@@ -245,7 +244,7 @@ public class EditProfileScreen extends JFrame {
 		chckbxEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(chckbxEmail.isSelected()){
-					textFieldEmail.setText(null);
+//					textFieldEmail.setText(null);
 					textFieldEmail.setEditable(true);
 				}
 				else{
@@ -262,6 +261,36 @@ public class EditProfileScreen extends JFrame {
 		passwordField.setBounds(133, 130, 116, 22);
 		panel.add(passwordField);
 		
+		JButton btnSelectImage = new JButton("Select Image");
+		btnSelectImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UpImagem();
+			}
+		});
+		btnSelectImage.setBounds(152, 235, 95, 23);
+		panel.add(btnSelectImage);
+		
 	
+	}
+	
+	public void UpImagem() {
+
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"JPG & GIF Images", "jpg", "gif");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+//			System.out.println("You chose to open this file: "
+//					+ chooser.getSelectedFile().getName());
+		}
+
+		try {
+			modUser.setPhoto(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
+//			int TamanhoImagem = (int) chooser.getSelectedFile().length();
+		} catch (Exception e) {
+
+		}
 	}
 }

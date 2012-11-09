@@ -13,7 +13,7 @@ public class RegisterTO implements Serializable{
 	//private String userEmail; 		Não precisa desses caras aqui, pq já tem no User
 	//private String userLoginName;
 	//private String UserRealName;
-	private String UserPassword;
+	private String userPassword;
 //	private BufferedImage userPhoto;  //TODO ver essa poha das imagens, e criar os getters e setters dela aqui
 	//private boolean protectedTuite;
 	private String errorMessage;
@@ -21,15 +21,20 @@ public class RegisterTO implements Serializable{
 	private User user;   //For returning to client when user changes its status
 	
 	
-	public RegisterTO(String userEmail, String userRealName, String userLoginName,
-			String userPassword, boolean protectedTuite) {
+//	public RegisterTO(String userEmail, String userRealName, String userLoginName,
+//			String userPassword, boolean protectedTuite) {
+//		super();
+//		this.user = new User();
+//		this.user.setEmail(userEmail);
+//		this.user.setLoginName(userLoginName);
+//		this.user.setRealName(userRealName);
+//		UserPassword = userPassword;
+//		this.user.setProtectedTuite(protectedTuite);
+//	}
+	public RegisterTO(User user, String password) {
 		super();
-		this.user = new User();
-		this.user.setEmail(userEmail);
-		this.user.setLoginName(userLoginName);
-		this.user.setRealName(userRealName);
-		UserPassword = userPassword;
-		this.user.setProtectedTuite(protectedTuite);
+		this.user = user;
+		userPassword = password;
 	}
 
 	public User getUser() {
@@ -51,10 +56,10 @@ public class RegisterTO implements Serializable{
 		this.isRegistered = isRegistered;
 	}
 	public String getUserPassword() {
-		return UserPassword;
+		return userPassword;
 	}
 	public void setUserPassword(String userPassword) {
-		UserPassword = userPassword;
+		userPassword = userPassword;
 	}
 
 }

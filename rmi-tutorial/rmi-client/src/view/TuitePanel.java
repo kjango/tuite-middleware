@@ -32,6 +32,7 @@ public class TuitePanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @wbp.parser.constructor
 	 */
 
 
