@@ -4,24 +4,25 @@ import java.rmi.RemoteException;
 
 import base.Compute;
 import model.Tuite;
+import model.TuiteTO;
 
 public class CtrlTuite {
 	
 	
 	
-	public Tuite doTuite(Tuite t, Compute compute){
+	public TuiteTO doTuite(TuiteTO t, Compute compute){
 		Tuite tuite = null;
 		if ((t != null) && (compute != null))
     	{
 			try {
-				tuite = compute.executeTuite(t);
+				t = compute.executeTuite(t);
 			} catch (RemoteException e){
 				System.out.println("Exception: " + e.toString());
 			}
     	}
 		
 		
-		return tuite;
+		return t;
 	}
 	/**
 	 * 

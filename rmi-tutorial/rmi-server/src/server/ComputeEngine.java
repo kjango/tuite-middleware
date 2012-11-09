@@ -7,6 +7,7 @@ import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
 import model.Tuite;
+import model.TuiteTO;
 import base.Compute;
 import base.Task;
 import control.EditProfileImpl;
@@ -53,7 +54,7 @@ public class ComputeEngine
     }
 
 	@Override
-	public Tuite executeTuite(Tuite t) throws RemoteException {
+	public TuiteTO executeTuite(TuiteTO t) throws RemoteException {
 		return new TuitarImpl().Tuitar(t);
 	}
 
