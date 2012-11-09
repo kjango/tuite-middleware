@@ -110,20 +110,20 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Finalizar a implementação dessa ação
-
+				
 				//Criando o TO
 				Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
 				TuiteTO t = new TuiteTO(tuite);
 				
 				//Criando o controle
 				CtrlTuite ctrl = new CtrlTuite();
-				ctrl.truncate(t.getTuite());
+				ctrl.truncate(t);
 				
 				//Chamar doTuite
 				t = ctrl.doTuite(t, compute);
 				
 				//Print de teste
-				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());
+				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
 				
 				textAreaTuite.setText("");
 			}
