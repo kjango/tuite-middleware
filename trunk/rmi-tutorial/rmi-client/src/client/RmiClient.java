@@ -34,7 +34,7 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
             //Registry registry = LocateRegistry.getRegistry();
             //Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
         	
-        	Registry registry = LocateRegistry.getRegistry("PROG");
+        	Registry registry = LocateRegistry.getRegistry("192.168.1.105");
         	RmiService remoteService = (RmiService)registry.lookup("RmiService");
         	
         	//RmiService remoteService = (RmiService)Naming.lookup("//PROG/RmiService");
