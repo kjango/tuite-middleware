@@ -1,0 +1,283 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.1
+-- Dumped by pg_dump version 9.2.1
+-- Started on 2012-11-08 23:06:25
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 174 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1954 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 172 (class 1259 OID 16537)
+-- Name: rl_follow; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rl_follow (
+    id_user integer,
+    id_follow integer
+);
+
+
+ALTER TABLE public.rl_follow OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 16487)
+-- Name: seq_tweets; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_tweets
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_tweets OWNER TO postgres;
+
+--
+-- TOC entry 1955 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: seq_tweets; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_tweets', 3, true);
+
+
+--
+-- TOC entry 168 (class 1259 OID 16476)
+-- Name: seq_users; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE seq_users
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seq_users OWNER TO postgres;
+
+--
+-- TOC entry 1956 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: seq_users; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('seq_users', 24, true);
+
+
+--
+-- TOC entry 173 (class 1259 OID 16566)
+-- Name: tb_login; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tb_login (
+    id_user integer,
+    login character varying(40) NOT NULL,
+    user_password character(100) NOT NULL
+);
+
+
+ALTER TABLE public.tb_login OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16500)
+-- Name: tb_tweet; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tb_tweet (
+    id integer DEFAULT nextval('seq_tweets'::regclass) NOT NULL,
+    text character varying(140) NOT NULL,
+    created_at date,
+    my_user integer,
+    protected_tweet boolean
+);
+
+
+ALTER TABLE public.tb_tweet OWNER TO postgres;
+
+--
+-- TOC entry 169 (class 1259 OID 16478)
+-- Name: tb_users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tb_users (
+    id integer DEFAULT nextval('seq_users'::regclass) NOT NULL,
+    email character varying(40) NOT NULL,
+    real_name character varying(40) NOT NULL,
+    register_date date,
+    photo bytea,
+    protected_tweet boolean
+);
+
+
+ALTER TABLE public.tb_users OWNER TO postgres;
+
+--
+-- TOC entry 1945 (class 0 OID 16537)
+-- Dependencies: 172
+-- Data for Name: rl_follow; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY rl_follow (id_user, id_follow) FROM stdin;
+5	6
+7	5
+\.
+
+
+--
+-- TOC entry 1946 (class 0 OID 16566)
+-- Dependencies: 173
+-- Data for Name: tb_login; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tb_login (id_user, login, user_password) FROM stdin;
+5	paulo	dd41cb18c930753cbecf993f828603dc                                                                    
+6	francisco	117735823fadae51db091c7d63e60eb0                                                                    
+7	rafael	9135d8523ad3da99d8a4eb83afac13d1                                                                    
+23	joao	dccd96c256bc7dd39bae41a405f25e43                                                                    
+24	a	a                                                                                                   
+\.
+
+
+--
+-- TOC entry 1944 (class 0 OID 16500)
+-- Dependencies: 171
+-- Data for Name: tb_tweet; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tb_tweet (id, text, created_at, my_user, protected_tweet) FROM stdin;
+1	Tweet from Paulo	2012-10-29	5	\N
+2	Tweet from Francisco	2012-10-29	6	\N
+3	Tweet from Rafael	2012-10-29	7	\N
+\.
+
+
+--
+-- TOC entry 1943 (class 0 OID 16478)
+-- Dependencies: 169
+-- Data for Name: tb_users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tb_users (id, email, real_name, register_date, photo, protected_tweet) FROM stdin;
+5	pacefico@gmail.com	Paulo Figueiredo	2012-10-29	\N	f
+6	kjango@gmail.com	Francisco	2012-10-29	\N	f
+7	rafacpiva@gmail.com	Rafael	2012-10-29	\N	f
+21	joao@gmail.com	João Gilmar	\N	\N	f
+22	joao@gmail.com	João Gilmar	\N	\N	f
+23	joao@gmail.com	João Gilmar	\N	\N	f
+24	a	a	\N	\N	f
+\.
+
+
+--
+-- TOC entry 1936 (class 2606 OID 16505)
+-- Name: id_tweet; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_tweet
+    ADD CONSTRAINT id_tweet PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1934 (class 2606 OID 16486)
+-- Name: id_user; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_users
+    ADD CONSTRAINT id_user PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 16575)
+-- Name: tb_login_unique; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tb_login
+    ADD CONSTRAINT tb_login_unique UNIQUE (login);
+
+
+--
+-- TOC entry 1941 (class 2606 OID 16545)
+-- Name: rl_follow_id_follow_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY rl_follow
+    ADD CONSTRAINT rl_follow_id_follow_fkey FOREIGN KEY (id_follow) REFERENCES tb_users(id);
+
+
+--
+-- TOC entry 1940 (class 2606 OID 16540)
+-- Name: rl_follow_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY rl_follow
+    ADD CONSTRAINT rl_follow_id_user_fkey FOREIGN KEY (id_user) REFERENCES tb_users(id);
+
+
+--
+-- TOC entry 1942 (class 2606 OID 16569)
+-- Name: tb_login_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tb_login
+    ADD CONSTRAINT tb_login_id_user_fkey FOREIGN KEY (id_user) REFERENCES tb_users(id);
+
+
+--
+-- TOC entry 1939 (class 2606 OID 16506)
+-- Name: tb_tweet_my_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tb_tweet
+    ADD CONSTRAINT tb_tweet_my_user_fkey FOREIGN KEY (my_user) REFERENCES tb_users(id);
+
+
+--
+-- TOC entry 1953 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2012-11-08 23:06:25
+
+--
+-- PostgreSQL database dump complete
+--
+
