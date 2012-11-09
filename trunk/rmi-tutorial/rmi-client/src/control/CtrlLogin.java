@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import model.LoginTO;
 import model.User;
 import base.Compute;
+import base.Util;
 
 /**
  * Classe que possui os controles de login, extende RmiStarter para que sua localização seja explicitada para acesso do RMI
@@ -23,6 +24,7 @@ public class CtrlLogin {
     	if ((loginTO != null) && (compute != null))
     	{
 			try {
+				loginTO.setUserPassword(Util.GeraMD5(loginTO.getUserPassword()));
 				loginTO.setCompute(compute);
 				loginTO = compute.executeLogin(loginTO);
 	   	 		user = loginTO.getUser();

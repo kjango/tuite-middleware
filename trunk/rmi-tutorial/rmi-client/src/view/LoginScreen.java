@@ -128,7 +128,7 @@ public class LoginScreen extends javax.swing.JFrame{
 					}else{	
 						//TODO verificar esse password.string
 						CtrlLogin ctrlLogin = new CtrlLogin();
-						LoginTO loginTO = new LoginTO(loginField.getText(), Util.GeraMD5(passwordField.getText().toString()));
+						LoginTO loginTO = new LoginTO(loginField.getText(), passwordField.getText().toString());
 						user = ctrlLogin.doLogin(loginTO, compute);
 					}
 					
