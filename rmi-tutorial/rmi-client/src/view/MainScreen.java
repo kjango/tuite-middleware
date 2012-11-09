@@ -110,7 +110,6 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite = new JButton("Tuite");
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO Finalizar a implementação dessa ação
 				//Criando o TO
 				Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
 				TuiteTO t = new TuiteTO(tuite);

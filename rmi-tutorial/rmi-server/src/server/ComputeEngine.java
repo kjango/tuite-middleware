@@ -12,6 +12,7 @@ import model.TuiteTO;
 import base.Compute;
 import base.Task;
 import control.EditProfileImpl;
+import control.FollowImpl;
 import control.LoginImpl;
 import control.RegisterImpl;
 import control.SearchImpl;
@@ -72,13 +73,11 @@ public class ComputeEngine
 
 	@Override
 	public FollowTO executeDoFollow(FollowTO followTO) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return new FollowImpl().doFollow(followTO);
 	}
 
 	@Override
 	public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return new FollowImpl().doUnFollow(followTO);
 	}
 }
