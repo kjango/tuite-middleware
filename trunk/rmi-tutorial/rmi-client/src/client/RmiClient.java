@@ -1,11 +1,11 @@
 package client;
 
 import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import base.PolicyFileLocator;
 import base.RemoteObserver;
 import base.RmiService;
 
@@ -21,6 +21,7 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
         //    System.setSecurityManager(new RMISecurityManager());
         try {
 
+        	/*
             System.setProperty("java.rmi.server.codebase", RmiClient.class
                     .getProtectionDomain().getCodeSource().getLocation().toString());
 
@@ -29,11 +30,14 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
                 if(System.getSecurityManager() == null) {
                     System.setSecurityManager(new SecurityManager());
                 }
-
+      	*/
+            //Registry registry = LocateRegistry.getRegistry();
+            //Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
         	
+        	Registry registry = LocateRegistry.getRegistry("PROG");
+        	RmiService remoteService = (RmiService)registry.lookup("RmiService");
         	
-        	RmiService remoteService = (RmiService) Naming
-                    .lookup("//localhost:1099/RmiService");
+        	//RmiService remoteService = (RmiService)Naming.lookup("//PROG/RmiService");
             RmiClient client = new RmiClient();
             remoteService.addObserver(client);
         } catch (Exception ex) {
