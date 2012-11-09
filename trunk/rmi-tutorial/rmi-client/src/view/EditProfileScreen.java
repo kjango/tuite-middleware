@@ -37,7 +37,6 @@ public class EditProfileScreen extends JFrame {
 	
 	private Compute compute;
 	private User user;
-	private User modUser;
 	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
@@ -48,7 +47,6 @@ public class EditProfileScreen extends JFrame {
 		setTitle("Tuite");
 		this.compute = compute;
 		this.user = user;
-		modUser = new User();
 		initialize();
 		setFields();
 		
@@ -103,11 +101,11 @@ public class EditProfileScreen extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				modUser = user;
-				
-				modUser.setEmail("mudei");
-				System.out.println("user: " + user.getEmail());
-				System.out.println("modUser: " + modUser.getEmail());
+//				modUser = user;
+//				
+//				modUser.setEmail("mudei");
+//				System.out.println("user: " + user.getEmail());
+//				System.out.println("modUser: " + modUser.getEmail());
 				//TODO implementar a ação de editar
 				String email = null;
 				String realName = null;
@@ -144,7 +142,7 @@ public class EditProfileScreen extends JFrame {
 				if(ok){
 				
 //				//Criando o TO
-				RegisterTO t = new RegisterTO(modUser, password);
+				RegisterTO t = new RegisterTO(user, password);
 				t.setUser(user);
 			
 //				//Criando o controle
@@ -287,7 +285,7 @@ public class EditProfileScreen extends JFrame {
 		}
 
 		try {
-			modUser.setPhoto(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
+			user.setPhoto(new ImageIcon(chooser.getSelectedFile().getAbsolutePath()));
 //			int TamanhoImagem = (int) chooser.getSelectedFile().length();
 		} catch (Exception e) {
 

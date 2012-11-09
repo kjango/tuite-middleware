@@ -9,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -154,6 +155,7 @@ public class LoginScreen extends javax.swing.JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				RegisterScreen rs = new RegisterScreen(compute, me);
 				rs.setVisible(true);
+//				rs.getlis;
 				setEnabled(false);
 				
 			}
