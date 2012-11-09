@@ -64,7 +64,7 @@ public class CtrlRMI extends RmiStarter {
 			while ((line = br.readLine()) != null){
 				if ((line != null) && (!line.equals("")) && (line.length() > 0))
                 {
-                    splt = line.split(":");
+                    splt = line.split("=");
 
                     //evitar uma possível linha em branco
                     if ((splt != null) && (splt[0].equals("SERVER_ADDRESS")))
