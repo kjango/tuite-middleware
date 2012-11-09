@@ -144,7 +144,7 @@ public class User implements Serializable {
 	public ImageIcon getPhoto() {
 		return photo;
 	}
-	public void ImageIcon(ImageIcon photo) {
+	public void setPhoto(ImageIcon photo) {
 		this.photo = photo;
 	}
 	public boolean isProtectedTuite() {

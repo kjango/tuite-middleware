@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import model.RegisterTO;
+import model.User;
 import base.Compute;
 import control.CtrlRegister;
 
@@ -171,8 +172,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 				}
 				if (ok){
 					//crio o TO pra fazer o registro
-
-					RegisterTO registerTO = new RegisterTO(textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), passwordField.getText(), chckbxProtectTuite.isSelected());
+					RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, null, chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
 					CtrlRegister ctrlRegister = new CtrlRegister();
 					registerTO = ctrlRegister.doRegistry(registerTO, compute);
 					

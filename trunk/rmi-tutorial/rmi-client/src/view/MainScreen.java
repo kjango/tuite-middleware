@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -135,6 +136,16 @@ public class MainScreen extends javax.swing.JFrame {
 		lblCharCount = new JLabel("140");
 		panel_1.add(lblCharCount, BorderLayout.SOUTH);
 		lblCharCount.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblUserPhoto = new JLabel("");
+		panelButtons.add(lblUserPhoto, BorderLayout.WEST);
+		
+		ImageIcon photo = new ImageIcon();
+		photo = user.getPhoto();
+		if (photo == null){
+			photo = new ImageIcon("noImg.jpg");
+		}
+		lblUserPhoto.setIcon(photo);
 
 		
 		scrollPane = new JScrollPane();
