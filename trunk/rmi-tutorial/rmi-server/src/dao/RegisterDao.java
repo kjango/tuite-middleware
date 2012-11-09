@@ -39,7 +39,7 @@ public class RegisterDao {
 		           System.out.println("Erro no SQL");
 		           e.printStackTrace();
 		           registerTO.setRegistered(false);
-		           registerTO.setErrorMessage("Erro no SQL");
+		           registerTO.setErrorMessage("SQL Error!");
 		           return registerTO;
 		      }
 		      
@@ -70,12 +70,12 @@ public class RegisterDao {
 			           System.out.println("Erro no SQL");
 			           e.printStackTrace();
 			           registerTO.setRegistered(false);
-			           registerTO.setErrorMessage("Erro no SQL");
+			           registerTO.setErrorMessage("SQL Error!");
 			           return registerTO;
 			      }
 		      }
 		} else {
-			registerTO.setErrorMessage("Já existe usuário com este login!");
+			registerTO.setErrorMessage("Username already in use!");
 			registerTO.setRegistered(false);
 			return registerTO;
 		}
