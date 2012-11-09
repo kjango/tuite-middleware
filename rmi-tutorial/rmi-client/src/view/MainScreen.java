@@ -86,6 +86,7 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					btnTuite.doClick();
+					textAreaTuite.setText(null);
 				}
 			}
 		});
@@ -110,7 +111,6 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Finalizar a implementação dessa ação
-				
 				//Criando o TO
 				Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
 				TuiteTO t = new TuiteTO(tuite);
@@ -121,6 +121,10 @@ public class MainScreen extends javax.swing.JFrame {
 				
 				//Chamar doTuite
 				t = ctrl.doTuite(t, compute);
+				
+				user = t.getTuite().getMyUser();
+				
+				updateTimeLine(1000);
 				
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
@@ -242,11 +246,13 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmEdit.setMnemonic('r');
 		mnEdit.add(mntmEdit);
 		
-		updateTimeLine(10);
+		updateTimeLine(1000);
 		
 	}
 	
 	public void updateTimeLine(int n){
+		panelTimeLine.removeAll();
+		
 		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 -n && i >= 0 ; i--) {
 			Tuite tu = user.getTuites().get(i);
 			TuitePanel t = new TuitePanel(user, tu, compute);
