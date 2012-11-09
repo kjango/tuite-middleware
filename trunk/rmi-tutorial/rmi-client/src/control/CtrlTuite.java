@@ -17,7 +17,7 @@ public class CtrlTuite {
 			try {
 				t = compute.executeTuite(t);
 			} catch (RemoteException e){
-				System.out.println("Exception: " + e.toString());
+				System.out.println("Message: " + t.getErrorMessage() + "\nException: " + e.toString());
 			}
     	}
 		
