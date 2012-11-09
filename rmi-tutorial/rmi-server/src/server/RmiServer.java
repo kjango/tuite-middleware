@@ -9,11 +9,12 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+import base.PolicyFileLocator;
 import base.RemoteObserver;
 import base.RmiService;
 import base.RmiServiceStarter;
 
-public class RmiServer extends RmiServiceStarter implements RmiService {
+public class RmiServer extends Observable implements RmiService {
 	
 	 private class WrappedObserver implements Observer, Serializable {
 
@@ -61,7 +62,17 @@ public class RmiServer extends RmiServiceStarter implements RmiService {
 	    };
 
 	    public RmiServer() {
-	    	super (RmiServer.class);
+	    	//super (RmiServer.class);
+	    	
+	        System.setProperty("java.rmi.server.codebase", RmiServer.class
+	                .getProtectionDomain().getCodeSource().getLocation().toString());
+
+	            System.setProperty("java.security.policy", PolicyFileLocator.getLocationOfPolicyFile());
+
+	            if(System.getSecurityManager() == null) {
+	                System.setSecurityManager(new SecurityManager());
+	            }
+	            doCustomRmiHandling();
 	    	thread.start();
 	    }
 
@@ -86,7 +97,7 @@ public class RmiServer extends RmiServiceStarter implements RmiService {
 	        */
 	    }
 	
-	    @Override
+	    //@Override
 	    public void doCustomRmiHandling() {
 	        try {
 	            Registry rmiRegistry = LocateRegistry.createRegistry(1099);
