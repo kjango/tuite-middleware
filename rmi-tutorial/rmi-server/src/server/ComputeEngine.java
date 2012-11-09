@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import model.FollowTO;
 import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
@@ -67,5 +68,17 @@ public class ComputeEngine
 	public SearchTO executeSearch(SearchTO t) throws RemoteException {
 		return new SearchImpl().Search(t);
 		
+	}
+
+	@Override
+	public FollowTO executeDoFollow(FollowTO followTO) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

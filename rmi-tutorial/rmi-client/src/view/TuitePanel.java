@@ -1,27 +1,24 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import model.FollowTO;
 import model.Tuite;
 import model.User;
-import control.CtrlClient;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import java.awt.Color;
-import java.awt.SystemColor;
+import base.Compute;
+import control.CtrlUser;
 
 public class TuitePanel extends JPanel {
 	
@@ -29,6 +26,7 @@ public class TuitePanel extends JPanel {
 	private User myUser;
 	private User User;
 	private JButton btnFollowUnfollow;
+	private Compute compute;
 
 	/**
 	 * Create the panel.
@@ -36,17 +34,19 @@ public class TuitePanel extends JPanel {
 	 */
 
 
-	public TuitePanel(User myUser, Tuite tuite) {
+	public TuitePanel(User myUser, Tuite tuite, Compute compute) {
 		super();
 		this.tuite = tuite;
 		this.myUser = myUser;
+		this.compute = compute;
 		initilizeTuite();
 	}
 	
-	public TuitePanel(User myUser, User user) {
+	public TuitePanel(User myUser, User user, Compute compute) {
 		super();
 		this.myUser = myUser;
 		this.User = user;
+		this.compute = compute;
 		initilizeUser();
 	}
 	
@@ -57,18 +57,23 @@ public class TuitePanel extends JPanel {
 		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName() + " @ " + tuite.getCreatedAt(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
 		
-		CtrlClient cc = new CtrlClient();
+		CtrlUser ctrlUser = new CtrlUser();
 		String btnText = "Follow";
-		if(cc.follows(myUser, tuite.getMyUser())){
+		if(ctrlUser.doesFollow(myUser, tuite.getMyUser())){
 			btnText = "Unfollow";
 		}
 		btnFollowUnfollow = new JButton(btnText);
 		btnFollowUnfollow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//creating the TO
+				FollowTO followTO = new FollowTO(myUser, tuite.getMyUser());
+				CtrlUser ctrlUser = new CtrlUser();
 				if (btnFollowUnfollow.getText().equals("Follow")){
 					//TODO seguir
+					ctrlUser.doFollow(followTO, compute);
 				}else{
 					//TODO desseguir xD
+					ctrlUser.doUnFollow(followTO, compute);
 				}
 				repaint();
 			}
@@ -102,9 +107,9 @@ public class TuitePanel extends JPanel {
 		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
 		
-		CtrlClient cc = new CtrlClient();
+		CtrlUser cc = new CtrlUser();
 		String btnText = "Follow";
-		if(cc.follows(myUser, tuite.getMyUser())){
+		if(cc.doesFollow(myUser, tuite.getMyUser())){
 			btnText = "Unfollow";
 		}
 		btnFollowUnfollow = new JButton(btnText);
@@ -112,6 +117,7 @@ public class TuitePanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (btnFollowUnfollow.getText().equals("Follow")){
 					//TODO seguir
+					
 				}else{
 					//TODO desseguir xD
 				}

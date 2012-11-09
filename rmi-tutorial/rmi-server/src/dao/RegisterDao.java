@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +21,10 @@ public class RegisterDao {
 		        
 		           stmt.setString(1, registerTO.getUser().getEmail());
 		           stmt.setString(2, registerTO.getUser().getRealName());
-		           stmt.setDate(3, (Date) registerTO.getUser().getRegisterDate());
+		           
+		           java.sql.Date dataSql = new java.sql.Date(registerTO.getUser().getRegisterDate().getTime());
+		           stmt.setDate(3, dataSql);
+		           
 		           stmt.setBoolean(4, registerTO.getUser().isProtectedTuite());
 		           
 		           stmt.executeUpdate();

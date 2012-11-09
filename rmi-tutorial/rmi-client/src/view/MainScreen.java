@@ -249,7 +249,7 @@ public class MainScreen extends javax.swing.JFrame {
 	public void updateTimeLine(int n){
 		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 -n && i >= 0 ; i--) {
 			Tuite tu = user.getTuites().get(i);
-			TuitePanel t = new TuitePanel(user, tu);
+			TuitePanel t = new TuitePanel(user, tu, compute);
 			panelTimeLine.add(t);
 		}
 		scrollPane.getVerticalScrollBar().setValue(0);
