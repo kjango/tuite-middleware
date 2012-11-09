@@ -40,7 +40,7 @@ public class FollowTO implements Serializable{
 	public boolean isFollowing() {
 		return isFollowing;
 	}
-	public void setFollowing(boolean isFollowing) {
+	public void setSuccess(boolean isFollowing) {
 		this.isFollowing = isFollowing;
 	}
 }
