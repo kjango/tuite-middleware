@@ -42,7 +42,7 @@ public class UserDao {
         	user.setMyTuites(returnTweets(loginTO));
         	user.setFollowing(returnFollowing(loginTO));
         	user.setFollowers(returnFollowers(loginTO));
-        	
+        	user.setTuites(returnAllTweets(loginTO));
         }
         
 		return user;
@@ -138,4 +138,36 @@ public class UserDao {
 	        
 		return listFollowers;
 	}
+
+	private static ArrayList<Tuite> returnAllTweets(LoginTO loginTO){
+		ArrayList<Tuite> listAllTweets = new ArrayList<Tuite>();
+		
+		Connection con = Connections.getConnection();
+		String sql = "SELECT * FROM tb_tweet WHERE my_user = " + loginTO.getUser().getId() +
+				" OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = " + loginTO.getUser().getId() +
+				") ORDER BY created_at DESC";
+        try {
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery();
+             while(rs.next())
+             {
+                 User user = new User();
+                 user.setId(rs.getInt("my_user"));
+            	 
+            	 Tuite tweet = new Tuite(
+                		 rs.getInt("id"),
+                		 rs.getString("text"),
+                		 rs.getDate("created_at"),
+                		 user );
+            	 
+            	 listAllTweets.add(tweet);
+             }
+             rs.close();
+             stmt.close();
+        } catch (SQLException e) {
+             System.out.println("Erro no SQL");
+    }
+		return listAllTweets;
+	}
+
 }
