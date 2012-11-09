@@ -24,6 +24,10 @@ public class LoginTO implements Serializable {
 		this.userPassword = password;
 	}
 	
+	public LoginTO (String login){
+		this.userLogin = login;
+	}
+	
 	public Compute getCompute() {
 		return compute;
 	}
