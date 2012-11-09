@@ -28,6 +28,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import model.Tuite;
+import model.TuiteTO;
 import model.User;
 import base.Compute;
 import control.CtrlTuite;
@@ -108,20 +109,18 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite = new JButton("Tuite");
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				Tuite tuite;
 				//TODO Finalizar a implementação dessa ação
-				System.err.println(textAreaTuite.getText());
 
 				//Criando o TO
-				Tuite t = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
+				Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
+				TuiteTO t = new TuiteTO(tuite);
 				
 				//Criando o controle
 				CtrlTuite ctrl = new CtrlTuite();
-				ctrl.truncate(t);
+				ctrl.truncate(t.getTuite());
 				
 				//Chamar doTuite
-				tuite = ctrl.doTuite(t, compute);
+				t = ctrl.doTuite(t, compute);
 				
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+tuite.getText());

@@ -7,6 +7,7 @@ import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
 import model.Tuite;
+import model.TuiteTO;
 
 public interface Compute extends Remote {
     
@@ -19,7 +20,7 @@ public interface Compute extends Remote {
     public void sendMessage(String test) throws RemoteException;
     public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException;
     public RegisterTO executeEditProfile(RegisterTO registerTO) throws RemoteException;
-    public Tuite executeTuite(Tuite t) throws RemoteException;
+    public TuiteTO executeTuite(TuiteTO t) throws RemoteException;
     public SearchTO executeSearch(SearchTO t) throws RemoteException;
     
 }
