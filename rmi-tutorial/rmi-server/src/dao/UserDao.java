@@ -210,7 +210,10 @@ public class UserDao {
 			return followTO;
 		}
 
+		LoginTO loginTO = new LoginTO(followTO.getFollower().getLoginName());
+		
 		followTO.setSuccess(true);
+		followTO.setFollower(returnUser(loginTO, true));
 
 		return followTO;
 	}
@@ -238,8 +241,10 @@ public class UserDao {
 			followTO.setErrorMessage("SQL Error!");
 			return followTO;
 		}
-
+		LoginTO loginTO = new LoginTO(followTO.getFollower().getLoginName());
+		
 		followTO.setSuccess(true);
+		followTO.setFollower(returnUser(loginTO, true));
 
 		return followTO;
 	}
