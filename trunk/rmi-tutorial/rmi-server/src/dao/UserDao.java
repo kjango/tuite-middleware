@@ -35,7 +35,7 @@ public class UserDao {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL returnUser");
 		}
 		if ((isAll) && (user != null)) {
 			loginTO.setUser(user);
@@ -72,7 +72,7 @@ public class UserDao {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL returnTweets");
 		}
 		return listTweets;
 	}
@@ -97,7 +97,7 @@ public class UserDao {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL returnFollowing");
 		}
 
 		for (int i = 0; i < preList.size(); i++) {
@@ -127,7 +127,7 @@ public class UserDao {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL returnFollowers");
 		}
 
 		for (int i = 0; i < preList.size(); i++) {
@@ -142,14 +142,26 @@ public class UserDao {
 		ArrayList<Tuite> listAllTweets = new ArrayList<Tuite>();
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT * FROM tb_tweet tt join tb_login tl on tt.my_user = tl.id_user join tb_users tu on tt.my_user = tu.id " +
-				"WHERE tt.my_user = "
-				+ loginTO.getUser().getId()
-				+ " OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = "
-				+ loginTO.getUser().getId() + ") ORDER BY created_at DESC";
-				
+		// String sql =
+		// "SELECT * FROM tb_tweet tt join tb_login tl on tt.my_user = tl.id_user join tb_users tu on tt.my_user = tu.id "
+		// +
+		// "WHERE tt.my_user = "
+		// + loginTO.getUser().getId()
+		// + " OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = "
+		// + loginTO.getUser().getId() + ") ORDER BY created_at DESC";
+
+		String sql = "SELECT * FROM tb_tweet tt " +
+						"join tb_login tl on tt.my_user = tl.id_user " +
+						"join tb_users tu on tt.my_user = tu.id " +
+						"join rl_follow rf on rf.id_follow  = tl.id_user " +
+						"WHERE (tt.my_user = ?  OR rf.id_user = ?) " +
+						"ORDER BY created_at DESC";
+
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setLong(1, loginTO.getUser().getId());
+			stmt.setLong(2, loginTO.getUser().getId());
+			
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				User user = new User();
@@ -167,7 +179,7 @@ public class UserDao {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL returnAllTweets");
 		}
 		return listAllTweets;
 	}
@@ -191,7 +203,7 @@ public class UserDao {
 			stmt.close();
 			con.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL addFollower");
 			e.printStackTrace();
 			followTO.setSuccess(false);
 			followTO.setErrorMessage("SQL Error!");
@@ -220,7 +232,7 @@ public class UserDao {
 			stmt.close();
 			con.close();
 		} catch (SQLException e) {
-			System.out.println("Erro no SQL");
+			System.out.println("Erro no SQL removeFollower");
 			e.printStackTrace();
 			followTO.setSuccess(false);
 			followTO.setErrorMessage("SQL Error!");

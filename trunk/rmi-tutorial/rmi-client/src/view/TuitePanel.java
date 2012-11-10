@@ -21,18 +21,18 @@ import base.Compute;
 import control.CtrlUser;
 
 public class TuitePanel extends JPanel {
-	
+
 	private Tuite tuite;
 	private User myUser;
-	private User User;
+	private User otherUser;
 	private JButton btnFollowUnfollow;
 	private Compute compute;
 
 	/**
 	 * Create the panel.
+	 * 
 	 * @wbp.parser.constructor
 	 */
-
 
 	public TuitePanel(User myUser, Tuite tuite, Compute compute) {
 		super();
@@ -41,60 +41,62 @@ public class TuitePanel extends JPanel {
 		this.compute = compute;
 		initilizeTuite();
 	}
-	
-	public TuitePanel(User myUser, User user, Compute compute) {
+
+	public TuitePanel(User myUser, User otherUser, Compute compute) {
 		super();
 		this.myUser = myUser;
-		this.User = user;
+		this.otherUser = otherUser;
 		this.compute = compute;
 		initilizeUser();
 	}
-	
-	private void initilizeTuite(){
+
+	private void initilizeTuite() {
 		setSize(new Dimension(450, 80));
 		setPreferredSize(new Dimension(450, 80));
 		setMaximumSize(new Dimension(450, 80));
-		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName() + " @ " + tuite.getCreatedAt(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setBorder(new TitledBorder(
+				UIManager.getBorder("TitledBorder.border"),
+				tuite.getMyUser().getLoginName() + " @ " + tuite.getCreatedAt(),
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
-		
+
 		CtrlUser ctrlUser = new CtrlUser();
 		String btnText = "Follow";
-		if(ctrlUser.doesFollow(myUser, tuite.getMyUser())){
+		if (ctrlUser.doesFollow(myUser, tuite.getMyUser())) {
 			btnText = "Unfollow";
 		}
-		
-		if(myUser.getId() != tuite.getMyUser().getId()){
+
+		if (myUser.getId() != tuite.getMyUser().getId()) {
 			btnFollowUnfollow = new JButton(btnText);
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					//creating the TO
+					// creating the TO
 					FollowTO followTO = new FollowTO(myUser, tuite.getMyUser());
 					CtrlUser ctrlUser = new CtrlUser();
-					if (btnFollowUnfollow.getText().equals("Follow")){
-						//TODO seguir
+					if (btnFollowUnfollow.getText().equals("Follow")) {
+						// TODO seguir
 						ctrlUser.doFollow(followTO, compute);
-					}else{
-						//TODO desseguir xD
+					} else {
+						// TODO desseguir xD
 						ctrlUser.doUnFollow(followTO, compute);
 					}
 					repaint();
 				}
 			});
 			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
-			add(btnFollowUnfollow, BorderLayout.EAST);	
+			add(btnFollowUnfollow, BorderLayout.EAST);
 		}
-		
-		
+
 		JLabel lblImage = new JLabel("");
 		add(lblImage, BorderLayout.WEST);
-		
+
 		ImageIcon photo = new ImageIcon();
 		photo = tuite.getMyUser().getPhoto();
-		if (photo == null){
+		if (photo == null) {
 			photo = new ImageIcon("noImg.jpg");
 		}
 		lblImage.setIcon(photo);
-		
+
 		JTextArea textAreaTuite = new JTextArea(tuite.getText());
 		textAreaTuite.setEditable(false);
 		textAreaTuite.setWrapStyleWord(true);
@@ -103,51 +105,60 @@ public class TuitePanel extends JPanel {
 		add(textAreaTuite, BorderLayout.CENTER);
 
 	}
-	
-	private void initilizeUser(){
+
+	private void initilizeUser() {
 		setSize(new Dimension(450, 80));
 		setPreferredSize(new Dimension(450, 80));
 		setMaximumSize(new Dimension(450, 80));
-		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), tuite.getMyUser().getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
+				otherUser.getLoginName(), TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
-		
-		CtrlUser cc = new CtrlUser();
+
+		CtrlUser ctrlUser = new CtrlUser();
 		String btnText = "Follow";
-		if(cc.doesFollow(myUser, tuite.getMyUser())){
+		if (ctrlUser.doesFollow(myUser, otherUser)) {
 			btnText = "Unfollow";
 		}
-		btnFollowUnfollow = new JButton(btnText);
-		btnFollowUnfollow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (btnFollowUnfollow.getText().equals("Follow")){
-					//TODO seguir
-					
-				}else{
-					//TODO desseguir xD
-				}
-				repaint();
-			}
-		});
-		btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
-		add(btnFollowUnfollow, BorderLayout.EAST);
-		
-		JLabel lblImage = new JLabel("");
-		add(lblImage, BorderLayout.WEST);
-		
-		ImageIcon photo = new ImageIcon();
-		photo = tuite.getMyUser().getPhoto();
-		if (photo == null){
-			photo = new ImageIcon("noImg.jpg");
-		}
-		lblImage.setIcon(photo);
-		
-		JTextArea textAreaTuite = new JTextArea(User.getRealName());
-		textAreaTuite.setEditable(false);
-		textAreaTuite.setWrapStyleWord(true);
-		textAreaTuite.setLineWrap(true);
-		textAreaTuite.setBackground(new Color(240, 240, 240));
-		add(textAreaTuite, BorderLayout.CENTER);
 
+		if (myUser.getId() != otherUser.getId()) {
+			btnFollowUnfollow = new JButton(btnText);
+			btnFollowUnfollow.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// creating the TO
+					FollowTO followTO = new FollowTO(myUser, otherUser);
+					CtrlUser ctrlUser = new CtrlUser();
+					if (btnFollowUnfollow.getText().equals("Follow")) {
+						// TODO seguir
+						ctrlUser.doFollow(followTO, compute);
+					} else {
+						// TODO desseguir xD
+						ctrlUser.doUnFollow(followTO, compute);
+					}
+					repaint();
+				}
+			});
+			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
+			add(btnFollowUnfollow, BorderLayout.EAST);
+
+			JLabel lblImage = new JLabel("");
+			add(lblImage, BorderLayout.WEST);
+
+			ImageIcon photo = new ImageIcon();
+			photo = otherUser.getPhoto();
+			if (photo == null) {
+				photo = new ImageIcon("noImg.jpg");
+			}
+			lblImage.setIcon(photo);
+
+			JTextArea textAreaTuite = new JTextArea(otherUser.getRealName());
+			textAreaTuite.setEditable(false);
+			textAreaTuite.setWrapStyleWord(true);
+			textAreaTuite.setLineWrap(true);
+			textAreaTuite.setBackground(new Color(240, 240, 240));
+			add(textAreaTuite, BorderLayout.CENTER);
+
+		}
 	}
 
 }

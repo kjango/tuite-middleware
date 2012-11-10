@@ -186,7 +186,7 @@ public class LoginScreen extends javax.swing.JFrame{
 		passwordField = new JPasswordField();
 		passwordField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					btnLogin.doClick();
 				}
