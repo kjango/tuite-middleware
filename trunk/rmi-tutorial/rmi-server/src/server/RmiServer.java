@@ -9,10 +9,19 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.FollowTO;
+import model.LoginTO;
+import model.RegisterTO;
+import model.SearchTO;
+import model.TuiteTO;
 import base.PolicyFileLocator;
 import base.RemoteObserver;
 import base.RmiService;
-import base.RmiServiceStarter;
+import control.EditProfileImpl;
+import control.LoginImpl;
+import control.RegisterImpl;
+import control.SearchImpl;
+import control.TuitarImpl;
 
 public class RmiServer extends Observable implements RmiService {
 	
@@ -36,7 +45,6 @@ public class RmiServer extends Observable implements RmiService {
 	                o.deleteObserver(this);
 	            }
 	        }
-
 	    }
 
 	    @Override
@@ -60,10 +68,14 @@ public class RmiServer extends Observable implements RmiService {
 	            }
 	        };
 	    };
-
 	    public RmiServer() {
-	    	//super (RmiServer.class);
-	    	
+            doCustomRmiHandling();
+	    	//thread.start();
+	    }
+	    public static void main(String[] args) {
+	    	new RmiServer();
+	    }
+	    public void doCustomRmiHandling() {
 	        System.setProperty("java.rmi.server.codebase", RmiServer.class
 	                .getProtectionDomain().getCodeSource().getLocation().toString());
 
@@ -72,34 +84,8 @@ public class RmiServer extends Observable implements RmiService {
 	            if(System.getSecurityManager() == null) {
 	                System.setSecurityManager(new SecurityManager());
 	            }
-	            doCustomRmiHandling();
-	    	thread.start();
-	    }
-
-	    public static void main(String[] args) {
-	        
-	    	new RmiServer();
 	    	
-	    	/*
-	    	if (System.getSecurityManager() == null)
-	            System.setSecurityManager(new RMISecurityManager());
-	        try {
-
-	        	//Registry rmiRegistry = LocateRegistry.createRegistry(999);
-	            //RmiService rmiService = (RmiService) UnicastRemoteObject.exportObject(new RmiServer(), 999);
-	            //Registry rmiRegistry = LocateRegistry.getRegistry();
-	            //rmiRegistry.bind("RmiService", rmiService);
-           
-	            
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-	        */
-	    }
-	
-	    //@Override
-	    public void doCustomRmiHandling() {
-	        try {
+	    	try {
 	            Registry rmiRegistry = LocateRegistry.createRegistry(1099);
 	            RmiService rmiService = (RmiService) UnicastRemoteObject.exportObject(new RmiServer(), 1099);
 	            //Registry rmiRegistry = LocateRegistry.getRegistry();
@@ -112,4 +98,45 @@ public class RmiServer extends Observable implements RmiService {
 	        }
 
 	    }
+
+	    public void sendMessage(String texto) throws RemoteException{
+	    	setChanged();
+	    	notifyObservers(texto);
+	    }
+	    
+	    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
+	    	return new LoginImpl().doLogin(loginTO);
+	    }
+	    
+   	    public RegisterTO executeRegistry(RegisterTO registerTO) throws RemoteException{
+	    	return new RegisterImpl().doRegister(registerTO);
+	    }
+
+		@Override
+		public TuiteTO executeTuite(TuiteTO t) throws RemoteException {
+			return new TuitarImpl().Tuitar(t);
+		}
+
+		@Override
+		public RegisterTO executeEditProfile(RegisterTO registerTO)throws RemoteException {
+			return new EditProfileImpl().Edit(registerTO);
+		}
+
+		@Override
+		public SearchTO executeSearch(SearchTO t) throws RemoteException {
+			return new SearchImpl().Search(t);
+			
+		}
+
+		@Override
+		public FollowTO executeDoFollow(FollowTO followTO) throws RemoteException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException {
+			return null;
+		}
+	    
 }

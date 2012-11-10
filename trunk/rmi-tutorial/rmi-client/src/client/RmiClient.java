@@ -2,8 +2,6 @@ package client;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import base.RemoteObserver;
@@ -13,33 +11,24 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
     protected RmiClient() throws RemoteException {
         super();
     }
-
+    public RmiClient(String name) throws RemoteException{
+    	this.teste = name;
+    }
+    
     private static final long serialVersionUID = 1L;
+    private static RmiService remoteService;
+    
+    public String teste;
 
     public static void main(String[] args) {
         //if (System.getSecurityManager() == null)
-        //    System.setSecurityManager(new RMISecurityManager());
+          // System.setSecurityManager(new RMISecurityManager());
         try {
-
-        	/*
-            System.setProperty("java.rmi.server.codebase", RmiClient.class
-                    .getProtectionDomain().getCodeSource().getLocation().toString());
-
-                System.setProperty("java.security.policy", PolicyFileLocator.getLocationOfPolicyFile());
-
-                if(System.getSecurityManager() == null) {
-                    System.setSecurityManager(new SecurityManager());
-                }
-      	*/
-            //Registry registry = LocateRegistry.getRegistry();
-            //Compute compute = (Compute)registry.lookup(Compute.SERVICE_NAME);
-        	
-        	Registry registry = LocateRegistry.getRegistry("192.168.1.105");
-        	RmiService remoteService = (RmiService)registry.lookup("RmiService");
-        	
-        	//RmiService remoteService = (RmiService)Naming.lookup("//PROG/RmiService");
-            RmiClient client = new RmiClient();
+        	remoteService = (RmiService) Naming.lookup("//localhost/RmiService");
+            RmiClient client = new RmiClient("Usuario 1");
             remoteService.addObserver(client);
+            
+            remoteService.sendMessage("Usuario Paulo");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -48,6 +37,8 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
     @Override
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
-        System.out.println("got message:" + updateMsg);
+    	
+    	System.out.println("got message:" + updateMsg);
+        
     }
 }
