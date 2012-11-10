@@ -1,6 +1,7 @@
 package control;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import model.FollowTO;
 import model.User;
@@ -9,13 +10,19 @@ import base.Compute;
 public class CtrlUser {
 	
 	public boolean doesFollow(User a, User b){
-		if (a.getFollowing() == null){
-			return false;
+//		if (a.getFollowing() == null){
+//			return false;
+//		}
+//		
+//		if(a.getFollowing().contains(b)){
+//			return true;
+//		}
+		for (User u : a.getFollowing()) {
+			if(u.getId() == b.getId()){
+				return true;
+			}
 		}
 		
-		if(a.getFollowing().contains(b)){
-			return true;
-		}
 		return false;
 	}
 	
