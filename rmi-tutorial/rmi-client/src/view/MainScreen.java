@@ -46,6 +46,10 @@ public class MainScreen extends javax.swing.JFrame {
 	private JScrollPane scrollPane;
 	private JTextField textFieldSearchPeople;
 	private JTextField textFieldSearchTuites;
+	private JScrollPane scrollPaneFollowing;
+	private JScrollPane scrollPaneFollowers;
+	private JPanel panelFollowersList;
+	private JPanel panelFollowingList;
 
 	public MainScreen(User user,Compute compute) {
 		this.user = user;
@@ -86,7 +90,14 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					btnTuite.doClick();
-//					textAreaTuite.setText(null);
+//					textAreaTuite.setText("");
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//					btnTuite.doClick();
+					textAreaTuite.setText("");
 				}
 			}
 		});
@@ -123,7 +134,7 @@ public class MainScreen extends javax.swing.JFrame {
 				
 				user = t.getTuite().getMyUser();
 				
-				updateTimeLine(1000);
+				update(1000);
 				
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
@@ -159,9 +170,37 @@ public class MainScreen extends javax.swing.JFrame {
 		scrollPane.setViewportView(panelTimeLine);
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		JPanel panelFollowing = new JPanel();
+		tabbedPane.addTab("Following", null, panelFollowing, null);
+		panelFollowing.setLayout(new BorderLayout(0, 0));
+		
+		scrollPaneFollowing = new JScrollPane();
+		panelFollowing.add(scrollPaneFollowing);
+		scrollPaneFollowing.setAutoscrolls(true);
+		
+		panelFollowingList = new JPanel();
+		panelFollowingList.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "You are following", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelFollowing.add(panelFollowingList);
+		scrollPaneFollowing.setViewportView(panelFollowingList);
+		panelFollowingList.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panelFollowers = new JPanel();
+		tabbedPane.addTab("Followers", null, panelFollowers, null);
+		panelFollowers.setLayout(new BorderLayout(0, 0));
+		
+		scrollPaneFollowers = new JScrollPane();
+		panelFollowers.add(scrollPaneFollowers);
+		scrollPaneFollowers.setAutoscrolls(true);
+		
+		panelFollowersList = new JPanel();
+		panelFollowersList.setBorder(new TitledBorder(null, "Your followers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelFollowers.add(panelFollowersList);
+		scrollPaneFollowers.setViewportView(panelFollowersList);
+		panelFollowersList.setLayout(new GridLayout(0, 1, 0, 0));
+		
 		JPanel panelTuiteSearch = new JPanel();
 		tabbedPane.addTab("Search Tuites", null, panelTuiteSearch, null);
-		tabbedPane.setMnemonicAt(1, 2);
+		tabbedPane.setMnemonicAt(3, 2);
 		panelTuiteSearch.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -188,7 +227,7 @@ public class MainScreen extends javax.swing.JFrame {
 		
 		JPanel panelPeopleSearch = new JPanel();
 		tabbedPane.addTab("Search People", null, panelPeopleSearch, null);
-		tabbedPane.setMnemonicAt(2, 3);
+		tabbedPane.setMnemonicAt(4, 3);
 		panelPeopleSearch.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_3 = new JPanel();
@@ -257,18 +296,28 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmEdit.setMnemonic('r');
 		mnEdit.add(mntmEdit);
 		
-		updateTimeLine(1000);
+		update(1000);
 		
 	}
 	
-	public void updateTimeLine(int n){
+	public void update(int n){
 		panelTimeLine.removeAll();
 		
-		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 -n && i >= 0 ; i--) {
+		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 /*-n*/ && i >= 0 ; i--) {
 			Tuite tu = user.getTuites().get(i);
 			TuitePanel t = new TuitePanel(user, tu, compute);
 			panelTimeLine.add(t);
 		}
+		    
+	    for (User u : user.getFollowing()) {
+			TuitePanel tp = new TuitePanel(user, u, compute);
+			panelFollowingList.add(tp);
+		}
+	    for (User u : user.getFollowers()) {
+			TuitePanel tp = new TuitePanel(user, u, compute);
+			panelFollowersList.add(tp);
+		}
+	    
 		scrollPane.getVerticalScrollBar().setValue(0);
 //		this.    
 		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
