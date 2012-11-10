@@ -43,6 +43,13 @@ public class User implements Serializable {
 		this.followers = followers;
 	}
 	
+	//Construtor para edição de usuário, utiliza somente os dados editáveis
+//	public User(String realName, String loginName, String email){
+//		this.realName = realName;
+//		this.loginName = loginName;
+//		this.email = email;
+//	}
+	
 	public User(){
 	
 	}

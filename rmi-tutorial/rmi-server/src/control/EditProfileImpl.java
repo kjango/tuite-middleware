@@ -1,5 +1,7 @@
 package control;
 
+import dao.EditDao;
+import dao.UserDao;
 import model.RegisterTO;
 import model.User;
 
@@ -7,7 +9,12 @@ public class EditProfileImpl {
 
 	public RegisterTO Edit(RegisterTO registerTO){
 		//TODO implementar corretamen este método
-		User user = registerTO.getUser();
+		
+		EditDao editDao = new EditDao();
+		return editDao.updateUser(registerTO);
+		
+		
+		
 		//String Email = regsterTO.getUserEmail();
 		//String LoginName = registerTO.getUserLoginName();
 		//String RealName = registerTO.getUserRealName();
@@ -27,7 +34,7 @@ public class EditProfileImpl {
 		//if(Password!=null)
 		//Seta o password do cara no bnco de dados	
 		
-		return registerTO;
+		//return registerTO;
 		
 	}
 

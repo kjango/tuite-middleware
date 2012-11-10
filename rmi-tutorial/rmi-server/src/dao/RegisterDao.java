@@ -80,7 +80,7 @@ public class RegisterDao {
 			return registerTO;
 		}
 	      
-	        
+		registerTO.setRegistered(true);    
 	    return registerTO;
 	}
 	
