@@ -57,7 +57,7 @@ public class ComputeEngine
 
 	@Override
 	public TuiteTO executeTuite(TuiteTO t) throws RemoteException {
-		return new TuitarImpl().Tuitar(t);
+		return new TuitarImpl().writeTuite(t);
 	}
 
 	@Override
