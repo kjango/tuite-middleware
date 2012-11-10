@@ -18,6 +18,7 @@ public class RegisterTO implements Serializable{
 	//private boolean protectedTuite;
 	private String errorMessage;
 	private boolean isRegistered;
+	private boolean modifiedLogin;
 	private User user;   //For returning to client when user changes its status
 	
 	
@@ -59,7 +60,15 @@ public class RegisterTO implements Serializable{
 		return userPassword;
 	}
 	public void setUserPassword(String userPassword) {
-		userPassword = userPassword;
+		this.userPassword = userPassword;
+	}
+
+	public boolean isModifiedLogin() {
+		return modifiedLogin;
+	}
+
+	public void setModifiedLogin(boolean modifiedLogin) {
+		this.modifiedLogin = modifiedLogin;
 	}
 
 }

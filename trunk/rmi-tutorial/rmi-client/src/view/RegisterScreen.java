@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -173,10 +174,9 @@ public class RegisterScreen extends javax.swing.JFrame{
 				}
 				if (ok){
 					//crio o TO pra fazer o registro
-					RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, null, chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
+					RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, new Date(), chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
 					CtrlRegister ctrlRegister = new CtrlRegister();
 					registerTO = ctrlRegister.doRegistry(registerTO, compute);
-					
 					if (registerTO.isRegistered()){
 						JOptionPane.showMessageDialog(null, "User registered!", "Success!", 1);
 						dispose();
