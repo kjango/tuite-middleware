@@ -155,7 +155,7 @@ public class UserDao {
 						"join tb_users tu on tt.my_user = tu.id " +
 						"join rl_follow rf on rf.id_follow  = tl.id_user " +
 						"WHERE (tt.my_user = ?  OR rf.id_user = ?) " +
-						"ORDER BY created_at DESC";
+						"ORDER BY created_at ";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
