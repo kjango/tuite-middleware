@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,6 +28,7 @@ public class TuitePanel extends JPanel {
 	private User otherUser;
 	private JButton btnFollowUnfollow;
 	private Compute compute;
+	private MainScreen mainScreen;
 
 	/**
 	 * Create the panel.
@@ -34,18 +36,20 @@ public class TuitePanel extends JPanel {
 	 * @wbp.parser.constructor
 	 */
 
-	public TuitePanel(User myUser, Tuite tuite, Compute compute) {
+	public TuitePanel(User myUser, Tuite tuite, MainScreen mainScreen, Compute compute) {
 		super();
-		this.tuite = tuite;
 		this.myUser = myUser;
+		this.tuite = tuite;
+		this.mainScreen = mainScreen;
 		this.compute = compute;
 		initilizeTuite();
 	}
 
-	public TuitePanel(User myUser, User otherUser, Compute compute) {
+	public TuitePanel(User myUser, User otherUser, MainScreen mainScreen, Compute compute) {
 		super();
 		this.myUser = myUser;
 		this.otherUser = otherUser;
+		this.mainScreen = mainScreen;
 		this.compute = compute;
 		initilizeUser();
 	}
@@ -75,12 +79,15 @@ public class TuitePanel extends JPanel {
 					CtrlUser ctrlUser = new CtrlUser();
 					if (btnFollowUnfollow.getText().equals("Follow")) {
 						// TODO seguir
-						ctrlUser.doFollow(followTO, compute);
+						followTO = ctrlUser.doFollow(followTO, compute);
 					} else {
 						// TODO desseguir xD
-						ctrlUser.doUnFollow(followTO, compute);
+						followTO = ctrlUser.doUnFollow(followTO, compute);
 					}
-					repaint();
+					
+					mainScreen.setUser(followTO.getFollower());
+					mainScreen.update();
+					mainScreen.update();
 				}
 			});
 			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
@@ -130,12 +137,14 @@ public class TuitePanel extends JPanel {
 					CtrlUser ctrlUser = new CtrlUser();
 					if (btnFollowUnfollow.getText().equals("Follow")) {
 						// TODO seguir
-						ctrlUser.doFollow(followTO, compute);
+						followTO = ctrlUser.doFollow(followTO, compute);
 					} else {
 						// TODO desseguir xD
-						ctrlUser.doUnFollow(followTO, compute);
+						followTO = ctrlUser.doUnFollow(followTO, compute);
 					}
-					repaint();
+					
+					mainScreen.setUser(followTO.getFollower());
+					mainScreen.update();
 				}
 			});
 			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));

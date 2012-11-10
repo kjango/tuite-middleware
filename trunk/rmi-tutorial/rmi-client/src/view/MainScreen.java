@@ -306,16 +306,16 @@ public class MainScreen extends javax.swing.JFrame {
 		panelFollowersList.removeAll();
 		
 		for (Tuite tu : user.getTuites()) {
-			TuitePanel t = new TuitePanel(user, tu, compute);
+			TuitePanel t = new TuitePanel(user, tu, this, compute);
 			panelTimeLine.add(t, 0);
 		}
 		    
 	    for (User u : user.getFollowing()) {
-			TuitePanel tp = new TuitePanel(user, u, compute);
+			TuitePanel tp = new TuitePanel(user, u, this, compute);
 			panelFollowingList.add(tp);
 		}
 	    for (User u : user.getFollowers()) {
-			TuitePanel tp = new TuitePanel(user, u, compute);
+			TuitePanel tp = new TuitePanel(user, u, this, compute);
 			panelFollowersList.add(tp);
 		}
 	    
@@ -327,6 +327,14 @@ public class MainScreen extends javax.swing.JFrame {
 	    horizontalScrollBar.setValue(horizontalScrollBar.getMinimum());
 	    
 	    repaint();
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
