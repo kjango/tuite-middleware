@@ -114,7 +114,7 @@ public class RmiServer extends Observable implements RmiService {
 
 		@Override
 		public TuiteTO executeTuite(TuiteTO t) throws RemoteException {
-			return new TuitarImpl().Tuitar(t);
+			return new TuitarImpl().writeTuite(t);
 		}
 
 		@Override
