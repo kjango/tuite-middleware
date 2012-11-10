@@ -62,24 +62,28 @@ public class TuitePanel extends JPanel {
 		if(ctrlUser.doesFollow(myUser, tuite.getMyUser())){
 			btnText = "Unfollow";
 		}
-		btnFollowUnfollow = new JButton(btnText);
-		btnFollowUnfollow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//creating the TO
-				FollowTO followTO = new FollowTO(myUser, tuite.getMyUser());
-				CtrlUser ctrlUser = new CtrlUser();
-				if (btnFollowUnfollow.getText().equals("Follow")){
-					//TODO seguir
-					ctrlUser.doFollow(followTO, compute);
-				}else{
-					//TODO desseguir xD
-					ctrlUser.doUnFollow(followTO, compute);
+		
+		if(myUser.getId() != tuite.getMyUser().getId()){
+			btnFollowUnfollow = new JButton(btnText);
+			btnFollowUnfollow.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					//creating the TO
+					FollowTO followTO = new FollowTO(myUser, tuite.getMyUser());
+					CtrlUser ctrlUser = new CtrlUser();
+					if (btnFollowUnfollow.getText().equals("Follow")){
+						//TODO seguir
+						ctrlUser.doFollow(followTO, compute);
+					}else{
+						//TODO desseguir xD
+						ctrlUser.doUnFollow(followTO, compute);
+					}
+					repaint();
 				}
-				repaint();
-			}
-		});
-		btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
-		add(btnFollowUnfollow, BorderLayout.EAST);
+			});
+			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
+			add(btnFollowUnfollow, BorderLayout.EAST);	
+		}
+		
 		
 		JLabel lblImage = new JLabel("");
 		add(lblImage, BorderLayout.WEST);

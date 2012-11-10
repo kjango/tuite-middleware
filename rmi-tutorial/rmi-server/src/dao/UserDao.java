@@ -60,8 +60,9 @@ public class UserDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				User user = new User();
-				user.setId(rs.getInt("my_user"));
+				// User user = new User();
+				// user.setId(rs.getInt("my_user"));
+				User user = loginTO.getUser();
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),
 						rs.getDate("created_at"), user);
@@ -141,16 +142,22 @@ public class UserDao {
 		ArrayList<Tuite> listAllTweets = new ArrayList<Tuite>();
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT * FROM tb_tweet WHERE my_user = "
+		String sql = "SELECT * FROM tb_tweet tt join tb_login tl on tt.my_user = tl.id_user join tb_users tu on tt.my_user = tu.id " +
+				"WHERE tt.my_user = "
 				+ loginTO.getUser().getId()
 				+ " OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = "
 				+ loginTO.getUser().getId() + ") ORDER BY created_at DESC";
+				
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("my_user"));
+				user.setEmail(rs.getString("email"));
+				user.setLoginName(rs.getString("login"));
+				user.setRealName(rs.getString("real_name"));
+//				user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),
 						rs.getDate("created_at"), user);

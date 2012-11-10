@@ -24,11 +24,11 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
         //if (System.getSecurityManager() == null)
           // System.setSecurityManager(new RMISecurityManager());
         try {
-        	remoteService = (RmiService) Naming.lookup("//localhost/RmiService");
-            RmiClient client = new RmiClient("Usuario 1");
+        	remoteService = (RmiService) Naming.lookup("//PROG/RmiService");
+            RmiClient client = new RmiClient("Usuario Monga");
             remoteService.addObserver(client);
             
-            remoteService.sendMessage("Usuario Paulo");
+            remoteService.sendMessage("Usuario Mama");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
