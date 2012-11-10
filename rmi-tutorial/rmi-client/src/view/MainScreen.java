@@ -134,7 +134,7 @@ public class MainScreen extends javax.swing.JFrame {
 				
 				user = t.getTuite().getMyUser();
 				
-				update(1000);
+				update();
 				
 				//Print de teste
 				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
@@ -296,17 +296,18 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmEdit.setMnemonic('r');
 		mnEdit.add(mntmEdit);
 		
-		update(1000);
+		update();
 		
 	}
 	
-	public void update(int n){
+	public void update(){
 		panelTimeLine.removeAll();
+		panelFollowingList.removeAll();
+		panelFollowersList.removeAll();
 		
-		for (int i = user.getTuites().size() -1 ; i > user.getTuites().size() -1 /*-n*/ && i >= 0 ; i--) {
-			Tuite tu = user.getTuites().get(i);
+		for (Tuite tu : user.getTuites()) {
 			TuitePanel t = new TuitePanel(user, tu, compute);
-			panelTimeLine.add(t);
+			panelTimeLine.add(t, 0);
 		}
 		    
 	    for (User u : user.getFollowing()) {
@@ -324,6 +325,8 @@ public class MainScreen extends javax.swing.JFrame {
 	    JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
 	    verticalScrollBar.setValue(verticalScrollBar.getMinimum());
 	    horizontalScrollBar.setValue(horizontalScrollBar.getMinimum());
+	    
+	    repaint();
 	}
 
 }

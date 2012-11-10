@@ -113,6 +113,14 @@ public class LoginScreen extends javax.swing.JFrame{
 		
 		loginField = new JTextField();
 		loginField.setBounds(80, 27, 217, 20);
+		loginField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					btnLogin.doClick();
+				}
+			}
+		});
 		panel.add(loginField);
 		loginField.setColumns(10);
 		
