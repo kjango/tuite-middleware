@@ -86,7 +86,7 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					btnTuite.doClick();
-					textAreaTuite.setText(null);
+//					textAreaTuite.setText(null);
 				}
 			}
 		});
@@ -227,6 +227,18 @@ public class MainScreen extends javax.swing.JFrame {
 				System.exit(0);
 			}
 		});
+		
+		JMenuItem mntmLogout = new JMenuItem("Logout");
+		mntmLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LoginScreen loginScreen = new LoginScreen(compute);
+				dispose();
+				loginScreen.setVisible(true);
+				
+			}
+		});
+		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
+		mnArchive.add(mntmLogout);
 		mntmExit.setMnemonic('e');
 		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
 		mnArchive.add(mntmExit);

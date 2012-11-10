@@ -9,7 +9,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -65,6 +66,16 @@ public class LoginScreen extends javax.swing.JFrame{
 		setResizable(false);
 		ctrlRMI = new CtrlRMI();
 		compute = ctrlRMI.getCompute();
+		me = this;
+		initialize();
+	}
+	
+	public LoginScreen(Compute compute) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+//		ctrlRMI = new CtrlRMI();
+//		compute = ctrlRMI.getCompute();
+		this.compute = compute;
 		me = this;
 		initialize();
 	}
@@ -173,6 +184,14 @@ public class LoginScreen extends javax.swing.JFrame{
 		panel.add(btnQuit);
 		
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					btnLogin.doClick();
+				}
+			}
+		});
 		passwordField.setBounds(80, 59, 217, 20);
 		panel.add(passwordField);
 		

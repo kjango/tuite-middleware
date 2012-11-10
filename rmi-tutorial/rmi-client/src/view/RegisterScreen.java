@@ -37,6 +37,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 	
 	private Compute compute;
 	private JFrame mother;
+	private JFrame me;
 	private JLabel lblUserName;
 	private JTextField textFieldUserName;
 
@@ -45,7 +46,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public RegisterScreen(Compute compute, JFrame mother) {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.compute = compute;
 		this.mother = mother;
 		initialize();
@@ -88,14 +89,14 @@ public class RegisterScreen extends javax.swing.JFrame{
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				mother.setEnabled(true);
+				dispose();
 			}
 			
 			@Override
 			public void windowClosed(WindowEvent arg0) {
 				// TODO Auto-generated method stub				
-				mother.setExtendedState(NORMAL);
-				mother.setEnabled(true);
+
 				
 			}
 			
@@ -195,6 +196,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mother.setEnabled(true);
 				dispose();
 			}
 		});
