@@ -16,6 +16,7 @@ public class TuiteDao {
 		Connection con;
 		String sql;
 		Tuite t = tuiteTO.getTuite();
+		System.out.println("chegay aqui");
 		
 		//Inserindo Tuite no banco
 		  if (t.getMyUser().getId() != 0){

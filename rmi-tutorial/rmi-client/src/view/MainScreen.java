@@ -52,6 +52,7 @@ public class MainScreen extends javax.swing.JFrame {
 	private JScrollPane scrollPaneFollowers;
 	private JPanel panelFollowersList;
 	private JPanel panelFollowingList;
+	private MainScreen me = this;
 	
 	private CtrlTuite ctrlTuite;
 
@@ -146,7 +147,7 @@ public class MainScreen extends javax.swing.JFrame {
 				update();
 				
 				//Print de teste
-				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
+//				System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
 				
 				textAreaTuite.setText("");
 			}
@@ -298,8 +299,9 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmEdit = new JMenuItem("Profile");
 		mntmEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EditProfileScreen editProfileScreen = new EditProfileScreen(user);
+				EditProfileScreen editProfileScreen = new EditProfileScreen(user, me);
 				editProfileScreen.setVisible(true);
+				me.setEnabled(false);
 			}
 		});
 		mntmEdit.setMnemonic('r');
@@ -310,6 +312,9 @@ public class MainScreen extends javax.swing.JFrame {
 	}
 	
 	public void update(){
+		setTitle("Tuite - " + user.getRealName());
+		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		panelTimeLine.removeAll();
 		panelFollowingList.removeAll();
 		panelFollowersList.removeAll();
