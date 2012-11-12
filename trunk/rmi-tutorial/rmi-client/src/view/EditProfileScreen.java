@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,15 +40,18 @@ public class EditProfileScreen extends JFrame {
 	private JCheckBox chckbxEmail;
 
 	private User user;
+	private MainScreen mother;
 	private JPasswordField passwordField;
 	/**
 	 * Launch the application.
 	 */
 
 
-	public EditProfileScreen(User user){
+	public EditProfileScreen(User user, MainScreen mother){
+		
 		setTitle("Tuite");
 		this.user = user;
+		this.mother = mother;
 		initialize();
 		setFields();
 
@@ -73,6 +78,15 @@ public class EditProfileScreen extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				mother.setUser(user);
+				mother.update();
+				mother.setEnabled(true);
+			}
+		});
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Edit Profile", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -179,6 +193,7 @@ public class EditProfileScreen extends JFrame {
 						setFields();
 
 						JOptionPane.showMessageDialog(null, "Changes saved!", "Success!", 1);
+						dispose();
 					
 						//					JOptionPane.showMessageDialog(null, 
 						//					"Usuário Editado:"+

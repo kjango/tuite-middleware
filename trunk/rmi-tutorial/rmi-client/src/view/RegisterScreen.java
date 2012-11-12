@@ -99,13 +99,13 @@ public class RegisterScreen extends javax.swing.JFrame{
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				mother.setEnabled(true);
 				dispose();
 			}
 			
 			@Override
 			public void windowClosed(WindowEvent arg0) {
 				// TODO Auto-generated method stub				
+				mother.setEnabled(true);
 
 				
 			}

@@ -149,7 +149,7 @@ public class LoginScreen extends javax.swing.JFrame{
 							ms.setVisible(true);
 							dispose();
 						} else {
-							JOptionPane.showMessageDialog(null, "Server Message: ", "Warning! " + loginTO.getErrorMessage(), 0);
+							JOptionPane.showMessageDialog(null, "Server Message: " + loginTO.getErrorMessage(), "Warning!", 0);
 						}
 					}
 					else{

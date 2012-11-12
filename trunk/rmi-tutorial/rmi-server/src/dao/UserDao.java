@@ -153,7 +153,7 @@ public class UserDao {
 		String sql = "SELECT * FROM tb_tweet tt " +
 						"join tb_login tl on tt.my_user = tl.id_user " +
 						"join tb_users tu on tt.my_user = tu.id " +
-						"join rl_follow rf on rf.id_follow  = tl.id_user " +
+						"left join rl_follow rf on rf.id_follow  = tl.id_user " +
 						"WHERE (tt.my_user = ?  OR rf.id_user = ?) " +
 						"ORDER BY created_at ";
 
