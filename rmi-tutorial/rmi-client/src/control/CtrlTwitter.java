@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import model.User;
-import twitter4j.IDs;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 

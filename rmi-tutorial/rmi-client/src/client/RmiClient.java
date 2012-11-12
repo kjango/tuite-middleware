@@ -6,29 +6,24 @@ import java.rmi.server.UnicastRemoteObject;
 
 import base.RemoteObserver;
 import base.RmiService;
+import base.Util;
 
 public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
-    protected RmiClient() throws RemoteException {
+    
+	protected RmiClient() throws RemoteException {
         super();
-    }
-    public RmiClient(String name) throws RemoteException{
-    	this.teste = name;
     }
     
     private static final long serialVersionUID = 1L;
-    private static RmiService remoteService;
-    
-    public String teste;
-
+    public static RmiService remoteService;
+   
     public static void main(String[] args) {
-        //if (System.getSecurityManager() == null)
-          // System.setSecurityManager(new RMISecurityManager());
         try {
-        	remoteService = (RmiService) Naming.lookup("//PROG/RmiService");
-            RmiClient client = new RmiClient("Usuario Monga");
-            remoteService.addObserver(client);
+        	remoteService = Util.getRemoteService();
+            //RmiClient client = new RmiClient();  // utilizar a Classe atual
+            //remoteService.addObserver(client);   // add observer para ser notificado quando ouver alterações
             
-            remoteService.sendMessage("Usuario Mama");
+            //remoteService.sendMessage("teste de texto");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -37,8 +32,6 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
     @Override
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
-    	
-    	System.out.println("got message:" + updateMsg);
-        
+    	System.out.println("RmiClient: " + updateMsg);
     }
 }

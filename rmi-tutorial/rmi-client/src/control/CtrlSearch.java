@@ -1,22 +1,18 @@
 package control;
 
-import java.rmi.RemoteException;
-
-import base.Compute;
-
 import model.SearchTO;
 
 public class CtrlSearch {
 
-	public SearchTO doSearch(SearchTO searchTO, Compute compute){
+	public SearchTO doSearch(SearchTO searchTO){
 		SearchTO obj = null;
-		if ((searchTO != null) && (compute != null))
+		if (searchTO != null)
     	{
-			try {
-				obj = compute.executeSearch(searchTO);
-			} catch (RemoteException e){
-				System.out.println("Message: " + searchTO.getErrorMessage() + "\nException: " + e.toString());
-			}
+			//try {
+				//obj = compute.executeSearch(searchTO);
+			//} catch (RemoteException e){
+				//System.out.println("Message: " + searchTO.getErrorMessage() + "\nException: " + e.toString());
+			//}
     	}
 		return obj;
 	}

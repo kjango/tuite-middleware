@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -18,17 +17,20 @@ import javax.swing.border.TitledBorder;
 import model.FollowTO;
 import model.Tuite;
 import model.User;
-import base.Compute;
 import control.CtrlUser;
 
 public class TuitePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Tuite tuite;
 	private User myUser;
 	private User otherUser;
 	private JButton btnFollowUnfollow;
-	private Compute compute;
 	private MainScreen mainScreen;
+	private CtrlUser ctrlUser;
 
 	/**
 	 * Create the panel.
@@ -36,21 +38,32 @@ public class TuitePanel extends JPanel {
 	 * @wbp.parser.constructor
 	 */
 
-	public TuitePanel(User myUser, Tuite tuite, MainScreen mainScreen, Compute compute) {
+	public TuitePanel(User myUser, Tuite tuite, MainScreen mainScreen) {
 		super();
+
+		try {
+			ctrlUser = new CtrlUser();
+		} catch (Exception ex) {
+			
+		}
+		
 		this.myUser = myUser;
 		this.tuite = tuite;
 		this.mainScreen = mainScreen;
-		this.compute = compute;
 		initilizeTuite();
 	}
 
-	public TuitePanel(User myUser, User otherUser, MainScreen mainScreen, Compute compute) {
+	public TuitePanel(User myUser, User otherUser, MainScreen mainScreen) {
 		super();
 		this.myUser = myUser;
 		this.otherUser = otherUser;
 		this.mainScreen = mainScreen;
-		this.compute = compute;
+		
+		try {
+			ctrlUser = new CtrlUser();
+		} catch (Exception ex) {
+			
+		}
 		initilizeUser();
 	}
 
@@ -64,7 +77,6 @@ public class TuitePanel extends JPanel {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
 
-		CtrlUser ctrlUser = new CtrlUser();
 		String btnText = "Follow";
 		if (ctrlUser.doesFollow(myUser, tuite.getMyUser())) {
 			btnText = "Unfollow";
@@ -76,13 +88,13 @@ public class TuitePanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					// creating the TO
 					FollowTO followTO = new FollowTO(myUser, tuite.getMyUser());
-					CtrlUser ctrlUser = new CtrlUser();
+					
 					if (btnFollowUnfollow.getText().equals("Follow")) {
 						// TODO seguir
-						followTO = ctrlUser.doFollow(followTO, compute);
+						followTO = ctrlUser.doFollow(followTO);
 					} else {
 						// TODO desseguir xD
-						followTO = ctrlUser.doUnFollow(followTO, compute);
+						followTO = ctrlUser.doUnFollow(followTO);
 					}
 					
 					mainScreen.setUser(followTO.getFollower());
@@ -122,7 +134,6 @@ public class TuitePanel extends JPanel {
 				TitledBorder.TOP, null, null));
 		setLayout(new BorderLayout(0, 0));
 
-		CtrlUser ctrlUser = new CtrlUser();
 		String btnText = "Follow";
 		if (ctrlUser.doesFollow(myUser, otherUser)) {
 			btnText = "Unfollow";
@@ -134,13 +145,13 @@ public class TuitePanel extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					// creating the TO
 					FollowTO followTO = new FollowTO(myUser, otherUser);
-					CtrlUser ctrlUser = new CtrlUser();
+					
 					if (btnFollowUnfollow.getText().equals("Follow")) {
 						// TODO seguir
-						followTO = ctrlUser.doFollow(followTO, compute);
+						followTO = ctrlUser.doFollow(followTO);
 					} else {
 						// TODO desseguir xD
-						followTO = ctrlUser.doUnFollow(followTO, compute);
+						followTO = ctrlUser.doUnFollow(followTO);
 					}
 					
 					mainScreen.setUser(followTO.getFollower());

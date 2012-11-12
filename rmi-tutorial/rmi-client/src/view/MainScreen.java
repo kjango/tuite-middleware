@@ -21,8 +21,10 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -30,16 +32,16 @@ import javax.swing.event.CaretListener;
 import model.Tuite;
 import model.TuiteTO;
 import model.User;
-import base.Compute;
 import control.CtrlTuite;
-import javax.swing.UIManager;
-import javax.swing.JTextField;
 
 public class MainScreen extends javax.swing.JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 	private JPanel panelTimeLine;
-	private Compute compute;
 	private JTextArea textAreaTuite;
 	private JButton btnTuite;
 	private JLabel lblCharCount;
@@ -50,10 +52,18 @@ public class MainScreen extends javax.swing.JFrame {
 	private JScrollPane scrollPaneFollowers;
 	private JPanel panelFollowersList;
 	private JPanel panelFollowingList;
+	
+	private CtrlTuite ctrlTuite;
 
-	public MainScreen(User user,Compute compute) {
+	public MainScreen(User user) {
 		this.user = user;
-		this.compute = compute;
+		
+		try {
+			ctrlTuite = new CtrlTuite();
+		} catch (Exception ex){
+			
+		}
+		
 		initialize();
 	}
 
@@ -126,12 +136,11 @@ public class MainScreen extends javax.swing.JFrame {
 				TuiteTO t = new TuiteTO(tuite);
 				
 				//Criando o controle
-				CtrlTuite ctrl = new CtrlTuite();
-				ctrl.truncate(t);
+				ctrlTuite.truncate(t);
 				
 				//Chamar doTuite
-				t = ctrl.doTuite(t, compute);
-				
+				t = ctrlTuite.doTuite(t);
+
 				user = t.getTuite().getMyUser();
 				
 				update();
@@ -270,7 +279,7 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				LoginScreen loginScreen = new LoginScreen(compute);
+				LoginScreen loginScreen = new LoginScreen();
 				dispose();
 				loginScreen.setVisible(true);
 				
@@ -289,7 +298,7 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmEdit = new JMenuItem("Profile");
 		mntmEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EditProfileScreen editProfileScreen = new EditProfileScreen(user, compute);
+				EditProfileScreen editProfileScreen = new EditProfileScreen(user);
 				editProfileScreen.setVisible(true);
 			}
 		});
@@ -306,16 +315,16 @@ public class MainScreen extends javax.swing.JFrame {
 		panelFollowersList.removeAll();
 		
 		for (Tuite tu : user.getTuites()) {
-			TuitePanel t = new TuitePanel(user, tu, this, compute);
+			TuitePanel t = new TuitePanel(user, tu, this);
 			panelTimeLine.add(t, 0);
 		}
 		    
 	    for (User u : user.getFollowing()) {
-			TuitePanel tp = new TuitePanel(user, u, this, compute);
+			TuitePanel tp = new TuitePanel(user, u, this);
 			panelFollowingList.add(tp);
 		}
 	    for (User u : user.getFollowers()) {
-			TuitePanel tp = new TuitePanel(user, u, this, compute);
+			TuitePanel tp = new TuitePanel(user, u, this);
 			panelFollowersList.add(tp);
 		}
 	    

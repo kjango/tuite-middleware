@@ -1,20 +1,32 @@
 package control;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-import base.Compute;
 import model.Tuite;
 import model.TuiteTO;
+import base.RemoteObserver;
+import base.RmiService;
+import base.Util;
 
-public class CtrlTuite {
+public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static RmiService remoteService;
+
+	public CtrlTuite() throws RemoteException {
+        super();
+    }
 	
-	
-	public TuiteTO doTuite(TuiteTO t, Compute compute){
-		if ((t != null) && (compute != null))
+	public TuiteTO doTuite(TuiteTO t){
+		if (t != null)
     	{
 			try {
-				t = compute.executeTuite(t);
+				remoteService = Util.getRemoteService();
+				t = remoteService.executeTuite(t);
 			} catch (RemoteException e){
 				System.out.println("Message: " + t.getErrorMessage() + "\nException: " + e.toString());
 			}
@@ -40,4 +52,12 @@ public class CtrlTuite {
 		t.setTruncated(false);
 		return false;
 	}
+	
+    @Override
+    public void update(Object observable, Object updateMsg)
+            throws RemoteException {
+    	System.out.println("CtrlTuite: " + updateMsg);
+    }
+	
+
 }
