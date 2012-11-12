@@ -24,28 +24,26 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import model.LoginTO;
-import model.User;
 import twitter4j.Twitter;
-import base.Compute;
-import base.Util;
 import control.CtrlLogin;
-import control.CtrlRMI;
 import control.CtrlTwitter;
 
 public class LoginScreen extends javax.swing.JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField loginField;
 	private JPasswordField passwordField;
-	private Compute compute;
-	private CtrlRMI ctrlRMI;
 	private JFrame me;
 	private JRadioButton rdbtnTuiter;
 	private JRadioButton rdbtnTwitter;
 	private JButton btnRegister;
 	private JButton btnLogin;
 	private JButton btnQuit;
-	
 	private Twitter twitter;
+	private CtrlLogin ctrlLogin;
 
 	/**
 	 * Launch the application.
@@ -64,26 +62,22 @@ public class LoginScreen extends javax.swing.JFrame{
 	public LoginScreen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		ctrlRMI = new CtrlRMI();
-		compute = ctrlRMI.getCompute();
 		me = this;
+		
+		try {
+			ctrlLogin = new CtrlLogin();
+		} catch (Exception ex) {
+			
+		}
+		
 		initialize();
 	}
 	
-	public LoginScreen(Compute compute) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-//		ctrlRMI = new CtrlRMI();
-//		compute = ctrlRMI.getCompute();
-		this.compute = compute;
-		me = this;
-		initialize();
-	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		setMinimumSize(new Dimension(354, 205));
 		setLocationByPlatform(true);
@@ -135,27 +129,28 @@ public class LoginScreen extends javax.swing.JFrame{
 					ok = false;
 				}
 				if(ok){
-					User user = null;
-					
+			
+					LoginTO loginTO = null;
 					//using Twitter
 					if (rdbtnTwitter.isSelected()){
 						CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
-						user = ctrlTwitter.twLogin(loginField.getText(), Util.GeraMD5(passwordField.getPassword().toString()));
-						
-						String pass1 = passwordField.getPassword().toString();
-						String pass2 = Util.GeraMD5(passwordField.getPassword().toString());
-						
+						//TODO verificar as alterações necessarias
+						//loginTO = ctrlTwitter.twLogin(loginField.getText(), Util.GeraMD5(passwordField.getPassword().toString()));
 					}else{	
 						//TODO verificar esse password.string
-						CtrlLogin ctrlLogin = new CtrlLogin();
-						LoginTO loginTO = new LoginTO(loginField.getText(), passwordField.getText().toString());
-						user = ctrlLogin.doLogin(loginTO, compute);
+						loginTO = new LoginTO(loginField.getText(), passwordField.getText().toString());
+						loginTO = ctrlLogin.doLogin(loginTO);
 					}
 					
-					if (user != null){
-						MainScreen ms = new MainScreen(user,compute);
-						ms.setVisible(true);
-						dispose();
+					if (loginTO != null) {
+						
+						if (loginTO.isValidated()){
+							MainScreen ms = new MainScreen(loginTO.getUser());
+							ms.setVisible(true);
+							dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "Server Message: ", "Warning! " + loginTO.getErrorMessage(), 0);
+						}
 					}
 					else{
 						JOptionPane.showMessageDialog(null, "Invalid login or password", "Warning!", 0);
@@ -172,9 +167,9 @@ public class LoginScreen extends javax.swing.JFrame{
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				RegisterScreen rs = new RegisterScreen(compute, me);
+				RegisterScreen rs = new RegisterScreen(me);
 				rs.setVisible(true);
-//				rs.getlis;
+				//rs.getlis
 				setEnabled(false);
 				
 			}

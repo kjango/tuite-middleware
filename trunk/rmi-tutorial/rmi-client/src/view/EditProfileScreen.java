@@ -1,15 +1,9 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,11 +19,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.RegisterTO;
 import model.User;
-import base.Compute;
 import control.CtrlRegister;
 
 public class EditProfileScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldRealName;
 	private JTextField textFieldScreenName;
@@ -40,7 +37,6 @@ public class EditProfileScreen extends JFrame {
 	private JCheckBox chckbxPassword;
 	private JCheckBox chckbxEmail;
 
-	private Compute compute;
 	private User user;
 	private JPasswordField passwordField;
 	/**
@@ -48,9 +44,8 @@ public class EditProfileScreen extends JFrame {
 	 */
 
 
-	public EditProfileScreen(User user, Compute compute){
+	public EditProfileScreen(User user){
 		setTitle("Tuite");
-		this.compute = compute;
 		this.user = user;
 		initialize();
 		setFields();
@@ -168,11 +163,16 @@ public class EditProfileScreen extends JFrame {
 					//t.setUser(user);
 
 					//Criando o controle
-					CtrlRegister ctrl = new CtrlRegister();
-
-					//Chamar doEditProfile e receber no retorno o RegisterTO com dados editados
-					t = ctrl.doEditProfile(t, compute);
-					user = t.getUser();
+					try {
+						CtrlRegister ctrl = new CtrlRegister();
+	
+						//Chamar doEditProfile e receber no retorno o RegisterTO com dados editados
+						
+						t = ctrl.doEditProfile(t);
+						user = t.getUser();
+					} catch (Exception ex) {
+						
+					}
 
 					if(t.isRegistered()){
 						//Fill the fields;
@@ -185,6 +185,7 @@ public class EditProfileScreen extends JFrame {
 						//					"\nUsuario: "+ user.getRealName()+
 						//					"\nEmail: "+user.getEmail()+
 						//					"\nLoginName: "+ user.getLoginName(), "Success!", 1);
+						
 					}else{
 						JOptionPane.showMessageDialog(null, t.getErrorMessage(), "Warning!", 0);
 					}

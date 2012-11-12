@@ -1,13 +1,26 @@
 package control;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.rmi.server.UnicastRemoteObject;
 
 import model.FollowTO;
 import model.User;
-import base.Compute;
+import base.RemoteObserver;
+import base.RmiService;
+import base.Util;
 
-public class CtrlUser {
+public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static RmiService remoteService;
+
+	public CtrlUser() throws RemoteException {
+        super();
+    }
+	
 	
 	public boolean doesFollow(User a, User b){
 //		if (a.getFollowing() == null){
@@ -26,33 +39,36 @@ public class CtrlUser {
 		return false;
 	}
 	
-	public FollowTO doFollow(FollowTO followTO, Compute compute){
-		FollowTO res = null;
-
-		if ((followTO != null) && (compute != null)) {
+	public FollowTO doFollow(FollowTO followTO){
+		if (followTO != null) {
 			try {
-				res = compute.executeDoFollow(followTO);
+				remoteService = Util.getRemoteService();
+				return remoteService.executeDoFollow(followTO);
 			} catch (RemoteException e) {
 				System.out.println("Message: " + followTO.getErrorMessage()
 						+ "\nException: " + e.toString());
 			}
 		}
-
-		return res;
+		return null;
 	}
 	
-	public FollowTO doUnFollow(FollowTO followTO, Compute compute){
-		FollowTO res = null;
-
-		if ((followTO != null) && (compute != null)) {
+	public FollowTO doUnFollow(FollowTO followTO){
+		if (followTO != null) {
 			try {
-				res = compute.executeDoUnFollow(followTO);
+				remoteService = Util.getRemoteService();
+				return remoteService.executeDoUnFollow(followTO);
 			} catch (RemoteException e) {
 				System.out.println("Message: " + followTO.getErrorMessage()
 						+ "\nException: " + e.toString());
 			}
 		}
 
-		return res;
+		return null;
 	}
+	
+    @Override
+    public void update(Object observable, Object updateMsg)
+            throws RemoteException {
+    	System.out.println("CtrlUser: " + updateMsg);
+    }
 }

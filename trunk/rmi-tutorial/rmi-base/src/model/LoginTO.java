@@ -2,8 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-import base.Compute;
-
 /**
  * Classe que implementa o Objeto de Transporte de Login
  * Serializable pois necessita trafegar pelo PROXY do RMI
@@ -17,8 +15,8 @@ public class LoginTO implements Serializable {
 	private String errorMessage;
 	private boolean isValidated;
 	private User user;
-	private Compute compute;
-		
+	//private Compute compute;
+
 	public LoginTO (String login, String password){
 		this.userLogin = login;
 		this.userPassword = password;
@@ -28,13 +26,13 @@ public class LoginTO implements Serializable {
 		this.userLogin = login;
 	}
 	
-	public Compute getCompute() {
-		return compute;
-	}
+	//public Compute getCompute() {
+		//return compute;
+	//}
 
-	public void setCompute(Compute compute) {
-		this.compute = compute;
-	}
+	//public void setCompute(Compute compute) {
+		//this.compute = compute;
+	//}
 
 	public User getUser() {
 		return user;

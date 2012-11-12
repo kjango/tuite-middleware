@@ -11,6 +11,8 @@ import model.TuiteTO;
 
 public interface RmiService extends Remote {
 	
+	public static final String SERVICE_NAME = "RmiService";
+	
 	void addObserver(RemoteObserver o) throws RemoteException;
 	
 	void sendMessage(String texto) throws RemoteException;

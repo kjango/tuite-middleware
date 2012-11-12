@@ -22,11 +22,14 @@ import javax.swing.border.TitledBorder;
 
 import model.RegisterTO;
 import model.User;
-import base.Compute;
 import control.CtrlRegister;
 
 public class RegisterScreen extends javax.swing.JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textFieldName;
 	private JTextField textFieldEmail;
 	private JLabel lblPassword;
@@ -36,20 +39,26 @@ public class RegisterScreen extends javax.swing.JFrame{
 	private JButton btnRegister;
 	private JButton btnCancel;
 	
-	private Compute compute;
 	private JFrame mother;
 	private JFrame me;
 	private JLabel lblUserName;
 	private JTextField textFieldUserName;
 
+	private CtrlRegister ctrlRegister;
 
 	/**
 	 * Create the application.
 	 */
-	public RegisterScreen(Compute compute, JFrame mother) {
+	public RegisterScreen(JFrame mother) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.compute = compute;
 		this.mother = mother;
+		
+		try {
+			ctrlRegister = new CtrlRegister();
+		} catch (Exception e) {
+			
+		}
+		
 		initialize();
 	}
 
@@ -174,21 +183,17 @@ public class RegisterScreen extends javax.swing.JFrame{
 				}
 				if (ok){
 					//crio o TO pra fazer o registro
-					RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, new Date(), chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
-					CtrlRegister ctrlRegister = new CtrlRegister();
-					registerTO = ctrlRegister.doRegistry(registerTO, compute);
-					if (registerTO.isRegistered()){
-						JOptionPane.showMessageDialog(null, "User registered!", "Success!", 1);
-						dispose();
-					}else{
-						JOptionPane.showMessageDialog(null, registerTO.getErrorMessage(), "Warning!", 0);
-					}
-					
+						RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, new Date(), chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
+						registerTO = ctrlRegister.doRegistry(registerTO);
+						if (registerTO.isRegistered()){
+							JOptionPane.showMessageDialog(null, "User registered!", "Success!", 1);
+							dispose();
+						}else{
+							JOptionPane.showMessageDialog(null, registerTO.getErrorMessage(), "Warning!", 0);
+						}
 				}else{
 					JOptionPane.showMessageDialog(null, "All fields required!", "Warning!", 0);
 				}
-				
-				
 			}
 		});
 		panel.add(btnRegister);

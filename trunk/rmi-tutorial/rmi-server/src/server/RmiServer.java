@@ -38,7 +38,7 @@ public class RmiServer extends Observable implements RmiService {
 	        @Override
 	        public void update(Observable o, Object arg) {
 	            try {
-	                ro.update(o.toString(), arg);
+	                ro.update(o, arg);
 	            } catch (RemoteException e) {
 	                System.out.println("Remote exception removing observer:" + this);
 	                System.err.println(e.toString());
@@ -47,11 +47,14 @@ public class RmiServer extends Observable implements RmiService {
 	        }
 	    }
 
+	 private static boolean initialized = false;
+	 
 	    @Override
 	 public void addObserver(RemoteObserver o) throws RemoteException {
 	        WrappedObserver mo = new WrappedObserver(o);
 	        addObserver(mo);
 	        System.out.println("Added observer:" + mo);
+	        
 	    }
 
   	    Thread thread = new Thread() {
@@ -69,14 +72,19 @@ public class RmiServer extends Observable implements RmiService {
 	        };
 	    };
 	    public RmiServer() {
-            doCustomRmiHandling();
+            if (!initialized){
+            	doCustomRmiHandling();	
+            }
 	    	//thread.start();
 	    }
 	    public static void main(String[] args) {
-	    	new RmiServer();
+	    		new RmiServer();	
 	    }
+	    
 	    public void doCustomRmiHandling() {
-	        System.setProperty("java.rmi.server.codebase", RmiServer.class
+	        	initialized = true;	
+	    	
+	    		System.setProperty("java.rmi.server.codebase", RmiServer.class
 	                .getProtectionDomain().getCodeSource().getLocation().toString());
 
 	            System.setProperty("java.security.policy", PolicyFileLocator.getLocationOfPolicyFile());

@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.security.MessageDigest;
 
 public class Util {
@@ -75,4 +77,13 @@ public class Util {
 		return serverAddress;
 	}
 	
+    public static RmiService getRemoteService() throws RemoteException{
+    	try {
+    		return (RmiService) Naming.lookup("//" + Util.getServerAddress() + "/" + RmiService.SERVICE_NAME);	
+    	} catch (Exception e){
+    		System.err.println("Error returning RmiService: Verify the correct address from Service and Service Name\n" + e.toString());
+    	}
+    	return null;
+    }
+    
 }
