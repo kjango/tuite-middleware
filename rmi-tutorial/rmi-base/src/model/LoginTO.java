@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Classe que implementa o Objeto de Transporte de Login
  * Serializable pois necessita trafegar pelo PROXY do RMI
  */
-public class LoginTO implements Serializable {
+public class LoginTO extends BaseTO implements Serializable {
 
 	private static final long serialVersionUID = 3942967283733335029L;
 	
