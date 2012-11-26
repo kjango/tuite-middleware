@@ -23,6 +23,7 @@ import base.PolicyFileLocator;
 import base.RemoteObserver;
 import base.RmiService;
 import control.EditProfileImpl;
+import control.FollowImpl;
 import control.LoginImpl;
 import control.RegisterImpl;
 import control.SearchImpl;
@@ -252,13 +253,12 @@ public class RmiServer extends Observable implements RmiService {
 
 		@Override
 		public FollowTO executeDoFollow(FollowTO followTO) throws RemoteException {
-			// TODO Auto-generated method stub
-			return null;
+			return new FollowImpl().doFollow(followTO);
 		}
 
 		@Override
 		public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException {
-			return null;
+			return new FollowImpl().doUnFollow(followTO);
 		}
 	    
 		@Override

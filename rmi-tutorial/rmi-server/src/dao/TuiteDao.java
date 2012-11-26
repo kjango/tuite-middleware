@@ -67,7 +67,8 @@ public class TuiteDao {
 		String sql = "SELECT tt.my_user, tt.id, tt.text, tt.created_at, tl.login, tu.real_name, tu.photo, tu.email FROM tb_users tu " 
 				+ "JOIN tb_login tl ON tl.id_user = tu.id "
 				+ "JOIN tb_tweet tt ON tt.my_user = tl.id_user "
-				+ "WHERE tt.text LIKE '%" + searchTO.getText() + "%'";
+				+ "WHERE tt.text LIKE '%" + searchTO.getText() + "%'"
+				+ "AND tu.protected_tweet = FALSE";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
