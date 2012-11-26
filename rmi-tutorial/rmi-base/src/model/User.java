@@ -19,10 +19,10 @@ public class User implements Serializable {
 	private String loginName;
 	private Date registerDate;
 	private boolean protectedTuite;
-	private ArrayList<User> following;  //deixo em arraylist mesmo?
-	private ArrayList<Tuite> tuites; //Timeline
-	private ArrayList<Tuite> myTuites;
-	private ArrayList<User> followers;
+	private ArrayList<User> following = new ArrayList<User>();  
+	private ArrayList<Tuite> tuites = new ArrayList<Tuite>(); //Timeline
+	private ArrayList<Tuite> myTuites = new ArrayList<Tuite>();
+	private ArrayList<User> followers = new ArrayList<User>();
 	private ImageIcon photo;
 
 	public User(long id, String email, String realName, String loginName, ImageIcon photo,

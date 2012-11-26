@@ -12,18 +12,35 @@ public class SearchTO implements Serializable{
 
 	//TODO add new attributes that will be returned by the server
 	private String text;
-	private int tipoBusca; //This attribute accepts the following values:  1 (tuiteSearch) or 2 (userSearch)
-	private ArrayList<User> searchedUsers;
-	private ArrayList<Tuite> searchedTuites;
+	private int searchType; //This attribute accepts the following values:  1 (tuiteSearch) or 2 (userSearch)
+	private ArrayList<User> resultUsers = new ArrayList<User>();
+	private ArrayList<Tuite> resultTuites = new ArrayList<Tuite>();
 	private String errorMessage;
 	
 	
 	public SearchTO(String text, int tipoBusca) {
 		super();
 		this.text = text;
-		this.tipoBusca = tipoBusca;
+		this.searchType = tipoBusca;
 	}
 	
+	
+	public boolean addResultTuite(Tuite tuite) {
+		resultTuites.add(tuite);
+		return true;
+	}
+	public boolean removeResultTuite(Tuite tuite) {
+		resultTuites.remove(tuite);
+		return true;
+	}
+	public boolean addResultUser(User user) {
+		resultUsers.add(user);
+		return true;
+	}
+	public boolean removeResultUser(User user) {
+		resultUsers.remove(user);
+		return true;
+	}
 	public String getText() {
 		return text;
 	}
@@ -31,26 +48,26 @@ public class SearchTO implements Serializable{
 		this.text = text;
 	}
 	public int getTipoBusca() {
-		return tipoBusca;
+		return searchType;
 	}
 	public void setTipoBusca(int tipoBusca) {
-		this.tipoBusca = tipoBusca;
+		this.searchType = tipoBusca;
 	}
 
-	public ArrayList<User> getSearchedUsers() {
-		return searchedUsers;
+	public ArrayList<User> getResultUsers() {
+		return resultUsers;
 	}
 
-	public void setSearchedUsers(ArrayList<User> searchedUsers) {
-		this.searchedUsers = searchedUsers;
+	public void setResultUsers(ArrayList<User> searchedUsers) {
+		this.resultUsers = searchedUsers;
 	}
 
-	public ArrayList<Tuite> getSearchedTuites() {
-		return searchedTuites;
+	public ArrayList<Tuite> getResultTuites() {
+		return resultTuites;
 	}
 
-	public void setSearchedTuites(ArrayList<Tuite> searchedTuites) {
-		this.searchedTuites = searchedTuites;
+	public void setResultTuites(ArrayList<Tuite> searchedTuites) {
+		this.resultTuites = searchedTuites;
 	}
 
 	public String getErrorMessage() {

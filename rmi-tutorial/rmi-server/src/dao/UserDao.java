@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import model.FollowTO;
 import model.LoginTO;
+import model.SearchTO;
 import model.Tuite;
 import model.User;
 
@@ -150,18 +151,18 @@ public class UserDao {
 		// + " OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = "
 		// + loginTO.getUser().getId() + ") ORDER BY created_at DESC";
 
-		String sql = "SELECT * FROM tb_tweet tt " +
-						"join tb_login tl on tt.my_user = tl.id_user " +
-						"join tb_users tu on tt.my_user = tu.id " +
-						"left join rl_follow rf on rf.id_follow  = tl.id_user " +
-						"WHERE (tt.my_user = ?  OR rf.id_user = ?) " +
-						"ORDER BY created_at ";
+		String sql = "SELECT tt.my_user, tt.id, tt.text, tt.created_at, tl.login, tu.real_name, tu.photo, tu.email FROM tb_tweet tt "
+				+ "join tb_login tl on tt.my_user = tl.id_user "
+				+ "join tb_users tu on tt.my_user = tu.id "
+				+ "left join rl_follow rf on rf.id_follow  = tl.id_user "
+				+ "WHERE (tt.my_user = ?  OR rf.id_user = ?) "
+				+ "ORDER BY created_at ";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setLong(1, loginTO.getUser().getId());
 			stmt.setLong(2, loginTO.getUser().getId());
-			
+
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				User user = new User();
@@ -169,7 +170,7 @@ public class UserDao {
 				user.setEmail(rs.getString("email"));
 				user.setLoginName(rs.getString("login"));
 				user.setRealName(rs.getString("real_name"));
-//				user.setPhoto(rs.getBinaryStream("photo"));
+				// user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),
 						rs.getDate("created_at"), user);
@@ -211,7 +212,7 @@ public class UserDao {
 		}
 
 		LoginTO loginTO = new LoginTO(followTO.getFollower().getLoginName());
-		
+
 		followTO.setSuccess(true);
 		followTO.setFollower(returnUser(loginTO, true));
 
@@ -242,10 +243,35 @@ public class UserDao {
 			return followTO;
 		}
 		LoginTO loginTO = new LoginTO(followTO.getFollower().getLoginName());
-		
+
 		followTO.setSuccess(true);
 		followTO.setFollower(returnUser(loginTO, true));
 
 		return followTO;
+	}
+
+	public SearchTO searchPeople(SearchTO searchTO) {
+
+		Connection con = Connections.getConnection();
+		String sql = "SELECT tu.id, tl.login FROM tb_users tu JOIN tb_login tl ON tl.id_user = tu.id WHERE tl.login LIKE '%" + searchTO.getText() + "%' " +
+				"OR tu.real_name LIKE '%" +  searchTO.getText() + "%'";
+
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				LoginTO aux = new LoginTO(rs.getString("login"));
+				User usr = returnUser(aux, false);
+				searchTO.addResultUser(usr);
+			}
+			rs.close();
+			stmt.close();
+
+		} catch (SQLException e) {
+			System.out.println("Erro no searchPeople");
+		}
+
+		return searchTO;
 	}
 }
