@@ -21,6 +21,16 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
         super();
     }
 	
+	public User refreshUser(User user){
+		try {
+			remoteService = Util.getRemoteService();
+			return remoteService.refreshUser(user);
+		} catch (RemoteException e) {
+			System.out.println("Message: "
+					+ "\nException: " + e.toString());
+		}
+		return null;
+	}
 	
 	public boolean doesFollow(User a, User b){
 //		if (a.getFollowing() == null){

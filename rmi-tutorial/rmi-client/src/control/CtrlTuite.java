@@ -3,6 +3,8 @@ package control;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import view.MainScreen;
+
 import model.Tuite;
 import model.TuiteTO;
 import model.User;
@@ -20,10 +22,12 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 	public static RmiService remoteService;
 	private EnumRemoteObject ero = EnumRemoteObject.TUITE;
 	private User user;
+	private view.MainScreen main;
 
-	public CtrlTuite(User user) throws RemoteException {
+	public CtrlTuite(User user, MainScreen main) throws RemoteException {
         super();
         this.user = user;
+        this.main = main;
         
 		try {
 			remoteService = Util.getRemoteService();
@@ -38,8 +42,8 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
     	{
 			try {
 				remoteService = Util.getRemoteService();
-				remoteService.sendMessage(this.user, this.ero, "CtrlTuite: " + t.getTuite().getText());
 				t = remoteService.executeTuite(t);
+				remoteService.sendMessage(this.user, this.ero, "CtrlTuite: " + t.getTuite().getText());
 			} catch (RemoteException e){
 				System.out.println("Message: " + t.getErrorMessage() + "\nException: " + e.toString());
 			}
@@ -70,6 +74,7 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
     	System.out.println("CtrlTuite: " + updateMsg);
+    	this.main.updateUser();
     }
 	
 

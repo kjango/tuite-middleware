@@ -36,6 +36,7 @@ import model.TuiteTO;
 import model.User;
 import control.CtrlSearch;
 import control.CtrlTuite;
+import control.CtrlUser;
 
 public class MainScreen extends javax.swing.JFrame {
 
@@ -58,6 +59,7 @@ public class MainScreen extends javax.swing.JFrame {
 	private MainScreen me = this;
 	
 	private CtrlTuite ctrlTuite;
+	private CtrlUser ctrlUser;
 	private JButton btnSearchTuites;
 	private JButton btnSearchPeople;
 	private JPanel panelResPeople;
@@ -67,7 +69,8 @@ public class MainScreen extends javax.swing.JFrame {
 		this.user = user;
 		
 		try {
-			ctrlTuite = new CtrlTuite(user);
+			ctrlTuite = new CtrlTuite(user, this);
+			ctrlUser = new CtrlUser();
 		} catch (Exception ex){
 			
 		}
@@ -439,6 +442,12 @@ public class MainScreen extends javax.swing.JFrame {
 	    repaint();
 	}
 
+	public void updateUser(){
+		User userTemp = ctrlUser.refreshUser(user);
+		setUser(userTemp);
+		update();
+	}
+	
 	public User getUser() {
 		return user;
 	}
