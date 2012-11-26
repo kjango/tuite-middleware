@@ -21,17 +21,15 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 	private static final long serialVersionUID = 1L;
 	public static RmiService remoteService;
 	private EnumRemoteObject ero = EnumRemoteObject.TUITE;
-	private User user;
 	private view.MainScreen main;
 
-	public CtrlTuite(User user, MainScreen main) throws RemoteException {
+	public CtrlTuite(MainScreen main) throws RemoteException {
         super();
-        this.user = user;
         this.main = main;
         
 		try {
 			remoteService = Util.getRemoteService();
-			remoteService.addObserver(this, this.ero, this.user);
+			remoteService.addObserver(this, this.ero, main.getUser());
 		} catch (RemoteException e){
 			System.out.println("Message: " + e.toString());
 		}
@@ -43,7 +41,7 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 			try {
 				remoteService = Util.getRemoteService();
 				t = remoteService.executeTuite(t);
-				remoteService.sendMessage(this.user, this.ero, "CtrlTuite: " + t.getTuite().getText());
+				remoteService.sendMessage(main.getUser(), this.ero, "CtrlTuite: " + t.getTuite().getText());
 			} catch (RemoteException e){
 				System.out.println("Message: " + t.getErrorMessage() + "\nException: " + e.toString());
 			}
