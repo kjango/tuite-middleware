@@ -1,13 +1,12 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 
-public class User implements Serializable {
+public class User extends BaseTO implements Serializable {
 	/**
 	 * 
 	 */

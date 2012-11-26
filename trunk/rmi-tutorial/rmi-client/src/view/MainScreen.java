@@ -67,7 +67,7 @@ public class MainScreen extends javax.swing.JFrame {
 		this.user = user;
 		
 		try {
-			ctrlTuite = new CtrlTuite();
+			ctrlTuite = new CtrlTuite(user);
 		} catch (Exception ex){
 			
 		}

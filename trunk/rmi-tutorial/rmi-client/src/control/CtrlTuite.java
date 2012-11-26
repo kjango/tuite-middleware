@@ -5,6 +5,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 import model.Tuite;
 import model.TuiteTO;
+import model.User;
+import base.EnumRemoteObject;
 import base.RemoteObserver;
 import base.RmiService;
 import base.Util;
@@ -16,9 +18,19 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static RmiService remoteService;
+	private EnumRemoteObject ero = EnumRemoteObject.TUITE;
+	private User user;
 
-	public CtrlTuite() throws RemoteException {
+	public CtrlTuite(User user) throws RemoteException {
         super();
+        this.user = user;
+        
+		try {
+			remoteService = Util.getRemoteService();
+			remoteService.addObserver(this, this.ero, this.user);
+		} catch (RemoteException e){
+			System.out.println("Message: " + e.toString());
+		}
     }
 	
 	public TuiteTO doTuite(TuiteTO t){
@@ -26,6 +38,7 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
     	{
 			try {
 				remoteService = Util.getRemoteService();
+				remoteService.sendMessage(this.user, this.ero, "CtrlTuite: " + t.getTuite().getText());
 				t = remoteService.executeTuite(t);
 			} catch (RemoteException e){
 				System.out.println("Message: " + t.getErrorMessage() + "\nException: " + e.toString());
