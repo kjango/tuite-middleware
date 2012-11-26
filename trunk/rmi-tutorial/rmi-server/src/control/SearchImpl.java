@@ -1,18 +1,26 @@
 package control;
 
 import model.SearchTO;
+import dao.TuiteDao;
+import dao.UserDao;
 
 public class SearchImpl {
 
-	public SearchTO Search(SearchTO t){
-		//TODO o texto a ser procurado chega aqui no server, deve ser emcapsulado no TO as informações pra volta
+	public SearchTO Search(SearchTO searchTO){
 		
-		if(t.getTipoBusca() == 1) //tuiteSearch
-			System.out.println("TuiteSearch");
+		//tuiteSearch
+		if(searchTO.getTipoBusca() == 1){
+			
+			searchTO = new TuiteDao().searchTuite(searchTO);
+			return searchTO;
+			
+		}else if(searchTO.getTipoBusca() == 2){  //peoplesearch
+			
+			searchTO = new UserDao().searchPeople(searchTO);
+			return searchTO;
+			
+		}
 		
-		if(t.getTipoBusca() == 2) //useSearch
-			System.out.println("UserSearch");
-		
-		return t;
+		return searchTO;
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -29,9 +30,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import model.SearchTO;
 import model.Tuite;
 import model.TuiteTO;
 import model.User;
+import control.CtrlSearch;
 import control.CtrlTuite;
 
 public class MainScreen extends javax.swing.JFrame {
@@ -55,6 +58,10 @@ public class MainScreen extends javax.swing.JFrame {
 	private MainScreen me = this;
 	
 	private CtrlTuite ctrlTuite;
+	private JButton btnSearchTuites;
+	private JButton btnSearchPeople;
+	private JPanel panelResPeople;
+	private JPanel panelResTuites;
 
 	public MainScreen(User user) {
 		this.user = user;
@@ -219,17 +226,61 @@ public class MainScreen extends javax.swing.JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		textFieldSearchTuites = new JTextField();
+		textFieldSearchTuites.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					btnSearchTuites.doClick();
+//					textAreaTuite.setText("");
+				}
+			}
+		});
+		textFieldSearchTuites.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent arg0) {
+				if(textFieldSearchTuites.getText().isEmpty()){
+					btnSearchTuites.setEnabled(false);
+				}else{
+					btnSearchTuites.setEnabled(true);
+				}
+			}
+		});
 		textFieldSearchTuites.setColumns(10);
 		panel.add(textFieldSearchTuites, BorderLayout.CENTER);
 		
-		JButton btnSearchTuites = new JButton("Search");
+		btnSearchTuites = new JButton("Search");
+		btnSearchTuites.setEnabled(false);
+		btnSearchTuites.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!textFieldSearchTuites.getText().isEmpty()){					
+					CtrlSearch ctrlSearch;
+					try {
+						
+						//1 is for tuites, 2 for ppl
+						SearchTO searchTO = new SearchTO(textFieldSearchTuites.getText(), 1);
+						ctrlSearch = new CtrlSearch();
+						searchTO = ctrlSearch.doSearch(searchTO);
+						
+						panelResTuites.removeAll();
+						for (Tuite tuit : searchTO.getResultTuites()) {
+							panelResTuites.add(new TuitePanel(user, tuit, me));
+						}
+						repaint();
+						textFieldSearchTuites.setText("");
+						
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
 		panel.add(btnSearchTuites, BorderLayout.EAST);
 		
 		JScrollPane scrollPaneSearchTuites = new JScrollPane();
 		panelTuiteSearch.add(scrollPaneSearchTuites, BorderLayout.CENTER);
 		scrollPaneSearchTuites.setAutoscrolls(true);
 		
-		JPanel panelResTuites = new JPanel();
+		panelResTuites = new JPanel();
 		panelResTuites.setBorder(new TitledBorder(null, "Results", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 //		panelTuiteSearch.add(panelResTuites, BorderLayout.SOUTH);
 		scrollPaneSearchTuites.setViewportView(panelResTuites);
@@ -246,17 +297,62 @@ public class MainScreen extends javax.swing.JFrame {
 		panel_3.setLayout(new BorderLayout(0, 0));
 		
 		textFieldSearchPeople = new JTextField();
+		textFieldSearchPeople.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					btnSearchPeople.doClick();
+//					textAreaTuite.setText("");
+				}
+			}
+		});
+		textFieldSearchPeople.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				if(textFieldSearchPeople.getText().isEmpty()){
+					btnSearchPeople.setEnabled(false);
+				}else{
+					btnSearchPeople.setEnabled(true);
+				}
+			}
+		});
 		panel_3.add(textFieldSearchPeople, BorderLayout.CENTER);
 		textFieldSearchPeople.setColumns(10);
 		
-		JButton btnSearchPeople = new JButton("Search");
+		btnSearchPeople = new JButton("Search");
+		btnSearchPeople.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!textFieldSearchPeople.getText().isEmpty()){
+					
+					CtrlSearch ctrlSearch;
+					try {
+						
+						//1 is for tuites, 2 for ppl
+						SearchTO searchTO = new SearchTO(textFieldSearchPeople.getText(), 2);
+						ctrlSearch = new CtrlSearch();
+						searchTO = ctrlSearch.doSearch(searchTO);
+						
+						panelResPeople.removeAll();
+						for (User usr : searchTO.getResultUsers()) {
+							panelResPeople.add(new TuitePanel(user, usr, me));
+						}
+						repaint();
+						textFieldSearchPeople.setText("");
+						
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		btnSearchPeople.setEnabled(false);
 		panel_3.add(btnSearchPeople, BorderLayout.EAST);
 		
 		JScrollPane scrollPaneSearchPeople = new JScrollPane();
 		scrollPaneSearchPeople.setAutoscrolls(true);
 		panelPeopleSearch.add(scrollPaneSearchPeople, BorderLayout.CENTER);
 		
-		JPanel panelResPeople = new JPanel();
+		panelResPeople = new JPanel();
 		panelResPeople.setBorder(new TitledBorder(null, "Results", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 //		panelPeopleSearch.add(panelResPeople, BorderLayout.WEST);
 		scrollPaneSearchPeople.setViewportView(panelResPeople);
