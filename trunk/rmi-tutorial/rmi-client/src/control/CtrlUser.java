@@ -73,7 +73,7 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 			}
 		}
 
-		return null;
+		return followTO;
 	}
 	
     @Override

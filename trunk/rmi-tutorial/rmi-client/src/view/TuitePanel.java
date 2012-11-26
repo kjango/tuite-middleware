@@ -115,7 +115,7 @@ public class TuitePanel extends JPanel {
 					}
 
 					mainScreen.setUser(followTO.getFollower());
-					mainScreen.update();
+					
 					mainScreen.update();
 				}
 			});
