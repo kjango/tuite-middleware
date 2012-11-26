@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -265,7 +266,7 @@ public class MainScreen extends javax.swing.JFrame {
 						
 						panelResTuites.removeAll();
 						for (Tuite tuit : searchTO.getResultTuites()) {
-							panelResTuites.add(new TuitePanel(user, tuit, me));
+							panelResTuites.add(new TuitePanel(tuit, me));
 						}
 						repaint();
 						textFieldSearchTuites.setText("");
@@ -336,7 +337,7 @@ public class MainScreen extends javax.swing.JFrame {
 						
 						panelResPeople.removeAll();
 						for (User usr : searchTO.getResultUsers()) {
-							panelResPeople.add(new TuitePanel(user, usr, me));
+							panelResPeople.add(new TuitePanel(usr, me));
 						}
 						repaint();
 						textFieldSearchPeople.setText("");
@@ -419,18 +420,29 @@ public class MainScreen extends javax.swing.JFrame {
 		panelFollowersList.removeAll();
 		
 		for (Tuite tu : user.getTuites()) {
-			TuitePanel t = new TuitePanel(user, tu, this);
+			TuitePanel t = new TuitePanel(tu, this);
 			panelTimeLine.add(t, 0);
 		}
 		    
 	    for (User u : user.getFollowing()) {
-			TuitePanel tp = new TuitePanel(user, u, this);
+			TuitePanel tp = new TuitePanel(u, this);
 			panelFollowingList.add(tp);
 		}
 	    for (User u : user.getFollowers()) {
-			TuitePanel tp = new TuitePanel(user, u, this);
+			TuitePanel tp = new TuitePanel(u, this);
 			panelFollowersList.add(tp);
 		}
+	    for (Component tp : panelResTuites.getComponents()){
+	    	if (tp instanceof TuitePanel){
+//	    		System.out.println("entrei");
+	    		((TuitePanel) tp).update();
+	    	}
+	    }
+	    for (Component tp : panelResPeople.getComponents()){
+	    	if (tp instanceof TuitePanel){
+	    		((TuitePanel) tp).update();
+	    	}
+	    }
 	    
 		scrollPane.getVerticalScrollBar().setValue(0);
 //		this.    
