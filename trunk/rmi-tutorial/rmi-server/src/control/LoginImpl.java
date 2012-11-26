@@ -38,6 +38,11 @@ public class LoginImpl {
 		return loginTO;
 	}
 	
+	public User returnUser(User user){
+		LoginTO loginTO = new LoginTO(user.getLoginName());
+		
+		return UserDao.returnUser(loginTO, true);
+	}
 		
 
 }

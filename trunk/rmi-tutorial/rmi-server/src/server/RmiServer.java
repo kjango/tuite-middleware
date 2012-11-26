@@ -261,4 +261,8 @@ public class RmiServer extends Observable implements RmiService {
 			return null;
 		}
 	    
+		@Override
+		public User refreshUser(User user) throws RemoteException{
+			return new LoginImpl().returnUser(user);
+		}
 }

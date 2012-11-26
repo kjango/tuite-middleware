@@ -26,5 +26,6 @@ public interface RmiService extends Remote {
     public SearchTO executeSearch(SearchTO t) throws RemoteException;
     public FollowTO executeDoFollow(FollowTO followTO) throws RemoteException;
     public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException;
+    public User refreshUser(User user) throws RemoteException;
 	
 }
