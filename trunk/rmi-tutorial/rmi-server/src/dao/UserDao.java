@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import model.FollowTO;
 import model.LoginTO;
 import model.SearchTO;
@@ -18,7 +20,11 @@ public class UserDao {
 		User user = null;
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT DISTINCT tu.id, tu.email, tu.real_name, tu.register_date, tu.protected_tweet, tl.login "
+//		String sql = "SELECT DISTINCT tu.id, tu.email, tu.real_name, tu.register_date, tu.protected_tweet, tl.login "
+//				+ "FROM tb_users tu JOIN tb_login tl ON tu.id = tl.id_user "
+//				+ "WHERE tl.login like '" + loginTO.getUserLogin().trim() + "'";
+		
+		String sql = "SELECT DISTINCT tu.id, tu.email, tu.real_name, tu.register_date, tu.protected_tweet, tu.photo, tl.login "
 				+ "FROM tb_users tu JOIN tb_login tl ON tu.id = tl.id_user "
 				+ "WHERE tl.login like '" + loginTO.getUserLogin().trim() + "'";
 		try {
@@ -32,6 +38,9 @@ public class UserDao {
 				user.setRegisterDate(rs.getDate("register_date"));
 				user.setProtectedTuite(rs.getBoolean("protected_tweet"));
 				user.setRealName(rs.getString("real_name"));
+				
+				ImageIcon photo = new ImageIcon(rs.getBytes("photo"));
+				user.setPhoto(photo);
 			}
 			rs.close();
 			stmt.close();
@@ -171,6 +180,9 @@ public class UserDao {
 				user.setEmail(rs.getString("email"));
 				user.setLoginName(rs.getString("login"));
 				user.setRealName(rs.getString("real_name"));
+				
+				ImageIcon photo = new ImageIcon(rs.getBytes("photo"));
+				user.setPhoto(photo);
 				// user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),

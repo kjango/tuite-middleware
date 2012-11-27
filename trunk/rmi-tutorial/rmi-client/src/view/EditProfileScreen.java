@@ -114,13 +114,6 @@ public class EditProfileScreen extends JFrame {
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				//				modUser = user;
-				//				
-				//				modUser.setEmail("mudei");
-				//				System.out.println("user: " + user.getEmail());
-				//				System.out.println("modUser: " + modUser.getEmail());
-				//TODO implementar a ação de editar
 				String email = null;
 				String realName = null;
 				String screenName = null;
@@ -194,19 +187,10 @@ public class EditProfileScreen extends JFrame {
 
 						JOptionPane.showMessageDialog(null, "Changes saved!", "Success!", 1);
 						dispose();
-					
-						//					JOptionPane.showMessageDialog(null, 
-						//					"Usuário Editado:"+
-						//					"\nUsuario: "+ user.getRealName()+
-						//					"\nEmail: "+user.getEmail()+
-						//					"\nLoginName: "+ user.getLoginName(), "Success!", 1);
 						
 					}else{
 						JOptionPane.showMessageDialog(null, t.getErrorMessage(), "Warning!", 0);
 					}
-//					System.out.println("LoginNameAtual: "+user.getLoginName());
-//					System.out.println("ScreenName Atual: "+textFieldScreenName.getText());
-
 				}
 				else
 					JOptionPane.showMessageDialog(null, "All fields required!", "Warning!", 0);
