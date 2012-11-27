@@ -68,6 +68,7 @@ public class MainScreen extends javax.swing.JFrame {
 	private JPanel panelResPeople;
 	private JPanel panelResTuites;
 	private ArrayList<OtherTLScreen> tlList = new ArrayList<OtherTLScreen>();
+	private JLabel lblUserPhoto;
 
 	public MainScreen(User user) {
 		this.user = user;
@@ -174,7 +175,7 @@ public class MainScreen extends javax.swing.JFrame {
 		panel_1.add(lblCharCount, BorderLayout.SOUTH);
 		lblCharCount.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblUserPhoto = new JLabel("");
+		lblUserPhoto = new JLabel("");
 		panelButtons.add(lblUserPhoto, BorderLayout.WEST);
 		
 		ImageIcon photo = new ImageIcon();
@@ -417,7 +418,7 @@ public class MainScreen extends javax.swing.JFrame {
 	public void update(){
 		setTitle("Tuite - " + user.getRealName());
 		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
+		lblUserPhoto.setIcon(user.getPhoto());
 		panelTimeLine.removeAll();
 		panelFollowingList.removeAll();
 		panelFollowersList.removeAll();
