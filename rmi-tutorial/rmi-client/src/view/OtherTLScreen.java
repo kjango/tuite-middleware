@@ -139,7 +139,8 @@ public class OtherTLScreen extends javax.swing.JFrame{
 	public void update(){
 		setTitle(timeLineOwner.getRealName());
 		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
+		lblPhoto.setIcon(timeLineOwner.getPhoto());
+		lblRealName.setText(timeLineOwner.getRealName());
 		panelTimeLine.removeAll();
 		
 		for (Tuite tu : timeLineOwner.getTuites()) {
