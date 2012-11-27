@@ -46,8 +46,13 @@ public class EditDao {
 		//					+ "WHERE id = '" + registerTO.getUser().getId() + "'";
 		//			String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?" 
 		//					+ "WHERE id = ?";
-		String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?" 
+
+//		String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?" 
+//				+ "WHERE id = ?";
+		
+		String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?, photo = ?" 
 				+ "WHERE id = ?";
+
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -55,8 +60,8 @@ public class EditDao {
 			stmt.setString(1, registerTO.getUser().getEmail());
 			stmt.setString(2, registerTO.getUser().getRealName());
 			stmt.setBoolean(3, registerTO.getUser().isProtectedTuite());
-			//stmt.setBytes(4, a);
-			stmt.setLong(4, registerTO.getUser().getId());
+			stmt.setBytes(4, processImage(registerTO.getUser().getPhoto()));
+			stmt.setLong(5, registerTO.getUser().getId());
 
 			stmt.executeUpdate();
 			stmt.close();

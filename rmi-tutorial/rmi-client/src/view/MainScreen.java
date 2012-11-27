@@ -145,7 +145,6 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Criando o TO
-				//Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Date(), user);
 				Tuite tuite = new Tuite(0,textAreaTuite.getText().toString(), new Timestamp(System.currentTimeMillis()), user);
 				TuiteTO t = new TuiteTO(tuite);
 				

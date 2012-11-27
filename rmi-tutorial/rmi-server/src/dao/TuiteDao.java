@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
+
 import model.LoginTO;
 import model.SearchTO;
 import model.Tuite;
@@ -85,6 +87,9 @@ public class TuiteDao {
 				user.setEmail(rs.getString("email"));
 				user.setLoginName(rs.getString("login"));
 				user.setRealName(rs.getString("real_name"));
+				
+				ImageIcon photo = new ImageIcon(rs.getBytes("photo"));
+				user.setPhoto(photo);
 				// user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tuite = new Tuite(rs.getInt("id"), rs.getString("text"),
