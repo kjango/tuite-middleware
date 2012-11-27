@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -66,6 +67,7 @@ public class MainScreen extends javax.swing.JFrame {
 	private JButton btnSearchPeople;
 	private JPanel panelResPeople;
 	private JPanel panelResTuites;
+	private ArrayList<OtherTLScreen> tlList = new ArrayList<OtherTLScreen>();
 
 	public MainScreen(User user) {
 		this.user = user;
@@ -435,7 +437,6 @@ public class MainScreen extends javax.swing.JFrame {
 		}
 	    for (Component tp : panelResTuites.getComponents()){
 	    	if (tp instanceof TuitePanel){
-//	    		System.out.println("entrei");
 	    		((TuitePanel) tp).update();
 	    	}
 	    }
@@ -444,9 +445,11 @@ public class MainScreen extends javax.swing.JFrame {
 	    		((TuitePanel) tp).update();
 	    	}
 	    }
+	    for (OtherTLScreen otl : tlList) {
+			otl.update();
+		}
 	    
 		scrollPane.getVerticalScrollBar().setValue(0);
-//		this.    
 		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 	    JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
 	    verticalScrollBar.setValue(verticalScrollBar.getMinimum());
@@ -471,6 +474,14 @@ public class MainScreen extends javax.swing.JFrame {
 
 	public CtrlUser getCtrlUser() {
 		return ctrlUser;
+	}
+	public boolean addTL(OtherTLScreen otherTLScreen) {
+		tlList.add(otherTLScreen);
+		return true;
+	}
+	public boolean removeTL(OtherTLScreen otherTLScreen) {
+		tlList.remove(otherTLScreen);
+		return true;
 	}
 
 }
