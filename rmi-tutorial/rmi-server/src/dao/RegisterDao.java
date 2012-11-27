@@ -1,9 +1,21 @@
 package dao;
 
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import model.RegisterTO;
 
@@ -14,8 +26,8 @@ public class RegisterDao {
 		if (!LoginDao.verifyLogin(registerTO.getUser().getLoginName()))
 		{
 			Connection con = Connections.getConnection();
-		      String sql = "INSERT INTO tb_users (id, email, real_name, register_date, protected_tweet) " +
-		    		  	   "values (nextval('seq_users'), ?, ?, ?, ?)";
+		      String sql = "INSERT INTO tb_users (id, email, real_name, register_date, protected_tweet, photo) " +
+		    		  	   "values (nextval('seq_users'), ?, ?, ?, ?, ?)";
 		      try {
 		           PreparedStatement stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		        
@@ -26,6 +38,9 @@ public class RegisterDao {
 		           stmt.setDate(3, dataSql);
 		           
 		           stmt.setBoolean(4, registerTO.getUser().isProtectedTuite());
+		           
+		           ImageIcon photo = new ImageIcon("noImg.jpg");
+		           stmt.setBytes(5, processImage(photo));
 		           
 		           stmt.executeUpdate();
 		           
@@ -84,4 +99,35 @@ public class RegisterDao {
 	    return registerTO;
 	}
 	
+	
+	private static byte[] processImage(ImageIcon objImageIcon){
+
+		//ImageIcon objImageIcon = registerTO.getUser().getPhoto();
+		Image img = objImageIcon.getImage();
+		if (img instanceof RenderedImage == false)
+			img = getBufferedImage(img, Transparency.TRANSLUCENT);
+		ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
+
+		try {
+			ImageIO.write((RenderedImage) img, "jpg", byteOS);
+		} catch (IOException e) {
+
+		}
+		byte [] array  = byteOS.toByteArray();
+		return array;
+	}
+	
+	private static BufferedImage getBufferedImage(Image img, int transparency)
+	{
+		if (img instanceof BufferedImage)
+			return (BufferedImage) img;
+
+		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		BufferedImage bi = gc.createCompatibleImage(img.getWidth(null), img.getHeight(null), transparency);
+
+		Graphics g = bi.createGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+		return bi;
+	}
 }
