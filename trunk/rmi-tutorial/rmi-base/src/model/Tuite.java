@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -11,11 +12,20 @@ public class Tuite extends BaseTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String text;
-	private Date createdAt;
+	//private Date createdAt;
+	private Timestamp createdAt;
 	private User myUser;
 	private boolean truncated;
 	
-	public Tuite(Integer id, String text, Date createdAt, User myUser) {
+//	public Tuite(Integer id, String text, Date createdAt, User myUser) {
+//		super();
+//		this.id = id;
+//		this.text = text;
+//		this.createdAt = createdAt;
+//		this.myUser = myUser;
+//	}
+	
+	public Tuite(Integer id, String text, Timestamp createdAt, User myUser) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -44,10 +54,14 @@ public class Tuite extends BaseTO implements Serializable {
 		this.text = text;
 	}
 	
-	public Date getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+//	public void setCreatedAt(Date createdAt) {
+//		this.createdAt = createdAt;
+//	}
+	
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 	

@@ -66,7 +66,7 @@ public class UserDao {
 				User user = loginTO.getUser();
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),
-						rs.getDate("created_at"), user);
+						rs.getTimestamp("created_at"), user);
 
 				listTweets.add(tweet);
 			}
@@ -174,7 +174,7 @@ public class UserDao {
 				// user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tweet = new Tuite(rs.getInt("id"), rs.getString("text"),
-						rs.getDate("created_at"), user);
+						rs.getTimestamp("created_at"), user);
 
 				listAllTweets.add(tweet);
 			}
