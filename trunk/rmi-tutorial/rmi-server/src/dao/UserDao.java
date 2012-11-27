@@ -38,7 +38,6 @@ public class UserDao {
 				user.setRegisterDate(rs.getDate("register_date"));
 				user.setProtectedTuite(rs.getBoolean("protected_tweet"));
 				user.setRealName(rs.getString("real_name"));
-				
 				ImageIcon photo = new ImageIcon(rs.getBytes("photo"));
 				user.setPhoto(photo);
 			}
