@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import model.User;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.auth.AccessToken;
 
 public class CtrlTwitter {
 	
@@ -21,6 +22,9 @@ public class CtrlTwitter {
     	try {
 
 //			twitter = new TwitterFactory().getInstance(userLogin, userPassword);
+    		
+    		AccessToken accessToken = twitter.getOAuthAccessToken(userLogin, userPassword);
+//    		twitter.
 
 			twitter4j.User u = twitter.verifyCredentials();
 			//cannot get the user email through API --> http://stackoverflow.com/questions/3599621/is-there-a-way-to-get-an-users-email-id-after-verifying-her-twitter-identity-us
