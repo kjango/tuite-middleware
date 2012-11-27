@@ -85,7 +85,8 @@ public class UserDao {
 		ArrayList<String> preList = new ArrayList<String>();
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT rf.id_user, rf.id_follow, tbl.login FROM rl_follow rf JOIN tb_login tl ON tl.id_user = rf.id_user "
+		String sql = "SELECT rf.id_user, rf.id_follow, tbl.login FROM rl_follow rf "
+				+ "JOIN tb_login tl ON tl.id_user = rf.id_user "
 				+ "JOIN tb_login tbl ON tbl.id_user = rf.id_follow WHERE tl.id_user = "
 				+ loginTO.getUser().getId();
 

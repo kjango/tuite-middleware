@@ -260,7 +260,7 @@ public class MainScreen extends javax.swing.JFrame {
 					try {
 						
 						//1 is for tuites, 2 for ppl
-						SearchTO searchTO = new SearchTO(textFieldSearchTuites.getText(), 1);
+						SearchTO searchTO = new SearchTO(getUser(), textFieldSearchTuites.getText(), 1);
 						ctrlSearch = new CtrlSearch();
 						searchTO = ctrlSearch.doSearch(searchTO);
 						
@@ -331,7 +331,7 @@ public class MainScreen extends javax.swing.JFrame {
 					try {
 						
 						//1 is for tuites, 2 for ppl
-						SearchTO searchTO = new SearchTO(textFieldSearchPeople.getText(), 2);
+						SearchTO searchTO = new SearchTO(getUser(), textFieldSearchPeople.getText(), 2);
 						ctrlSearch = new CtrlSearch();
 						searchTO = ctrlSearch.doSearch(searchTO);
 						
