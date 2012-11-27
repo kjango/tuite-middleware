@@ -136,25 +136,28 @@ public class LoginScreen extends javax.swing.JFrame{
 						CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
 						//TODO verificar as alterações necessarias
 						//loginTO = ctrlTwitter.twLogin(loginField.getText(), Util.GeraMD5(passwordField.getPassword().toString()));
+						ctrlTwitter.twLogin(loginField.getText(), passwordField.getText().toString());
 					}else{	
 						//TODO verificar esse password.string
 						loginTO = new LoginTO(loginField.getText(), passwordField.getText().toString());
 						loginTO = ctrlLogin.doLogin(loginTO);
-					}
-					
-					if (loginTO != null) {
 						
-						if (loginTO.isValidated()){
-							MainScreen ms = new MainScreen(loginTO.getUser());
-							ms.setVisible(true);
-							dispose();
-						} else {
-							JOptionPane.showMessageDialog(null, "Server Message: " + loginTO.getErrorMessage(), "Warning!", 0);
+						if (loginTO != null) {
+							
+							if (loginTO.isValidated()){
+								MainScreen ms = new MainScreen(loginTO.getUser());
+								ms.setVisible(true);
+								dispose();
+							} else {
+								JOptionPane.showMessageDialog(null, "Server Message: " + loginTO.getErrorMessage(), "Warning!", 0);
+							}
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Invalid login or password", "Warning!", 0);
 						}
 					}
-					else{
-						JOptionPane.showMessageDialog(null, "Invalid login or password", "Warning!", 0);
-					}
+					
+
 				}else{
 					JOptionPane.showMessageDialog(null, "Please type your login and password", "Warning!", 0);
 				}
