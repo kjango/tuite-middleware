@@ -30,7 +30,8 @@ public class TuiteDao {
 						.getTime());
 
 				stmt.setString(1, t.getText());
-				stmt.setDate(2, dataSql);
+				//stmt.setDate(2, dataSql);
+				stmt.setTimestamp(2, t.getCreatedAt());
 				stmt.setInt(3, (int) t.getMyUser().getId());
 
 				stmt.executeUpdate();
@@ -87,7 +88,7 @@ public class TuiteDao {
 				// user.setPhoto(rs.getBinaryStream("photo"));
 
 				Tuite tuite = new Tuite(rs.getInt("id"), rs.getString("text"),
-						rs.getDate("created_at"), user);
+						rs.getTimestamp("created_at"), user);
 
 				searchTO.addResultTuite(tuite);
 			}
