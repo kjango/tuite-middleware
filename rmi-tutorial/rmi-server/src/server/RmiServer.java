@@ -15,7 +15,6 @@ import model.FollowTO;
 import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
-import model.Tuite;
 import model.TuiteTO;
 import model.User;
 import base.EnumRemoteObject;
@@ -184,46 +183,38 @@ public class RmiServer extends Observable implements RmiService {
 		    	deleteObservers();
 	    }
 	    
+	    private User isLoggedUser(String user){
+	    	for (int i=0 ; i < listLogins.size(); i++){
+    			User userLogged = listLogins.get(i);
+    			if (userLogged.getLoginName().equals(user)){
+    				return userLogged;
+    			}
+    		}
+    		return null;
+	    }
+	    
 	    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
-	    	LoginTO newloginTo = new LoginImpl().doLogin(loginTO);
-	    	
 	    	if (listLogins == null){
 	    		listLogins = new ArrayList<User>();
-	    		if (newloginTo.getUser() == null){
-	    			return newloginTo;
-	    		} else {
-		    		if (!listLogins.contains(newloginTo.getUser())){
-		    			listLogins.add(newloginTo.getUser());
-		    			System.out.println("New user login: " + newloginTo.getUserLogin());
-		    		}
-	    		}
-	    	} else {
-	    		if (newloginTo.getUser() == null){
-	    			return newloginTo;
-	    		} else {
-		    		if (!listLogins.contains(newloginTo.getUser())){
-		    			listLogins.add(newloginTo.getUser());
-		    			System.out.println("New user login: " + newloginTo.getUserLogin());
-		    		}
-	    		}
 	    	}
-	    	return newloginTo;
+
+	    	if (isLoggedUser(loginTO.getUserLogin()) != null){
+	    		loginTO.setValidated(false);
+	    		loginTO.setErrorMessage("User Logged, you cannot login again!");
+	    		return loginTO;
+	    	} else {
+	    		LoginTO newloginTo = new LoginImpl().doLogin(loginTO);
+	    		listLogins.add(newloginTo.getUser());
+	    		System.out.println("New user login: " + newloginTo.getUserLogin());  
+	    		return newloginTo;
+	    	}
 	    }
 	    
 	    public boolean executeLogoff(User user) throws RemoteException {
-	    	boolean founded = false;
-	    	User userList = null;
-	    	for (int i=0; i<listLogins.size(); i++)
-	    	{
-	    		userList = new User();
-	    		userList = listLogins.get(i);
-	    		if (userList.getLoginName().equals(user.getLoginName())){
-	    			founded = true;
-	    			break;
-	    		}
-	    	}
-	    	if (founded){
-	    		listLogins.remove(userList);
+	    	User userLogged = isLoggedUser(user.getLoginName());
+	    	
+	    	if (userLogged != null){
+	    		listLogins.remove(userLogged);
 	    		System.out.println("user logoff: " + user.getLoginName());
 	    		return true;
 	    	}
