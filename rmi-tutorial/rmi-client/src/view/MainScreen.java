@@ -470,4 +470,8 @@ public class MainScreen extends javax.swing.JFrame {
 		this.user = user;
 	}
 
+	public CtrlUser getCtrlUser() {
+		return ctrlUser;
+	}
+
 }

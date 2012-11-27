@@ -18,6 +18,8 @@ import model.FollowTO;
 import model.Tuite;
 import model.User;
 import control.CtrlUser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TuitePanel extends JPanel {
 
@@ -29,7 +31,8 @@ public class TuitePanel extends JPanel {
 	private User otherUser;
 	private JButton btnFollowUnfollow;
 	private MainScreen mainScreen;
-	private CtrlUser ctrlUser;
+	private OtherTLScreen otherTLScreen = null;
+//	private CtrlUser ctrlUser;
 
 	/**
 	 * Create the panel.
@@ -40,11 +43,11 @@ public class TuitePanel extends JPanel {
 	public TuitePanel(Tuite tuite, MainScreen mainScreen) {
 		super();
 
-		try {
-			ctrlUser = new CtrlUser();
-		} catch (Exception ex) {
-
-		}
+//		try {
+//			ctrlUser = new CtrlUser();
+//		} catch (Exception ex) {
+//
+//		}
 
 //		this.myUser = mainScreen.getUser();
 		this.tuite = tuite;
@@ -60,11 +63,11 @@ public class TuitePanel extends JPanel {
 		this.otherUser = otherUser;
 		this.mainScreen = mainScreen;
 
-		try {
-			ctrlUser = new CtrlUser();
-		} catch (Exception ex) {
-
-		}
+//		try {
+//			ctrlUser = new CtrlUser();
+//		} catch (Exception ex) {
+//
+//		}
 		btnFollowUnfollow = new JButton("Follow");
 		initilizeUser();
 	}
@@ -90,6 +93,16 @@ public class TuitePanel extends JPanel {
 		lblImage.setIcon(photo);
 
 		JTextArea textAreaTuite = new JTextArea(tuite.getText());
+		textAreaTuite.addMouseListener(new MouseAdapter() {
+			
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				 User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
+				 otherTLScreen = new OtherTLScreen(mainScreen, usr);
+				 otherTLScreen.setVisible(true);
+			}
+		});
 		textAreaTuite.setEditable(false);
 		textAreaTuite.setWrapStyleWord(true);
 		textAreaTuite.setLineWrap(true);
@@ -106,11 +119,9 @@ public class TuitePanel extends JPanel {
 					FollowTO followTO = new FollowTO(mainScreen.getUser(), tuite.getMyUser());
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						// TODO seguir
-						followTO = ctrlUser.doFollow(followTO);
+						followTO =  mainScreen.getCtrlUser().doFollow(followTO);
 					} else {
-						// TODO desseguir xD
-						followTO = ctrlUser.doUnFollow(followTO);
+						followTO =  mainScreen.getCtrlUser().doUnFollow(followTO);
 					}
 
 					mainScreen.setUser(followTO.getFollower());
@@ -144,6 +155,15 @@ public class TuitePanel extends JPanel {
 		lblImage.setIcon(photo);
 
 		JTextArea textAreaTuite = new JTextArea(otherUser.getRealName());
+		textAreaTuite.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				 User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
+				 otherTLScreen = new OtherTLScreen(mainScreen, usr);
+				 otherTLScreen.setVisible(true);
+			}
+		});
 		textAreaTuite.setEditable(false);
 		textAreaTuite.setWrapStyleWord(true);
 		textAreaTuite.setLineWrap(true);
@@ -163,11 +183,9 @@ public class TuitePanel extends JPanel {
 					FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						// TODO seguir
-						followTO = ctrlUser.doFollow(followTO);
+						followTO =  mainScreen.getCtrlUser().doFollow(followTO);
 					} else {
-						// TODO desseguir xD
-						followTO = ctrlUser.doUnFollow(followTO);
+						followTO =  mainScreen.getCtrlUser().doUnFollow(followTO);
 					}
 
 					mainScreen.setUser(followTO.getFollower());
@@ -181,11 +199,15 @@ public class TuitePanel extends JPanel {
 
 	public void update() {
 		String btnText = "Follow";
-		if (ctrlUser.doesFollow(mainScreen.getUser(), otherUser)) {
+		if ( mainScreen.getCtrlUser().doesFollow(mainScreen.getUser(), otherUser)) {
 			btnText = "Unfollow";
 		}
 		btnFollowUnfollow.setText(btnText);
 		repaint();
+		
+		if (otherTLScreen != null){
+			otherTLScreen.update();
+		}
 	}
 
 }
