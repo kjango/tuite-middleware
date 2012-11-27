@@ -16,10 +16,12 @@ public class SearchTO implements Serializable{
 	private ArrayList<User> resultUsers = new ArrayList<User>();
 	private ArrayList<Tuite> resultTuites = new ArrayList<Tuite>();
 	private String errorMessage;
+	private User user;
 	
 	
-	public SearchTO(String text, int tipoBusca) {
+	public SearchTO(User user, String text, int tipoBusca) {
 		super();
+		this.user = user;
 		this.text = text;
 		this.searchType = tipoBusca;
 	}
@@ -76,6 +78,16 @@ public class SearchTO implements Serializable{
 
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	
