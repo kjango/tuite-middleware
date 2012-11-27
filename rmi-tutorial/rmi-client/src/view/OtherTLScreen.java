@@ -37,17 +37,26 @@ public class OtherTLScreen extends javax.swing.JFrame{
 	private JPanel panelFollowersList;
 	private JLabel lblRealName;
 	private JLabel lblPhoto;
+	private OtherTLScreen me = this;
 
 
 	/**
 	 * Create the application.
 	 */
-	public OtherTLScreen(MainScreen mainScreen, User timeLineOwner) {
+	public OtherTLScreen(MainScreen mainscreen, User timeLineOwner) {
 
-		this.mainScreen = mainScreen;
+		this.mainScreen = mainscreen;
 		this.timeLineOwner = timeLineOwner;
+		mainScreen.addTL(this);
 
 		initialize();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				mainScreen.removeTL(me);
+			}
+		});
 	}
 
 	/**

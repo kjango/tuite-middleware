@@ -78,7 +78,7 @@ public class User extends BaseTO implements Serializable {
 		following.add(user);
 		return true;
 	}
-	public boolean removeFoller(User user) {
+	public boolean removeFollower(User user) {
 		following.remove(user);
 		return true;
 	}
