@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -75,7 +76,7 @@ public class MainScreen extends javax.swing.JFrame {
 		
 		try {
 			ctrlTuite = new CtrlTuite(this);
-			ctrlUser = new CtrlUser();
+			ctrlUser = new CtrlUser(this);
 		} catch (Exception ex){
 			
 		}
@@ -483,6 +484,20 @@ public class MainScreen extends javax.swing.JFrame {
 	public boolean removeTL(OtherTLScreen otherTLScreen) {
 		tlList.remove(otherTLScreen);
 		return true;
+	}
+	public void notifyUser(User user){
+		System.out.println("User: " + user.getLoginName() + " want to follow you, Accept?");
+		
+		int x = JOptionPane.showConfirmDialog(this, "User: " + user.getRealName() + " want to follow you, Accept?",
+				"Aplicação", 
+				JOptionPane.YES_OPTION, 
+				JOptionPane.NO_OPTION); 
+				if (x == JOptionPane.YES_OPTION){ 
+					dispose(); 
+					System.out.println("YES");
+				} else if (x == JOptionPane.NO_OPTION){
+					System.out.println("NO");
+				}
 	}
 
 }

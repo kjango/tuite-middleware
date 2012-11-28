@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class FollowTO implements Serializable{
+public class FollowTO extends BaseTO implements Serializable{
 
 	/**
 	 * 

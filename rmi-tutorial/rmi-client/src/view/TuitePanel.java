@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,9 +19,6 @@ import javax.swing.border.TitledBorder;
 import model.FollowTO;
 import model.Tuite;
 import model.User;
-import control.CtrlUser;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class TuitePanel extends JPanel {
 
