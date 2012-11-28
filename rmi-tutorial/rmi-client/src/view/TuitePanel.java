@@ -31,7 +31,8 @@ public class TuitePanel extends JPanel {
 	private JButton btnFollowUnfollow;
 	private MainScreen mainScreen;
 	private OtherTLScreen otherTLScreen = null;
-//	private CtrlUser ctrlUser;
+
+	// private CtrlUser ctrlUser;
 
 	/**
 	 * Create the panel.
@@ -42,13 +43,13 @@ public class TuitePanel extends JPanel {
 	public TuitePanel(Tuite tuite, MainScreen mainScreen) {
 		super();
 
-//		try {
-//			ctrlUser = new CtrlUser();
-//		} catch (Exception ex) {
-//
-//		}
+		// try {
+		// ctrlUser = new CtrlUser();
+		// } catch (Exception ex) {
+		//
+		// }
 
-//		this.myUser = mainScreen.getUser();
+		// this.myUser = mainScreen.getUser();
 		this.tuite = tuite;
 		this.mainScreen = mainScreen;
 		this.otherUser = tuite.getMyUser();
@@ -56,17 +57,17 @@ public class TuitePanel extends JPanel {
 		initilizeTuite();
 	}
 
-	public TuitePanel (User otherUser, MainScreen mainScreen) {
+	public TuitePanel(User otherUser, MainScreen mainScreen) {
 		super();
-//		this.myUser = mainScreen.getUser();
+		// this.myUser = mainScreen.getUser();
 		this.otherUser = otherUser;
 		this.mainScreen = mainScreen;
 
-//		try {
-//			ctrlUser = new CtrlUser();
-//		} catch (Exception ex) {
-//
-//		}
+		// try {
+		// ctrlUser = new CtrlUser();
+		// } catch (Exception ex) {
+		//
+		// }
 		btnFollowUnfollow = new JButton("Follow");
 		initilizeUser();
 	}
@@ -93,13 +94,11 @@ public class TuitePanel extends JPanel {
 
 		JTextArea textAreaTuite = new JTextArea(tuite.getText());
 		textAreaTuite.addMouseListener(new MouseAdapter() {
-			
-
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				 User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
-				 otherTLScreen = new OtherTLScreen(mainScreen, usr);
-				 otherTLScreen.setVisible(true);
+				User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
+				otherTLScreen = new OtherTLScreen(mainScreen, usr);
+				otherTLScreen.setVisible(true);
 			}
 		});
 		textAreaTuite.setEditable(false);
@@ -111,16 +110,17 @@ public class TuitePanel extends JPanel {
 		update();
 
 		if (mainScreen.getUser().getId() != tuite.getMyUser().getId()) {
-//			btnFollowUnfollow = new JButton(btnText);
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					// creating the TO
-					FollowTO followTO = new FollowTO(mainScreen.getUser(), tuite.getMyUser());
+					FollowTO followTO = new FollowTO(mainScreen.getUser(),
+							tuite.getMyUser());
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						followTO =  mainScreen.getCtrlUser().doFollow(followTO);
+						followTO = mainScreen.getCtrlUser().doFollow(followTO);
 					} else {
-						followTO =  mainScreen.getCtrlUser().doUnFollow(followTO);
+						followTO = mainScreen.getCtrlUser()
+								.doUnFollow(followTO);
 					}
 
 					mainScreen.setUser(followTO.getFollower());
@@ -157,10 +157,12 @@ public class TuitePanel extends JPanel {
 		textAreaTuite.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				 User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
-				 otherTLScreen = new OtherTLScreen(mainScreen, usr);
-				 otherTLScreen.setVisible(true);
+			public void mouseClicked(MouseEvent e) {
+				if ( e.getClickCount() == 2){
+					User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
+					otherTLScreen = new OtherTLScreen(mainScreen, usr);
+					otherTLScreen.setVisible(true);
+				}
 			}
 		});
 		textAreaTuite.setEditable(false);
@@ -179,12 +181,14 @@ public class TuitePanel extends JPanel {
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					// creating the TO
-					FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
+					FollowTO followTO = new FollowTO(mainScreen.getUser(),
+							otherUser);
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						followTO =  mainScreen.getCtrlUser().doFollow(followTO);
+						followTO = mainScreen.getCtrlUser().doFollow(followTO);
 					} else {
-						followTO =  mainScreen.getCtrlUser().doUnFollow(followTO);
+						followTO = mainScreen.getCtrlUser()
+								.doUnFollow(followTO);
 					}
 
 					mainScreen.setUser(followTO.getFollower());
@@ -199,13 +203,14 @@ public class TuitePanel extends JPanel {
 
 	public void update() {
 		String btnText = "Follow";
-		if ( mainScreen.getCtrlUser().doesFollow(mainScreen.getUser(), otherUser)) {
+		if (mainScreen.getCtrlUser()
+				.doesFollow(mainScreen.getUser(), otherUser)) {
 			btnText = "Unfollow";
 		}
 		btnFollowUnfollow.setText(btnText);
 		repaint();
-		
-		if (otherTLScreen != null){
+
+		if (otherTLScreen != null) {
 			otherTLScreen.update();
 		}
 	}
