@@ -273,8 +273,8 @@ public class UserDao {
 			PreparedStatement stmt = con.prepareStatement(sql);
 
 			stmt.setBoolean(1, followTO.isNotifyFollower());
-			stmt.setLong(1, followTO.getFollower().getId());
-			stmt.setLong(2, followTO.getFollowed().getId());
+			stmt.setLong(2, followTO.getFollower().getId());
+			stmt.setLong(3, followTO.getFollowed().getId());
 
 			stmt.executeUpdate();
 			stmt.close();

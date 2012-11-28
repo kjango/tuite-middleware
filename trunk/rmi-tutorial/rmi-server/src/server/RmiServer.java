@@ -15,7 +15,6 @@ import model.FollowTO;
 import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
-import model.Tuite;
 import model.TuiteTO;
 import model.User;
 import base.EnumRemoteObject;
@@ -256,8 +255,8 @@ public class RmiServer extends Observable implements RmiService {
 		}
 		
 		@Override
-		public void executeFollowNotify(FollowTO followTO) throws RemoteException {
-			 new FollowImpl().doUnFollow(followTO);
+		public FollowTO executeFollowNotify(FollowTO followTO) throws RemoteException {
+			 return new FollowImpl().doNotifyFollow(followTO);
 		}
 	    
 		@Override

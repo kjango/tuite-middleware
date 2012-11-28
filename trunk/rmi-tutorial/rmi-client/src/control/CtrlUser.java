@@ -111,7 +111,7 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
     @Override
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
-    	//System.out.println("CtrlUser: " + updateMsg);
+    	System.out.println("CtrlUser: " + updateMsg);
     	this.main.notifyUserForFollow((FollowTO)updateMsg);
     }
 }
