@@ -262,6 +262,38 @@ public class UserDao {
 		return followTO;
 	}
 
+	public static FollowTO updateNotifyFollow(FollowTO followTO) {
+
+		Connection con = null;
+		String sql = null;
+		con = Connections.getConnection();
+		sql = "UPDATE rl_follow SET notify = ? WHERE id_user = ? AND id_follow = ?";
+
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+
+			stmt.setBoolean(1, followTO.isNotifyFollower());
+			stmt.setLong(1, followTO.getFollower().getId());
+			stmt.setLong(2, followTO.getFollowed().getId());
+
+			stmt.executeUpdate();
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println("Erro no SQL updateNotifyFollow");
+			e.printStackTrace();
+			followTO.setSuccess(false);
+			followTO.setErrorMessage("SQL Error!");
+			return followTO;
+		}
+		LoginTO loginTO = new LoginTO(followTO.getFollower().getLoginName());
+
+		followTO.setSuccess(true);
+		followTO.setFollower(returnUser(loginTO, true));
+
+		return followTO;
+	}
+	
 	public SearchTO searchPeople(SearchTO searchTO) {
 
 		Connection con = Connections.getConnection();

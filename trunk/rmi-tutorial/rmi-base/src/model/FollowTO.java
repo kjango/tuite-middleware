@@ -13,6 +13,16 @@ public class FollowTO extends BaseTO implements Serializable{
 	private User follower;
 	private User followed;
 	private boolean isFollowing;
+	private boolean notifyFollower;
+	
+	
+	public boolean isNotifyFollower() {
+		return notifyFollower;
+	}
+	
+	public void setNotifyFollower(boolean notifyFollower) {
+		this.notifyFollower = notifyFollower;
+	}
 	
 	public FollowTO(User follower, User followed) {
 		super();

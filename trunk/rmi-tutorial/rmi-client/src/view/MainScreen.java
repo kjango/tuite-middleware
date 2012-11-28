@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,13 +33,16 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import model.FollowTO;
 import model.SearchTO;
 import model.Tuite;
 import model.TuiteTO;
 import model.User;
+import control.CtrlLogin;
 import control.CtrlSearch;
 import control.CtrlTuite;
 import control.CtrlUser;
+import java.awt.Window.Type;
 
 public class MainScreen extends javax.swing.JFrame {
 
@@ -64,6 +66,7 @@ public class MainScreen extends javax.swing.JFrame {
 	
 	private CtrlTuite ctrlTuite;
 	private CtrlUser ctrlUser;
+	private CtrlLogin ctrlLogin;
 	private JButton btnSearchTuites;
 	private JButton btnSearchPeople;
 	private JPanel panelResPeople;
@@ -71,8 +74,10 @@ public class MainScreen extends javax.swing.JFrame {
 	private ArrayList<OtherTLScreen> tlList = new ArrayList<OtherTLScreen>();
 	private JLabel lblUserPhoto;
 
-	public MainScreen(User user) {
+	public MainScreen(User user, CtrlLogin ctrlLogin) {
+		setType(Type.POPUP);
 		this.user = user;
+		this.ctrlLogin = ctrlLogin;
 		
 		try {
 			ctrlTuite = new CtrlTuite(this);
@@ -83,6 +88,14 @@ public class MainScreen extends javax.swing.JFrame {
 		
 		initialize();
 	}
+	
+	protected void finalize() throws Throwable
+	{
+	  //do finalization here
+	  ctrlLogin.doLogoff(user);
+	  super.finalize(); //not necessary if extending Object.
+	  
+	} 
 
 	/**
 	 * Initialize the contents of the frame.
@@ -240,6 +253,7 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					btnSearchTuites.doClick();
+					updateUser();
 //					textAreaTuite.setText("");
 				}
 			}
@@ -378,6 +392,7 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ctrlLogin.doLogoff(user);
 				System.exit(0);
 			}
 		});
@@ -385,6 +400,8 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				ctrlLogin.doLogoff(user);
 				LoginScreen loginScreen = new LoginScreen();
 				dispose();
 				loginScreen.setVisible(true);
@@ -485,18 +502,22 @@ public class MainScreen extends javax.swing.JFrame {
 		tlList.remove(otherTLScreen);
 		return true;
 	}
-	public void notifyUser(User user){
+	public void notifyUserForFollow(FollowTO followTO){
 		System.out.println("User: " + user.getLoginName() + " want to follow you, Accept?");
 		
-		int x = JOptionPane.showConfirmDialog(this, "User: " + user.getRealName() + " want to follow you, Accept?",
+		int x = JOptionPane.showConfirmDialog(this, "User: " + followTO.getFollower().getRealName() + " want to follow you, Accept?",
 				"Aplicação", 
 				JOptionPane.YES_OPTION, 
 				JOptionPane.NO_OPTION); 
 				if (x == JOptionPane.YES_OPTION){ 
-					dispose(); 
-					System.out.println("YES");
+					//dispose();
+					followTO.setNotifyFollower(false);
+					ctrlUser.updateNotifyFromFollow(followTO);
 				} else if (x == JOptionPane.NO_OPTION){
-					System.out.println("NO");
+					//dispose(); 
+					followTO.setNotifyFollower(true);
+					ctrlUser.doUnFollow(followTO);
+					
 				}
 	}
 
