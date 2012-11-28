@@ -256,8 +256,8 @@ public class RmiServer extends Observable implements RmiService {
 		}
 		
 		@Override
-		public FollowTO executeFollowNotify(FollowTO followTO) throws RemoteException {
-			return new FollowImpl().doUnFollow(followTO);
+		public void executeFollowNotify(FollowTO followTO) throws RemoteException {
+			 new FollowImpl().doUnFollow(followTO);
 		}
 	    
 		@Override
