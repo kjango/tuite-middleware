@@ -517,7 +517,6 @@ public class MainScreen extends javax.swing.JFrame {
 					//dispose(); 
 					followTO.setNotifyFollower(true);
 					ctrlUser.doUnFollow(followTO);
-					
 				}
 	}
 
