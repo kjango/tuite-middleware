@@ -3,8 +3,11 @@ package control;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import view.MainScreen;
+
 import model.FollowTO;
 import model.User;
+import base.EnumRemoteObject;
 import base.RemoteObserver;
 import base.RmiService;
 import base.Util;
@@ -16,9 +19,19 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static RmiService remoteService;
+	private EnumRemoteObject ero = EnumRemoteObject.FOLLOW;
+	private view.MainScreen main;
 
-	public CtrlUser() throws RemoteException {
+	public CtrlUser(MainScreen main) throws RemoteException {
         super();
+        this.main = main;
+        
+		try {
+			remoteService = Util.getRemoteService();
+			remoteService.addObserver(this, this.ero, this.main.getUser());
+		} catch (RemoteException e){
+			System.out.println("Message: " + e.toString());
+		}
     }
 	
 	public User refreshUser(User user){
@@ -53,7 +66,14 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 		if (followTO != null) {
 			try {
 				remoteService = Util.getRemoteService();
-				return remoteService.executeDoFollow(followTO);
+				
+				FollowTO returnFollowTO = remoteService.executeDoFollow(followTO);
+				
+				if (followTO.getFollowed().isProtectedTuite()){
+					remoteService.sendMessage(followTO, this.ero, "DoFollow protected: ");
+				}
+				
+				return returnFollowTO;
 			} catch (RemoteException e) {
 				System.out.println("Message: " + followTO.getErrorMessage()
 						+ "\nException: " + e.toString());
@@ -79,6 +99,7 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
     @Override
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
-    	System.out.println("CtrlUser: " + updateMsg);
+    	//System.out.println("CtrlUser: " + updateMsg);
+    	this.main.notifyUser((User)updateMsg);
     }
 }

@@ -15,6 +15,7 @@ import model.FollowTO;
 import model.LoginTO;
 import model.RegisterTO;
 import model.SearchTO;
+import model.Tuite;
 import model.TuiteTO;
 import model.User;
 import base.EnumRemoteObject;
@@ -34,7 +35,7 @@ public class RmiServer extends Observable implements RmiService {
 	
 	private ArrayList<WrappedObserver> ObservableLogins;
 	private ArrayList<WrappedObserver> ObservableTuites;
-	//private WrapObject ObservableFollow;
+	private ArrayList<WrappedObserver> ObservableFollow;
 	
 	 private class WrappedObserver implements Observer, Serializable {
 
@@ -79,6 +80,10 @@ public class RmiServer extends Observable implements RmiService {
 				ObservableLogins.add(mo);
 				break;
 			case FOLLOW:
+				if (ObservableFollow == null){
+					ObservableFollow = new ArrayList<RmiServer.WrappedObserver>();
+				}
+				ObservableFollow.add(mo);
 				break;
 			case TUITE:
 				if (ObservableTuites == null){
@@ -89,14 +94,6 @@ public class RmiServer extends Observable implements RmiService {
 			default:
 				break;
     		}
-	    	
-	        //if (listWObs == null){
-	        	//listWObs = new ArrayList<RmiServer.WrappedObserver>();
-	        //}
-	        //listWObs.add(mo);
-	        
-	    	//addObserver(mo);
-	        //System.out.println("Added observer:" + mo);
 	    }
 
   	    Thread thread = new Thread() {
@@ -157,8 +154,24 @@ public class RmiServer extends Observable implements RmiService {
 						for (int i = 0; i < ObservableLogins.size(); i++){
 							addObserver(ObservableLogins.get(i));
 						}
+				    	setChanged();
+				    	notifyObservers(Default);
+				    	deleteObservers();
 					break;
 				case FOLLOW:
+					User userWantFollow = ((FollowTO)baseTO).getFollower();
+					User userToBeFollowed = ((FollowTO)baseTO).getFollowed();
+					
+					for (int i=0; i < ObservableFollow.size(); i++){
+						WrappedObserver wp = ObservableFollow.get(i);
+						User userLocal = (User)wp.getBaseTO();
+						if (userLocal.getLoginName().equals(userToBeFollowed.getLoginName())){
+							addObserver(wp);
+						}
+					}
+			    	setChanged();
+			    	notifyObservers(userWantFollow);
+			    	deleteObservers();
 					break;
 				case TUITE:
 					User userSource = (User)baseTO;
@@ -174,25 +187,16 @@ public class RmiServer extends Observable implements RmiService {
 							}
 						}
 					}
+			    	setChanged();
+			    	notifyObservers(Default);
+			    	deleteObservers();
 					break;
 				default:
 					break;
 	    		}
-		    	setChanged();
-		    	notifyObservers(Default);
-		    	deleteObservers();
 	    }
 	    
-	    private User isLoggedUser(String user){
-	    	for (int i=0 ; i < listLogins.size(); i++){
-    			User userLogged = listLogins.get(i);
-    			if (userLogged.getLoginName().equals(user)){
-    				return userLogged;
-    			}
-    		}
-    		return null;
-	    }
-	    
+   
 	    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
 	    	if (listLogins == null){
 	    		listLogins = new ArrayList<User>();
@@ -216,9 +220,9 @@ public class RmiServer extends Observable implements RmiService {
 	    	if (userLogged != null){
 	    		listLogins.remove(userLogged);
 	    		System.out.println("user logoff: " + user.getLoginName());
+	    		clearObservers(userLogged);
 	    		return true;
 	    	}
-	    	
 	    	return false;
 	    }
 	    
@@ -256,4 +260,38 @@ public class RmiServer extends Observable implements RmiService {
 		public User refreshUser(User user) throws RemoteException{
 			return new LoginImpl().returnUser(user);
 		}
+				
+	    private User isLoggedUser(String user){
+	    	for (int i=0 ; i < listLogins.size(); i++){
+    			User userLogged = listLogins.get(i);
+    			if (userLogged.getLoginName().equals(user)){
+    				return userLogged;
+    			}
+    		}
+    		return null;
+	    }
+	    
+	    private boolean clearObservers(User user){
+	    	
+	    	for (int i=0; i < ObservableLogins.size(); i++){
+	    		User userObserver = (User)ObservableLogins.get(i).getBaseTO();
+	    		if (user.getLoginName().equals(userObserver.getLoginName()))	    				{
+	    			ObservableLogins.remove(i);
+	    		}
+	    	}
+	    	for (int i=0; i < ObservableTuites.size(); i++){
+	    		User userObserver =((Tuite)ObservableTuites.get(i).getBaseTO()).getMyUser();
+	    		if (user.getLoginName().equals(userObserver.getLoginName()))	    				{
+	    			ObservableTuites.remove(i);
+	    		}
+	    	}
+	    	for (int i=0; i < ObservableFollow.size(); i++){
+	    		User userObserver =((User)ObservableFollow.get(i).getBaseTO());
+	    		if (user.getLoginName().equals(userObserver.getLoginName()))	    				{
+	    			ObservableFollow.remove(i);
+	    		}
+	    	}
+	    	return false;
+	    }
+		
 }
