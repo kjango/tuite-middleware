@@ -13,8 +13,10 @@ public class FollowImpl {
 //		}
 		
 		return UserDao.addFollower(followTO);
-
-
+	}
+	
+	public FollowTO doNotifyFollow(FollowTO followTO){
+		return UserDao.updateNotifyFollow(followTO);
 	}
 
 	public FollowTO doUnFollow(FollowTO followTO) {

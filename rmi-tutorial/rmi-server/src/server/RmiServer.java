@@ -159,7 +159,6 @@ public class RmiServer extends Observable implements RmiService {
 				    	deleteObservers();
 					break;
 				case FOLLOW:
-					User userWantFollow = ((FollowTO)baseTO).getFollower();
 					User userToBeFollowed = ((FollowTO)baseTO).getFollowed();
 					
 					for (int i=0; i < ObservableFollow.size(); i++){
@@ -170,7 +169,7 @@ public class RmiServer extends Observable implements RmiService {
 						}
 					}
 			    	setChanged();
-			    	notifyObservers(userWantFollow);
+			    	notifyObservers((FollowTO)baseTO);
 			    	deleteObservers();
 					break;
 				case TUITE:
@@ -255,6 +254,11 @@ public class RmiServer extends Observable implements RmiService {
 		public FollowTO executeDoUnFollow(FollowTO followTO) throws RemoteException {
 			return new FollowImpl().doUnFollow(followTO);
 		}
+		
+		@Override
+		public FollowTO executeFollowNotify(FollowTO followTO) throws RemoteException {
+			return new FollowImpl().doUnFollow(followTO);
+		}
 	    
 		@Override
 		public User refreshUser(User user) throws RemoteException{
@@ -274,13 +278,13 @@ public class RmiServer extends Observable implements RmiService {
 	    private boolean clearObservers(User user){
 	    	
 	    	for (int i=0; i < ObservableLogins.size(); i++){
-	    		User userObserver = (User)ObservableLogins.get(i).getBaseTO();
+	    		User userObserver = ((LoginTO)ObservableLogins.get(i).getBaseTO()).getUser();
 	    		if (user.getLoginName().equals(userObserver.getLoginName()))	    				{
 	    			ObservableLogins.remove(i);
 	    		}
 	    	}
 	    	for (int i=0; i < ObservableTuites.size(); i++){
-	    		User userObserver =((Tuite)ObservableTuites.get(i).getBaseTO()).getMyUser();
+	    		User userObserver = (User)ObservableTuites.get(i).getBaseTO();
 	    		if (user.getLoginName().equals(userObserver.getLoginName()))	    				{
 	    			ObservableTuites.remove(i);
 	    		}

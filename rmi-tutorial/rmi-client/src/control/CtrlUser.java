@@ -82,6 +82,19 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 		return null;
 	}
 	
+	public void updateNotifyFromFollow(FollowTO followTO){
+		if (followTO != null) {
+			try {
+				remoteService = Util.getRemoteService();
+				remoteService.executeFollowNotify(followTO);
+			} catch (RemoteException e) {
+				System.out.println("Message: " + followTO.getErrorMessage()
+						+ "\nException: " + e.toString());
+			}
+		}
+
+	}
+	
 	public FollowTO doUnFollow(FollowTO followTO){
 		if (followTO != null) {
 			try {
@@ -92,7 +105,6 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 						+ "\nException: " + e.toString());
 			}
 		}
-
 		return followTO;
 	}
 	
@@ -100,6 +112,6 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
     public void update(Object observable, Object updateMsg)
             throws RemoteException {
     	//System.out.println("CtrlUser: " + updateMsg);
-    	this.main.notifyUser((User)updateMsg);
+    	this.main.notifyUserForFollow((FollowTO)updateMsg);
     }
 }

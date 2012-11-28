@@ -145,7 +145,7 @@ public class LoginScreen extends javax.swing.JFrame{
 						if (loginTO != null) {
 							
 							if (loginTO.isValidated()){
-								MainScreen ms = new MainScreen(loginTO.getUser());
+								MainScreen ms = new MainScreen(loginTO.getUser(), ctrlLogin);
 								ms.setVisible(true);
 								dispose();
 							} else {
