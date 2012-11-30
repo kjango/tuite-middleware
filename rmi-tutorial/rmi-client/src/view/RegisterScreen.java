@@ -182,7 +182,6 @@ public class RegisterScreen extends javax.swing.JFrame{
 					ok = false;
 				}
 				if (ok){
-					//crio o TO pra fazer o registro
 						RegisterTO registerTO = new RegisterTO(new User(0, textFieldEmail.getText(), textFieldName.getText(), textFieldUserName.getText(), null, new Date(), chckbxProtectTuite.isSelected(), null, null, null, null), passwordField.getText());
 						registerTO = ctrlRegister.doRegistry(registerTO);
 						if (registerTO.isRegistered()){

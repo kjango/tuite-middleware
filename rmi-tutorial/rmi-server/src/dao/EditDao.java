@@ -22,8 +22,18 @@ import model.RegisterTO;
 import model.Tuite;
 import model.User;
 
+
+/**
+ * The Class EditDao.
+ */
 public class EditDao {
 
+	/**
+	 * Check the conditions to perform the user's profile update in database.
+	 *
+	 * @param registerTO the register transfer object
+	 * @return the register to
+	 */
 	public RegisterTO updateUser(RegisterTO registerTO){
 		if (registerTO.isModifiedLogin() && !LoginDao.verifyLogin(registerTO.getUser().getLoginName()))
 			return update(registerTO);
@@ -36,6 +46,12 @@ public class EditDao {
 
 	}
 
+	/**
+	 * Update user's profile in database.
+	 *
+	 * @param registerTO the register transfer object
+	 * @return the register to
+	 */
 	public RegisterTO update(RegisterTO registerTO){
 
 		Connection con = Connections.getConnection();
@@ -64,7 +80,7 @@ public class EditDao {
 			LoginTO loginTO = new LoginTO(registerTO.getUser().getLoginName());
 			User user = null;
 
-			//Buscando usuário no banco
+			//Searching for an user in database
 			user = userDao.returnUser(loginTO, true);
 			registerTO.setUser(user);
 			return registerTO;
@@ -96,7 +112,7 @@ public class EditDao {
 				return registerTO;
 			}
 		}
-		//Se não tiver passord alterado, altera sem password
+		//If the user's passaword was not changed, update the profile without a new password
 		else{
 			con = null;
 			sql = null;
@@ -132,6 +148,11 @@ public class EditDao {
 		return registerTO;
 	}
 
+	/**
+	 * Update the register Transfer Object that came from the client side.
+	 *
+	 * @param registerTO the register transfer object.
+	 */
 	private void updateTO(RegisterTO registerTO){
 		UserDao userDao = new UserDao();
 		LoginTO loginTO = new LoginTO(registerTO.getUser().getLoginName());
@@ -142,6 +163,12 @@ public class EditDao {
 	}
 
 	
+	/**
+	 * Process the user's image.
+	 *
+	 * @param objImageIcon: the user's photo
+	 * @return the image in byte array format
+	 */
 	private byte[] processImage(ImageIcon objImageIcon){
 		Image img = objImageIcon.getImage();
 		if (img instanceof RenderedImage == false)
@@ -157,6 +184,13 @@ public class EditDao {
 		return array;
 	}
 	
+	/**
+	 * Gets the buffered image.
+	 *
+	 * @param img: the image
+	 * @param transparency: the alpha value of the image
+	 * @return the buffered image
+	 */
 	private static BufferedImage getBufferedImage(Image img, int transparency)
 	{
 		if (img instanceof BufferedImage)

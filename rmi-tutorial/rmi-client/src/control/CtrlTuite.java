@@ -13,16 +13,30 @@ import base.RemoteObserver;
 import base.RmiService;
 import base.Util;
 
+
+/**
+ * The Class CtrlTuite.
+ */
 public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 	
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The remote interface. */
 	public static RmiService remoteService;
+	
+	/** The ero. */
 	private EnumRemoteObject ero = EnumRemoteObject.TUITE;
+	
+	/** The main screen. */
 	private view.MainScreen main;
 
+	/**
+	 * Instantiates a new ctrl tuite.
+	 *
+	 * @param main: the mainscreen
+	 * @throws RemoteException: the remote exception
+	 */
 	public CtrlTuite(MainScreen main) throws RemoteException {
         super();
         this.main = main;
@@ -35,6 +49,12 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 		}
     }
 	
+	/**
+	 * Sends the user's twee to the server.
+	 *
+	 * @param t: the tuite transfer object
+	 * @return the tuite to
+	 */
 	public TuiteTO doTuite(TuiteTO t){
 		if (t != null)
     	{
@@ -50,9 +70,11 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 		
 		return t;
 	}
+	
 	/**
-	 * 
-	 * @param t tuite that will be truncated
+	 * Truncate.
+	 *
+	 * @param tuiteTO the tuite to
 	 * @return true if the tuite was truncated (over 140 chars)
 	 */
 	public boolean truncate(TuiteTO tuiteTO){
@@ -68,6 +90,9 @@ public class CtrlTuite extends UnicastRemoteObject implements RemoteObserver {
 		return false;
 	}
 	
+    /* (non-Javadoc)
+     * @see base.RemoteObserver#update(java.lang.Object, java.lang.Object)
+     */
     @Override
     public void update(Object observable, Object updateMsg)
             throws RemoteException {

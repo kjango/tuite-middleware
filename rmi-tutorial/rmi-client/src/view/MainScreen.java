@@ -46,36 +46,87 @@ import java.awt.Window.Type;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainScreen.
+ */
 public class MainScreen extends javax.swing.JFrame {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The user. */
 	private User user;
+	
+	/** The panel timeline. */
 	private JPanel panelTimeLine;
+	
+	/** The text area to write tweets. */
 	private JTextArea textAreaTuite;
+	
+	/** The btn tuite. */
 	private JButton btnTuite;
+	
+	/** The lbl char count. */
 	private JLabel lblCharCount;
+	
+	/** The scroll pane. */
 	private JScrollPane scrollPane;
+	
+	/** The text field search people. */
 	private JTextField textFieldSearchPeople;
+	
+	/** The text field search tuites. */
 	private JTextField textFieldSearchTuites;
+	
+	/** The scroll pane following. */
 	private JScrollPane scrollPaneFollowing;
+	
+	/** The scroll pane followers. */
 	private JScrollPane scrollPaneFollowers;
+	
+	/** The panel followers list. */
 	private JPanel panelFollowersList;
+	
+	/** The panel following list. */
 	private JPanel panelFollowingList;
+	
+	/** The me. */
 	private MainScreen me = this;
 
+	/** The ctrl tuite. */
 	private CtrlTuite ctrlTuite;
+	
+	/** The ctrl user. */
 	private CtrlUser ctrlUser;
+	
+	/** The ctrl login. */
 	private CtrlLogin ctrlLogin;
+	
+	/** The btn search tuites. */
 	private JButton btnSearchTuites;
+	
+	/** The btn search people. */
 	private JButton btnSearchPeople;
+	
+	/** The panel res people. */
 	private JPanel panelResPeople;
+	
+	/** The panel res tuites. */
 	private JPanel panelResTuites;
+	
+	/** The tl list. */
 	private ArrayList<OtherTLScreen> tlList = new ArrayList<OtherTLScreen>();
+	
+	/** The lbl user photo. */
 	private JLabel lblUserPhoto;
 
+	/**
+	 * Instantiates a new main screen.
+	 *
+	 * @param user the user
+	 * @param ctrlLogin the ctrl login
+	 */
 	public MainScreen(User user, CtrlLogin ctrlLogin) {
 
 		setType(Type.POPUP);
@@ -92,6 +143,9 @@ public class MainScreen extends javax.swing.JFrame {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
 	protected void finalize() throws Throwable {
 		// do finalization here
 		ctrlLogin.doLogoff(user);
@@ -458,6 +512,9 @@ public class MainScreen extends javax.swing.JFrame {
 
 	}
 
+	/**
+	 * Update.
+	 */
 	public void update() {
 		setTitle("Tuite - " + user.getRealName());
 		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for "
@@ -504,34 +561,69 @@ public class MainScreen extends javax.swing.JFrame {
 		repaint();
 	}
 
+	/**
+	 * Update user.
+	 */
 	public void updateUser() {
 		User userTemp = ctrlUser.refreshUser(user);
 		setUser(userTemp);
 		update();
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @return the user
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * Sets the user.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Gets the ctrl user.
+	 *
+	 * @return the ctrl user
+	 */
 	public CtrlUser getCtrlUser() {
 		return ctrlUser;
 	}
 
+	/**
+	 * Adds the tl.
+	 *
+	 * @param otherTLScreen the other tl screen
+	 * @return true, if successful
+	 */
 	public boolean addTL(OtherTLScreen otherTLScreen) {
 		tlList.add(otherTLScreen);
 		return true;
 	}
 
+	/**
+	 * Removes the tl.
+	 *
+	 * @param otherTLScreen the other tl screen
+	 * @return true, if successful
+	 */
 	public boolean removeTL(OtherTLScreen otherTLScreen) {
 		tlList.remove(otherTLScreen);
 		return true;
 	}
 
+	/**
+	 * Notify user for follow.
+	 *
+	 * @param followTO: the follow to
+	 */
 	public void notifyUserForFollow(FollowTO followTO) {
 		// System.out.println("User: " + user.getLoginName() +
 		// " want to follow you, Accept?");
