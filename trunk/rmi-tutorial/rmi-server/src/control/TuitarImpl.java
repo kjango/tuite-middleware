@@ -15,8 +15,18 @@ import model.Tuite;
 import model.TuiteTO;
 import model.User;
 
+
+/**
+ * The Class TuitarImpl.
+ */
 public class TuitarImpl {
 
+	/**
+	 * Calls the TuiteDao to save an user's tweet into the database.
+	 *
+	 * @param tuiteTO the tuite to
+	 * @return the tuite to
+	 */
 	public TuiteTO writeTuite(TuiteTO tuiteTO){
 		tuiteTO = new TuiteDao().Tuitar(tuiteTO);
 		return tuiteTO;

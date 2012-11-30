@@ -23,27 +23,56 @@ import model.RegisterTO;
 import model.User;
 import control.CtrlRegister;
 
+
+/**
+ * The Class EditProfileScreen.
+ */
 public class EditProfileScreen extends JFrame {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The text field for the user's real name. */
 	private JTextField textFieldRealName;
+	
+	/** The text field for the user's screen name. */
 	private JTextField textFieldScreenName;
+	
+	/** The text field for theuser's email. */
 	private JTextField textFieldEmail;
+	
+	/** The chckbx protec tuite. */
 	private JCheckBox chckbxProtecTuite;
+	
+	/** The chckbx real name. */
 	private JCheckBox chckbxRealName;
+	
+	/** The chckbx user name. */
 	private JCheckBox chckbxUserName;
+	
+	/** The chckbx password. */
 	private JCheckBox chckbxPassword;
+	
+	/** The chckbx email. */
 	private JCheckBox chckbxEmail;
 
+	/** The user. */
 	private User user;
+	
+	/** The main screen. */
 	private MainScreen mother;
+	
+	/** The password field. */
 	private JPasswordField passwordField;
+	
 	/**
 	 * Launch the application.
+	 *
+	 * @param user: the user
+	 * @param mother: the main screen
 	 */
 
 
@@ -62,6 +91,9 @@ public class EditProfileScreen extends JFrame {
 		}
 	}
 
+	/**
+	 * Sets the fields.
+	 */
 	public void setFields(){
 		textFieldRealName.setText(user.getRealName());
 		textFieldScreenName.setText(user.getLoginName());
@@ -294,6 +326,9 @@ public class EditProfileScreen extends JFrame {
 
 	}
 
+	/**
+	 * Upload the user's photo.
+	 */
 	public void UpImagem() {
 
 		JFileChooser chooser = new JFileChooser();

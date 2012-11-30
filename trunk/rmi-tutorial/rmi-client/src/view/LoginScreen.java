@@ -28,25 +28,49 @@ import twitter4j.Twitter;
 import control.CtrlLogin;
 import control.CtrlTwitter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginScreen.
+ */
 public class LoginScreen extends javax.swing.JFrame{
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The login field. */
 	private JTextField loginField;
+	
+	/** The password field. */
 	private JPasswordField passwordField;
+	
+	/** The me. */
 	private JFrame me;
+	
+	/** The rdbtn tuiter. */
 	private JRadioButton rdbtnTuiter;
+	
+	/** The rdbtn twitter. */
 	private JRadioButton rdbtnTwitter;
+	
+	/** The btn register. */
 	private JButton btnRegister;
+	
+	/** The btn login. */
 	private JButton btnLogin;
+	
+	/** The btn quit. */
 	private JButton btnQuit;
+	
+	/** The twitter. */
 	private Twitter twitter;
+	
+	/** The ctrl login. */
 	private CtrlLogin ctrlLogin;
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

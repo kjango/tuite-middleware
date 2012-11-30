@@ -3,10 +3,18 @@ package control;
 import model.RegisterTO;
 import dao.RegisterDao;
 
+/**
+ * The Class RegisterImpl.
+ */
 public class RegisterImpl {
 
+	/**
+	 * Calls the RegisterDao to perform the user's registration.
+	 *
+	 * @param registerTO the register transfer object
+	 * @return the register to
+	 */
 	public RegisterTO doRegister(RegisterTO registerTO){
-		//TODO implementar essa classe
 		RegisterTO res = RegisterDao.insertUser(registerTO);
 		
 		//System.out.println(registerTO.getUser().getRealName() + "foi registrado...  ou não");

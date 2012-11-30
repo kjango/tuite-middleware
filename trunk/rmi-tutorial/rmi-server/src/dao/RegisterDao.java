@@ -19,8 +19,17 @@ import javax.swing.ImageIcon;
 
 import model.RegisterTO;
 
+/**
+ * The Class RegisterDao.
+ */
 public class RegisterDao {
 
+	/**
+	 * Insert a new user into the databse.
+	 *
+	 * @param registerTO the register transfer object.
+	 * @return the register to
+	 */
 	public static RegisterTO insertUser(RegisterTO registerTO){
 	
 		if (!LoginDao.verifyLogin(registerTO.getUser().getLoginName()))
@@ -100,6 +109,12 @@ public class RegisterDao {
 	}
 	
 	
+	/**
+	 * Process the user's image.
+	 *
+	 * @param objImageIcon: the user's photo
+	 * @return the image in byte array format
+	 */
 	private static byte[] processImage(ImageIcon objImageIcon){
 
 		//ImageIcon objImageIcon = registerTO.getUser().getPhoto();
@@ -117,6 +132,13 @@ public class RegisterDao {
 		return array;
 	}
 	
+	/**
+	 * Gets the buffered image.
+	 *
+	 * @param img: the image
+	 * @param transparency: the alpha value of the image
+	 * @return the buffered image
+	 */
 	private static BufferedImage getBufferedImage(Image img, int transparency)
 	{
 		if (img instanceof BufferedImage)

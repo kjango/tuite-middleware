@@ -5,36 +5,22 @@ import dao.UserDao;
 import model.RegisterTO;
 import model.User;
 
+
+/**
+ * The Class EditProfileImpl.
+ */
 public class EditProfileImpl {
 
+	/**
+	 * Calls the editDAO to perform the user's profile edition.
+	 *
+	 * @param registerTO the register transfer object
+	 * @return the register to
+	 */
 	public RegisterTO Edit(RegisterTO registerTO){
-		//TODO implementar corretamen este método
 		
 		EditDao editDao = new EditDao();
 		return editDao.updateUser(registerTO);
-		
-		
-		
-		//String Email = regsterTO.getUserEmail();
-		//String LoginName = registerTO.getUserLoginName();
-		//String RealName = registerTO.getUserRealName();
-		//String Password = registerTO.getUserPassword();
-		
-		//if(Email!=null)
-			//user.setEmail(Email);
-		
-		//if(LoginName!=null)
-		//	user.setLoginName(LoginName);
-		
-		//if(RealName!=null)
-		//	user.setRealName(RealName);
-		
-		//registerTO.setUser(user);
-		
-		//if(Password!=null)
-		//Seta o password do cara no bnco de dados	
-		
-		//return registerTO;
 		
 	}
 
