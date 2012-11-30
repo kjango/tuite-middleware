@@ -39,20 +39,9 @@ public class EditDao {
 	public RegisterTO update(RegisterTO registerTO){
 
 		Connection con = Connections.getConnection();
-
-
-		//			String sql = "UPDATE tb_users (email, real_name) " +
-		//					"values (?, ?)"
-		//					+ "WHERE id = '" + registerTO.getUser().getId() + "'";
-		//			String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?" 
-		//					+ "WHERE id = ?";
-
-//		String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?" 
-//				+ "WHERE id = ?";
 		
 		String sql = "UPDATE tb_users SET email = ? , real_name = ?, protected_tweet = ?, photo = ?" 
 				+ "WHERE id = ?";
-
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -85,9 +74,6 @@ public class EditDao {
 			con = null;
 			sql = null;
 			con = Connections.getConnection();
-			//				sql = "UPDATE tb_login (login, user_password) " +
-			//						"values (?, ?)"
-			//						+ "WHERE id_user = '" + registerTO.getUser().getId() + "'";
 			sql = "UPDATE tb_login SET login = ? , user_password = ?" 
 					+ "WHERE id_user = ?";
 			try {
@@ -115,9 +101,7 @@ public class EditDao {
 			con = null;
 			sql = null;
 			con = Connections.getConnection();
-			//				sql = "UPDATE tb_login (login) " +
-			//						"values (?)"
-			//						+ "WHERE id_user = '" + registerTO.getUser().getId() + "'";
+			
 			sql = "UPDATE tb_login SET login = ? " 
 					+ "WHERE id_user = ?";
 
@@ -140,14 +124,6 @@ public class EditDao {
 				return registerTO;
 			}
 
-			//				//Buscando usuário alterado com SUCESSO
-			//				UserDao userDao = new UserDao();
-			//				LoginTO loginTO = new LoginTO(registerTO.getUser().getLoginName());
-			//				User user = null;
-			//
-			//				user = userDao.returnUser(loginTO, true);
-			//				registerTO.setUser(user);
-			//				return registerTO;
 		}
 
 
@@ -167,8 +143,6 @@ public class EditDao {
 
 	
 	private byte[] processImage(ImageIcon objImageIcon){
-
-		//ImageIcon objImageIcon = registerTO.getUser().getPhoto();
 		Image img = objImageIcon.getImage();
 		if (img instanceof RenderedImage == false)
 			img = getBufferedImage(img, Transparency.TRANSLUCENT);

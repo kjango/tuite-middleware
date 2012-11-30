@@ -15,9 +15,9 @@ import java.security.MessageDigest;
 public class Util {
 
 	/**
-	 * Gera senha codificada em MD5
-	 * @param Senha_Plaintext: Formato "puro" da senha
-	 * @return: Formato codificado MD5
+	 * Generates MD5 password coding
+	 * @param Senha_Plaintext: plaintext password format
+	 * @return: Encoded MD5 format
 	 */
     public static String GeraMD5(String Senha_Plaintext)
     {
