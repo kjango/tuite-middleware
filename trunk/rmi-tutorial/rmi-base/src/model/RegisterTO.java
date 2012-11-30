@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RegisterTO.
  */
