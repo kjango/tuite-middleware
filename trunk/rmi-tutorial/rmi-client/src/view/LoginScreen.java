@@ -61,9 +61,9 @@ public class LoginScreen extends javax.swing.JFrame{
 	
 	/** The btn quit. */
 	private JButton btnQuit;
-	
-	/** The twitter. */
-	private Twitter twitter;
+//	
+//	/** The twitter. */
+//	private Twitter twitter;
 	
 	/** The ctrl login. */
 	private CtrlLogin ctrlLogin;
@@ -233,7 +233,7 @@ public class LoginScreen extends javax.swing.JFrame{
 		btnTwitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// using Twitter
-					CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
+					CtrlTwitter ctrlTwitter = new CtrlTwitter();
 					User usr = ctrlTwitter.twLogin();
 					
 					if (usr != null) {
