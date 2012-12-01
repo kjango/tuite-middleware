@@ -178,18 +178,14 @@ public class User extends BaseTO implements Serializable {
 		following.remove(user);
 		return true;
 	}
-	
-	/**
-	 * Adds the tuite in the timeline.
-	 *
-	 * @param tuite: the tuite
-	 * @return true, if successful
-	 */
-	public boolean addTuite(Tuite tuite) {
-		tuites.add(tuite);
+	public boolean addTuite(Tuite tuite, int pos) {
+		tuites.add(pos, tuite);
 		return true;
 	}
-	
+	public boolean addMyTuite(Tuite tuite, int pos) {
+		myTuites.add(pos, tuite);
+		return true;
+	}
 	/**
 	 * Adds the user's tuite.
 	 *

@@ -46,13 +46,7 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 	}
 	
 	public boolean doesFollow(User a, User b){
-//		if (a.getFollowing() == null){
-//			return false;
-//		}
-//		
-//		if(a.getFollowing().contains(b)){
-//			return true;
-//		}
+
 		for (User u : a.getFollowing()) {
 			if(u.getId() == b.getId()){
 				return true;

@@ -50,7 +50,7 @@ public class RegisterScreen extends javax.swing.JFrame{
 	 * Create the application.
 	 */
 	public RegisterScreen(JFrame mother) {
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.mother = mother;
 		
 		try {
