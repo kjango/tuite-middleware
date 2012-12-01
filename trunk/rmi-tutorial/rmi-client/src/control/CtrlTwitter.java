@@ -141,16 +141,14 @@ public class CtrlTwitter {
 	
 	public Tuite getTuite(Status status){
 		User user = new User(status.getUser().getId(), status.getUser().getName(), new ImageIcon(status.getUser().getProfileImageURL()));
-		java.sql.Timestamp date = new java.sql.Timestamp(status
-				.getCreatedAt().getTime());
+		java.sql.Timestamp date = new java.sql.Timestamp(status.getCreatedAt().getTime());
 
 		return new Tuite((int) status.getId(), status.getText(), date, user);
 	}
 	
 	public Tuite getTuite(Tweet status){
 		User user = new User(status.getFromUserId(), status.getFromUserName(), new ImageIcon(status.getProfileImageUrl()));
-		java.sql.Timestamp date = new java.sql.Timestamp(status
-				.getCreatedAt().getTime());
+		java.sql.Timestamp date = new java.sql.Timestamp(status.getCreatedAt().getTime());
 
 		return new Tuite((int) status.getId(), status.getText(), date, user);
 	}
@@ -230,7 +228,6 @@ public class CtrlTwitter {
 		ArrayList<User> alUsr = new ArrayList<User>();
 		
 		try {
-//			Query query = new Query(text);
 			ResponseList<twitter4j.User> result;
 			result = twitter.searchUsers(text, 10);
 			for (twitter4j.User usr : result) {

@@ -95,10 +95,12 @@ public class TuitePanel extends JPanel {
 		JTextArea textAreaTuite = new JTextArea(tuite.getText());
 		textAreaTuite.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
-				otherTLScreen = new OtherTLScreen(mainScreen, usr);
-				otherTLScreen.setVisible(true);
+			public void mouseClicked(MouseEvent e) {
+				if ( e.getClickCount() == 2){
+					User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
+					otherTLScreen = new OtherTLScreen(mainScreen, usr);
+					otherTLScreen.setVisible(true);
+				}
 			}
 		});
 		textAreaTuite.setEditable(false);
