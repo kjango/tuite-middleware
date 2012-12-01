@@ -525,6 +525,15 @@ public class MainScreen extends javax.swing.JFrame {
 
 			}
 		});
+		
+		JMenuItem mntmRefresh = new JMenuItem("Refresh");
+		mntmRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateUser();
+			}
+		});
+		mnArchive.add(mntmRefresh);
+		mntmRefresh.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
 				InputEvent.CTRL_MASK));
 		mnArchive.add(mntmLogout);
