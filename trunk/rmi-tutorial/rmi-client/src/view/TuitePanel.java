@@ -178,22 +178,21 @@ public class TuitePanel extends JPanel {
 			// btnFollowUnfollow = new JButton(btnText);
 			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
 			add(btnFollowUnfollow, BorderLayout.EAST);
+			
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					// creating the TO
+					
 					FollowTO followTO = new FollowTO(mainScreen.getUser(),
 							otherUser);
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
 						followTO = mainScreen.getCtrlUser().doFollow(followTO);
 					} else {
-						followTO = mainScreen.getCtrlUser()
-								.doUnFollow(followTO);
+						followTO = mainScreen.getCtrlUser().doUnFollow(followTO);
 					}
 
 					mainScreen.setUser(followTO.getFollower());
 					mainScreen.updateUser();
-					mainScreen.update();
 				}
 			});
 

@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -29,7 +30,7 @@ public class CtrlTwitter {
 
 	public User twLogin() {
 		User user = null;
-		try {
+//		try {
 			try {
 				twitter = new TwitterFactory().getInstance();
 				try {
@@ -82,17 +83,14 @@ public class CtrlTwitter {
 			// cannot get the user email through API -->
 			// http://stackoverflow.com/questions/3599621/is-there-a-way-to-get-an-users-email-id-after-verifying-her-twitter-identity-us
 
-			twitter4j.User u = twitter.verifyCredentials();
+//			twitter4j.User u = twitter.verifyCredentials();
 
-			// user = getFullUser(u);
-			return getFullUser(u);
+			return getFullUser();
 
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (TwitterException e) {
+//			e.printStackTrace();
+//		}
 
-		return user;
 	}
 
 	public ArrayList<User> getFollowers() {
@@ -150,7 +148,6 @@ public class CtrlTwitter {
 	}
 	
 	public Tuite getTuite(Tweet status){
-//		User user = getSimpleUser(status.getFromUserId());
 		User user = new User(status.getFromUserId(), status.getFromUserName(), new ImageIcon(status.getProfileImageUrl()));
 		java.sql.Timestamp date = new java.sql.Timestamp(status
 				.getCreatedAt().getTime());
@@ -174,10 +171,17 @@ public class CtrlTwitter {
 		return null;
 	}
 
-	public User getFullUser(twitter4j.User twUser) {
-		return new User(twUser.getId(), twUser.getScreenName(),
-				twUser.getName(), getFollowing(), getTimeline(),
-				getFollowers(), new ImageIcon(twUser.getProfileImageURL()));
+	public User getFullUser() {
+		twitter4j.User twUser;
+		try {
+			twUser = twitter.verifyCredentials();
+			return new User(twUser.getId(), twUser.getScreenName(),
+					twUser.getName(), getFollowing(), getTimeline(),
+					getFollowers(), new ImageIcon(twUser.getProfileImageURL()));
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public ArrayList<Tuite> getTimeline() {
@@ -205,15 +209,6 @@ public class CtrlTwitter {
 		return false;
 	}
 
-	public User refreshUser(User user) {
-		try {
-			return getFullUser(twitter.verifyCredentials());
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public ArrayList<Tuite> searchTweets(String text) {
 		ArrayList<Tuite> alTuite = new ArrayList<Tuite>();
 		
@@ -226,7 +221,6 @@ public class CtrlTwitter {
 			}
 
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return alTuite;
@@ -244,10 +238,26 @@ public class CtrlTwitter {
 			}
 
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return alUsr;
+	}
+
+	public void changeProfileImage(File image) {
+		try {
+			twitter.updateProfileImage(image);
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void changeRealName(String text) {
+		try {
+			twitter.updateProfile(text, null, null, null);
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

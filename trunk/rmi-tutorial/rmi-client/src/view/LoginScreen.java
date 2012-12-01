@@ -205,7 +205,7 @@ public class LoginScreen extends javax.swing.JFrame{
 
 			}
 		});
-		btnRegister.setBounds(158, 90, 89, 23);
+		btnRegister.setBounds(59, 121, 89, 23);
 		panel.add(btnRegister);
 
 		btnQuit = new JButton("Quit");
@@ -243,7 +243,7 @@ public class LoginScreen extends javax.swing.JFrame{
 					}
 			}
 		});
-		btnTwitter.setBounds(59, 121, 89, 23);
+		btnTwitter.setBounds(158, 90, 89, 23);
 		panel.add(btnTwitter);
 
 

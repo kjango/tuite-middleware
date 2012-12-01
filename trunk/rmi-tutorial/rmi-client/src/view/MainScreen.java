@@ -225,7 +225,6 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnTuite.doClick();
-					// textAreaTuite.setText("");
 				}
 			}
 
@@ -355,8 +354,6 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnSearchTuites.doClick();
-					updateUser();
-					// textAreaTuite.setText("");
 				}
 			}
 		});
@@ -437,7 +434,6 @@ public class MainScreen extends javax.swing.JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnSearchPeople.doClick();
-					// textAreaTuite.setText("");
 				}
 			}
 		});
@@ -509,7 +505,9 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctrlLogin.doLogoff(user);
+				if (!isTwitter) {
+					ctrlLogin.doLogoff(user);
+				}
 				System.exit(0);
 			}
 		});
@@ -518,7 +516,9 @@ public class MainScreen extends javax.swing.JFrame {
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				ctrlLogin.doLogoff(user);
+				if (!isTwitter) {
+					ctrlLogin.doLogoff(user);
+				}
 				LoginScreen loginScreen = new LoginScreen();
 				dispose();
 				loginScreen.setVisible(true);
@@ -621,7 +621,7 @@ public class MainScreen extends javax.swing.JFrame {
 		if (!isTwitter()) {
 			userTemp = ctrlUser.refreshUser(user);
 		}else{
-			userTemp = ctrlTwitter.refreshUser(user);
+			userTemp = ctrlTwitter.getFullUser();
 		}
 		setUser(userTemp);
 		update();
