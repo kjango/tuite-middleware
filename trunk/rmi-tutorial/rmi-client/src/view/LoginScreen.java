@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import model.LoginTO;
+import model.User;
 import twitter4j.Twitter;
 import control.CtrlLogin;
 import control.CtrlTwitter;
@@ -72,13 +73,13 @@ public class LoginScreen extends javax.swing.JFrame{
 	 *
 	 * @param args the arguments
 	 */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginScreen().setVisible(true);
-            }
-        });
-    }
+	public static void main(String args[]) {
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new LoginScreen().setVisible(true);
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
@@ -87,16 +88,16 @@ public class LoginScreen extends javax.swing.JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		me = this;
-		
+
 		try {
 			ctrlLogin = new CtrlLogin();
 		} catch (Exception ex) {
-			
+
 		}
-		
+
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -112,112 +113,115 @@ public class LoginScreen extends javax.swing.JFrame{
 		});
 		setTitle("Tuiter");
 		getContentPane().setLayout(null);
-		
+
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Login", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(null, "Login", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		panel.setBounds(10, 11, 328, 155);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblLogin = new JLabel("Login:");
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblLogin.setBounds(35, 25, 35, 22);
 		panel.add(lblLogin);
-		
+
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblPassword.setBounds(10, 57, 60, 22);
 		panel.add(lblPassword);
-		
+
 		loginField = new JTextField();
 		loginField.setBounds(80, 27, 217, 20);
 		loginField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnLogin.doClick();
 				}
 			}
 		});
 		panel.add(loginField);
 		loginField.setColumns(10);
-		
+
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				boolean ok = true;
-				if (loginField.getText().isEmpty()){
+				if (loginField.getText().isEmpty()) {
 					ok = false;
 				}
-				if (passwordField.getText().isEmpty()){
+				if (passwordField.getText().isEmpty()) {
 					ok = false;
 				}
-				if(ok){
-			
-					LoginTO loginTO = null;
-					//using Twitter
-					if (rdbtnTwitter.isSelected()){
-						CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
-						//TODO verificar as alterações necessarias
-						//loginTO = ctrlTwitter.twLogin(loginField.getText(), Util.GeraMD5(passwordField.getPassword().toString()));
-						ctrlTwitter.twLogin(loginField.getText(), passwordField.getText().toString());
-					}else{	
-						//TODO verificar esse password.string
-						loginTO = new LoginTO(loginField.getText(), passwordField.getText().toString());
+
+				if (ok) {
+						// using tuiter
+						LoginTO loginTO = null;
+
+						// TODO verificar esse password.string
+						loginTO = new LoginTO(loginField.getText(),
+								passwordField.getText().toString());
 						loginTO = ctrlLogin.doLogin(loginTO);
-						
+
 						if (loginTO != null) {
-							
-							if (loginTO.isValidated()){
-								MainScreen ms = new MainScreen(loginTO.getUser(), ctrlLogin);
+
+							if (loginTO.isValidated()) {
+								MainScreen ms = new MainScreen(loginTO
+										.getUser(), ctrlLogin);
 								ms.setVisible(true);
 								dispose();
 							} else {
-								JOptionPane.showMessageDialog(null, "Server Message: " + loginTO.getErrorMessage(), "Warning!", 0);
+								JOptionPane.showMessageDialog(
+										null,
+										"Server Message: "
+												+ loginTO.getErrorMessage(),
+										"Warning!", 0);
 							}
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Invalid login or password", "Warning!", 0);
 						}
-						else{
-							JOptionPane.showMessageDialog(null, "Invalid login or password", "Warning!", 0);
-						}
-					}
-					
 
-				}else{
-					JOptionPane.showMessageDialog(null, "Please type your login and password", "Warning!", 0);
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Please type your login and password", "Warning!",
+							0);
 				}
 
 			}
 		});
-		btnLogin.setBounds(10, 121, 89, 23);
+		btnLogin.setBounds(59, 90, 89, 23);
 		panel.add(btnLogin);
-		
+
 		btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				RegisterScreen rs = new RegisterScreen(me);
 				rs.setVisible(true);
-				//rs.getlis
+				// rs.getlis
 				setEnabled(false);
-				
+
 			}
 		});
-		btnRegister.setBounds(109, 121, 89, 23);
+		btnRegister.setBounds(158, 90, 89, 23);
 		panel.add(btnRegister);
-		
+
 		btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
-		btnQuit.setBounds(208, 121, 89, 23);
+		btnQuit.setBounds(158, 121, 89, 23);
 		panel.add(btnQuit);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnLogin.doClick();
 				}
 			}
@@ -225,27 +229,23 @@ public class LoginScreen extends javax.swing.JFrame{
 		passwordField.setBounds(80, 59, 217, 20);
 		panel.add(passwordField);
 		
-		ButtonGroup buttonGroup = new ButtonGroup();
-				
-		rdbtnTuiter = new JRadioButton("Tuiter");
-		rdbtnTuiter.setBounds(20, 91, 109, 23);
-		panel.add(rdbtnTuiter);
-		buttonGroup.add(rdbtnTuiter);
-		rdbtnTuiter.setSelected(true);
-		
-		rdbtnTwitter = new JRadioButton("Twitter");
-		rdbtnTwitter.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				if (rdbtnTwitter.isSelected()){
-					btnRegister.setEnabled(false);
-				}else{
-					btnRegister.setEnabled(true);
-				}
+		JButton btnTwitter = new JButton("Twitter");
+		btnTwitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// using Twitter
+					CtrlTwitter ctrlTwitter = new CtrlTwitter(twitter);
+					User usr = ctrlTwitter.twLogin();
+					
+					if (usr != null) {
+						MainScreen ms = new MainScreen(usr, ctrlTwitter);
+						ms.setVisible(true);
+						dispose();
+					}
 			}
 		});
-		rdbtnTwitter.setBounds(188, 91, 109, 23);
-		panel.add(rdbtnTwitter);
-		buttonGroup.add(rdbtnTwitter);
-		
+		btnTwitter.setBounds(59, 121, 89, 23);
+		panel.add(btnTwitter);
+
+
 	}
 }

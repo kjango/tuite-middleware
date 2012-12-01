@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,6 +42,7 @@ import model.User;
 import control.CtrlLogin;
 import control.CtrlSearch;
 import control.CtrlTuite;
+import control.CtrlTwitter;
 import control.CtrlUser;
 import java.awt.Window.Type;
 import java.awt.event.WindowAdapter;
@@ -120,24 +122,49 @@ public class MainScreen extends javax.swing.JFrame {
 	
 	/** The lbl user photo. */
 	private JLabel lblUserPhoto;
+	private boolean isTwitter = false;
+	private CtrlTwitter ctrlTwitter;
 
+
+	/**
+	 * @wbp.parser.constructor
+	 */
 	/**
 	 * Instantiates a new main screen.
 	 *
 	 * @param user the user
 	 * @param ctrlLogin the ctrl login
+	 * @wbp.parser.constructor
 	 */
 	public MainScreen(User user, CtrlLogin ctrlLogin) {
 
 		setType(Type.POPUP);
 		this.user = user;
 		this.ctrlLogin = ctrlLogin;
+		this.isTwitter = false;
 
 		try {
 			ctrlTuite = new CtrlTuite(this);
 			ctrlUser = new CtrlUser(this);
 		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
+		initialize();
+	}
+	
+	public MainScreen(User user, CtrlTwitter ctrlTwitter) {
+
+		setType(Type.POPUP);
+		this.user = user;
+		this.ctrlTwitter = ctrlTwitter;
+		this.isTwitter = true;
+
+		try {
+//			ctrlTuite = new CtrlTuite(this);
+//			ctrlUser = new CtrlUser(this);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 		initialize();
@@ -147,8 +174,10 @@ public class MainScreen extends javax.swing.JFrame {
 	 * @see java.lang.Object#finalize()
 	 */
 	protected void finalize() throws Throwable {
-		// do finalization here
-		ctrlLogin.doLogoff(user);
+		if (!isTwitter) {
+			// do finalization here
+			ctrlLogin.doLogoff(user);
+		}
 		super.finalize(); // not necessary if extending Object.
 
 	}
@@ -160,11 +189,13 @@ public class MainScreen extends javax.swing.JFrame {
 		setTitle("Tuite - " + user.getRealName());
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				ctrlLogin.doLogoff(user);
+				if (!isTwitter) {
+					ctrlLogin.doLogoff(user);
+				}
 			}
 		});
 
@@ -227,23 +258,22 @@ public class MainScreen extends javax.swing.JFrame {
 		btnTuite = new JButton("Tuite");
 		btnTuite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Criando o TO
-				Tuite tuite = new Tuite(0, textAreaTuite.getText().toString(),
-						new Timestamp(System.currentTimeMillis()), user);
-				TuiteTO t = new TuiteTO(tuite);
-
-				// Criando o controle
-				ctrlTuite.truncate(t);
-
-				// Chamar doTuite
-				t = ctrlTuite.doTuite(t);
-
-				user = t.getTuite().getMyUser();
-
+				if (!isTwitter) {
+					// Criando o TO
+					Tuite tuite = new Tuite(0, textAreaTuite.getText()
+							.toString(), new Timestamp(
+							System.currentTimeMillis()), user);
+					TuiteTO t = new TuiteTO(tuite);
+					// Criando o controle
+					ctrlTuite.truncate(t);
+					// Chamar doTuite
+					t = ctrlTuite.doTuite(t);
+					user = t.getTuite().getMyUser();
+				}else{
+					newTuite(ctrlTwitter.twittar(textAreaTuite.getText()));
+//					updateUser();
+				}
 				update();
-
-				// Print de teste
-				// System.out.println("\n\n\nEstou aqui no cliente:  "+t.getTuite().getText());
 
 				textAreaTuite.setText("");
 			}
@@ -271,7 +301,7 @@ public class MainScreen extends javax.swing.JFrame {
 		scrollPane.setAutoscrolls(true);
 
 		panelTimeLine = new JPanel();
-		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for "
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for "
 				+ user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP,
 				null, null));
 		scrollPane.setViewportView(panelTimeLine);
@@ -286,7 +316,7 @@ public class MainScreen extends javax.swing.JFrame {
 		scrollPaneFollowing.setAutoscrolls(true);
 
 		panelFollowingList = new JPanel();
-		panelFollowingList.setBorder(new TitledBorder(UIManager
+		scrollPaneFollowing.setBorder(new TitledBorder(UIManager
 				.getBorder("TitledBorder.border"), "You are following",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		// panelFollowing.add(panelFollowingList);
@@ -302,7 +332,7 @@ public class MainScreen extends javax.swing.JFrame {
 		scrollPaneFollowers.setAutoscrolls(true);
 
 		panelFollowersList = new JPanel();
-		panelFollowersList.setBorder(new TitledBorder(null, "Your followers",
+		scrollPaneFollowers.setBorder(new TitledBorder(null, "Your followers",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		// panelFollowers.add(panelFollowersList);
 		scrollPaneFollowers.setViewportView(panelFollowersList);
@@ -347,26 +377,33 @@ public class MainScreen extends javax.swing.JFrame {
 		btnSearchTuites.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textFieldSearchTuites.getText().isEmpty()) {
-					CtrlSearch ctrlSearch;
-					try {
+					ArrayList<Tuite> res = new ArrayList<Tuite>();
+					if (!isTwitter) {
+						CtrlSearch ctrlSearch;
+						try {
 
-						// 1 is for tuites, 2 for ppl
-						SearchTO searchTO = new SearchTO(getUser(),
-								textFieldSearchTuites.getText(), 1);
-						ctrlSearch = new CtrlSearch();
-						searchTO = ctrlSearch.doSearch(searchTO);
+							// 1 is for tuites, 2 for ppl
+							SearchTO searchTO = new SearchTO(getUser(),
+									textFieldSearchTuites.getText(), 1);
+							ctrlSearch = new CtrlSearch();
+							searchTO = ctrlSearch.doSearch(searchTO);
+							
+							res = searchTO.getResultTuites();
 
-						panelResTuites.removeAll();
-						for (Tuite tuit : searchTO.getResultTuites()) {
-							panelResTuites.add(new TuitePanel(tuit, me));
+
+						} catch (RemoteException e) {
+							e.printStackTrace();
 						}
-						repaint();
-						textFieldSearchTuites.setText("");
-
-					} catch (RemoteException e) {
-						e.printStackTrace();
+					}else{
+						res = ctrlTwitter.searchTweets(textFieldSearchTuites.getText());
 					}
 
+					panelResTuites.removeAll();
+					for (Tuite tuit : res) {
+						panelResTuites.add(new TuitePanel(tuit, me));
+					}
+					textFieldSearchTuites.setText("");
+					repaint();
 				}
 			}
 		});
@@ -377,7 +414,7 @@ public class MainScreen extends javax.swing.JFrame {
 		scrollPaneSearchTuites.setAutoscrolls(true);
 
 		panelResTuites = new JPanel();
-		panelResTuites.setBorder(new TitledBorder(null, "Results",
+		scrollPaneSearchTuites.setBorder(new TitledBorder(null, "Results",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		// panelTuiteSearch.add(panelResTuites, BorderLayout.SOUTH);
 		scrollPaneSearchTuites.setViewportView(panelResTuites);
@@ -420,26 +457,30 @@ public class MainScreen extends javax.swing.JFrame {
 		btnSearchPeople.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!textFieldSearchPeople.getText().isEmpty()) {
+					ArrayList<User> res = new ArrayList<User>();
+					if (!isTwitter) {
+						CtrlSearch ctrlSearch;
+						try {
 
-					CtrlSearch ctrlSearch;
-					try {
+							// 1 is for tuites, 2 for ppl
+							SearchTO searchTO = new SearchTO(getUser(),
+									textFieldSearchPeople.getText(), 2);
+							ctrlSearch = new CtrlSearch();
+							searchTO = ctrlSearch.doSearch(searchTO);
 
-						// 1 is for tuites, 2 for ppl
-						SearchTO searchTO = new SearchTO(getUser(),
-								textFieldSearchPeople.getText(), 2);
-						ctrlSearch = new CtrlSearch();
-						searchTO = ctrlSearch.doSearch(searchTO);
-
-						panelResPeople.removeAll();
-						for (User usr : searchTO.getResultUsers()) {
-							panelResPeople.add(new TuitePanel(usr, me));
+						} catch (RemoteException e) {
+							e.printStackTrace();
 						}
-						repaint();
-						textFieldSearchPeople.setText("");
-
-					} catch (RemoteException e) {
-						e.printStackTrace();
+					}else{
+						res = ctrlTwitter.searchPeople(textFieldSearchPeople.getText());
 					}
+
+					panelResPeople.removeAll();
+					for (User usr : res) {
+						panelResPeople.add(new TuitePanel(usr, me));
+					}
+					repaint();
+					textFieldSearchPeople.setText("");
 
 				}
 			}
@@ -452,7 +493,7 @@ public class MainScreen extends javax.swing.JFrame {
 		panelPeopleSearch.add(scrollPaneSearchPeople, BorderLayout.CENTER);
 
 		panelResPeople = new JPanel();
-		panelResPeople.setBorder(new TitledBorder(null, "Results",
+		scrollPaneSearchPeople.setBorder(new TitledBorder(null, "Results",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		// panelPeopleSearch.add(panelResPeople, BorderLayout.WEST);
 		scrollPaneSearchPeople.setViewportView(panelResPeople);
@@ -517,7 +558,7 @@ public class MainScreen extends javax.swing.JFrame {
 	 */
 	public void update() {
 		setTitle("Tuite - " + user.getRealName());
-		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for "
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for "
 				+ user.getRealName(), TitledBorder.LEADING, TitledBorder.TOP,
 				null, null));
 		lblUserPhoto.setIcon(user.getPhoto());
@@ -525,11 +566,22 @@ public class MainScreen extends javax.swing.JFrame {
 		panelFollowingList.removeAll();
 		panelFollowersList.removeAll();
 
-		for (Tuite tu : user.getTuites()) {
-			TuitePanel t = new TuitePanel(tu, this);
-			panelTimeLine.add(t, 0);
+		if (isTwitter) {
+//			for (Tuite tu : user.getTuites()) {
+//				TuitePanel t = new TuitePanel(tu, this);
+//				panelTimeLine.add(t, panelTimeLine.getComponents().length);
+//			}
+			for (int i = user.getTuites().size() - 1; i >= 0; i--) {
+				Tuite tu = user.getTuites().get(i);
+				TuitePanel t = new TuitePanel(tu, this);
+				panelTimeLine.add(t, 0);
+			}
+		}else{
+			for (Tuite tu : user.getTuites()) {
+				TuitePanel t = new TuitePanel(tu, this);
+				panelTimeLine.add(t, 0);
+			}
 		}
-
 		for (User u : user.getFollowing()) {
 			TuitePanel tp = new TuitePanel(u, this);
 			panelFollowingList.add(tp);
@@ -565,11 +617,16 @@ public class MainScreen extends javax.swing.JFrame {
 	 * Update user.
 	 */
 	public void updateUser() {
-		User userTemp = ctrlUser.refreshUser(user);
+		User userTemp;
+		if (!isTwitter()) {
+			userTemp = ctrlUser.refreshUser(user);
+		}else{
+			userTemp = ctrlTwitter.refreshUser(user);
+		}
 		setUser(userTemp);
 		update();
 	}
-
+	
 	/**
 	 * Gets the user.
 	 *
@@ -640,6 +697,30 @@ public class MainScreen extends javax.swing.JFrame {
 			followTO.setNotifyFollower(true);
 			ctrlUser.doUnFollow(followTO);
 		}
+	}
+
+	public boolean isTwitter() {
+		return isTwitter;
+	}
+
+	public void setTwitter(boolean isTwitter) {
+		this.isTwitter = isTwitter;
+	}
+
+	public CtrlTwitter getCtrlTwitter() {
+		return ctrlTwitter;
+	}
+
+	public void setCtrlTwitter(CtrlTwitter ctrlTwitter) {
+		this.ctrlTwitter = ctrlTwitter;
+	}
+	
+	public void newTuite(Tuite tuite){
+		TuitePanel t = new TuitePanel(tuite, this);
+		panelTimeLine.add(t, 0);
+		user.addMyTuite(tuite, 0);
+		user.addTuite(tuite, 0);
+		repaint();
 	}
 
 }

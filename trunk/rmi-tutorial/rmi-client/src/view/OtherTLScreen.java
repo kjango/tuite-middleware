@@ -78,9 +78,10 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		scrollPane = new JScrollPane();
 		panelTuites.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setAutoscrolls(true);
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		panelTimeLine = new JPanel();
-		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPane.setViewportView(panelTimeLine);
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -112,7 +113,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		scrollPaneFollowing.setAutoscrolls(true);
 		
 		panelFollowingList = new JPanel();
-		panelFollowingList.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), timeLineOwner.getLoginName() + " is following", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneFollowing.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), timeLineOwner.getLoginName() + " is following", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 //		panelFollowing.add(panelFollowingList);
 		scrollPaneFollowing.setViewportView(panelFollowingList);
 		panelFollowingList.setLayout(new GridLayout(0, 1, 0, 0));
@@ -126,7 +127,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		scrollPaneFollowers.setAutoscrolls(true);
 		
 		panelFollowersList = new JPanel();
-		panelFollowersList.setBorder(new TitledBorder(null, timeLineOwner.getLoginName() + " followers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneFollowers.setBorder(new TitledBorder(null, timeLineOwner.getLoginName() + " followers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 //		panelFollowers.add(panelFollowersList);
 		scrollPaneFollowers.setViewportView(panelFollowersList);
 		panelFollowersList.setLayout(new GridLayout(0, 1, 0, 0));
@@ -138,12 +139,12 @@ public class OtherTLScreen extends javax.swing.JFrame{
 	
 	public void update(){
 		setTitle(timeLineOwner.getRealName());
-		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		lblPhoto.setIcon(timeLineOwner.getPhoto());
 		lblRealName.setText(timeLineOwner.getRealName());
 		panelTimeLine.removeAll();
 		
-		for (Tuite tu : timeLineOwner.getTuites()) {
+		for (Tuite tu : timeLineOwner.getMyTuites()) {
 			TuitePanel t = new TuitePanel(tu, mainScreen);
 			panelTimeLine.add(t, 0);
 		}

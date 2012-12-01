@@ -202,16 +202,28 @@ public class TuitePanel extends JPanel {
 	}
 
 	public void update() {
-		String btnText = "Follow";
-		if (mainScreen.getCtrlUser()
-				.doesFollow(mainScreen.getUser(), otherUser)) {
-			btnText = "Unfollow";
-		}
-		btnFollowUnfollow.setText(btnText);
-		repaint();
-
-		if (otherTLScreen != null) {
-			otherTLScreen.update();
+		if (!mainScreen.isTwitter()) {
+			String btnText = "Follow";
+			if (mainScreen.getCtrlUser().doesFollow(mainScreen.getUser(),
+					otherUser)) {
+				btnText = "Unfollow";
+			}
+			btnFollowUnfollow.setText(btnText);
+			repaint();
+			if (otherTLScreen != null) {
+				otherTLScreen.update();
+			}
+		}else{
+			String btnText = "Follow";
+			if (mainScreen.getCtrlTwitter().doesFollow(mainScreen.getUser(),
+					otherUser)) {
+				btnText = "Unfollow";
+			}
+			btnFollowUnfollow.setText(btnText);
+			repaint();
+			if (otherTLScreen != null) {
+				otherTLScreen.update();
+			}
 		}
 	}
 
