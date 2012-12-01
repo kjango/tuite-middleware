@@ -24,12 +24,11 @@ public class CtrlTwitter {
 
 	private Twitter twitter;
 
-	public CtrlTwitter(Twitter twitter) {
-		this.twitter = twitter;
+	public CtrlTwitter() {
+//		this.twitter = twitter;
 	}
 
 	public User twLogin() {
-		User user = null;
 //		try {
 			try {
 				twitter = new TwitterFactory().getInstance();
@@ -168,6 +167,7 @@ public class CtrlTwitter {
 
 		return null;
 	}
+
 
 	public User getFullUser() {
 		twitter4j.User twUser;

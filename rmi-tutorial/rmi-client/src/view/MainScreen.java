@@ -399,7 +399,9 @@ public class MainScreen extends javax.swing.JFrame {
 					for (Tuite tuit : res) {
 						panelResTuites.add(new TuitePanel(tuit, me));
 					}
+					
 					textFieldSearchTuites.setText("");
+					panelResTuites.repaint();
 					repaint();
 				}
 			}
@@ -463,6 +465,7 @@ public class MainScreen extends javax.swing.JFrame {
 									textFieldSearchPeople.getText(), 2);
 							ctrlSearch = new CtrlSearch();
 							searchTO = ctrlSearch.doSearch(searchTO);
+							res = searchTO.getResultUsers();
 
 						} catch (RemoteException e) {
 							e.printStackTrace();
@@ -549,8 +552,7 @@ public class MainScreen extends javax.swing.JFrame {
 		JMenuItem mntmEdit = new JMenuItem("Profile");
 		mntmEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				EditProfileScreen editProfileScreen = new EditProfileScreen(
-						user, me);
+				EditProfileScreen editProfileScreen = new EditProfileScreen(me);
 				editProfileScreen.setVisible(true);
 				me.setEnabled(false);
 			}

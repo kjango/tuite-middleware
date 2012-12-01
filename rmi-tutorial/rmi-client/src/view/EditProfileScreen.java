@@ -84,10 +84,10 @@ public class EditProfileScreen extends JFrame {
 	 *            : the main screen
 	 */
 
-	public EditProfileScreen(User user, MainScreen mother) {
+	public EditProfileScreen(MainScreen mother) {
 
 		setTitle("Tuite");
-		this.user = user;
+		this.user = mother.getUser();
 		this.mother = mother;
 		initialize();
 		setFields();
@@ -103,10 +103,10 @@ public class EditProfileScreen extends JFrame {
 	 * Sets the fields.
 	 */
 	public void setFields() {
-		textFieldRealName.setText(user.getRealName());
-		textFieldScreenName.setText(user.getLoginName());
+		textFieldRealName.setText(mother.getUser().getRealName());
+		textFieldScreenName.setText(mother.getUser().getLoginName());
 		if (!mother.isTwitter()) {
-			textFieldEmail.setText(user.getEmail());
+			textFieldEmail.setText(mother.getUser().getEmail());
 		} else {
 			chckbxEmail.setEnabled(false);
 			textFieldEmail.setEnabled(false);
