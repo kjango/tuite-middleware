@@ -95,7 +95,7 @@ public class UserDao {
 		Connection con = Connections.getConnection();
 		String sql = "SELECT rf.id_user, rf.id_follow, tbl.login FROM rl_follow rf "
 				+ "JOIN tb_login tl ON tl.id_user = rf.id_user "
-				+ "JOIN tb_login tbl ON tbl.id_user = rf.id_follow WHERE tl.id_user = "
+				+ "JOIN tb_login tbl ON tbl.id_user = rf.id_follow WHERE rf.notify = FALSE AND tl.id_user = "
 				+ loginTO.getUser().getId();
 
 		try {
@@ -124,7 +124,7 @@ public class UserDao {
 		ArrayList<String> preList = new ArrayList<String>();
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT rf.id_user, tl.login FROM rl_follow rf JOIN tb_login tl ON tl.id_user = rf.id_user WHERE rf.id_follow = ?";
+		String sql = "SELECT rf.id_user, tl.login FROM rl_follow rf JOIN tb_login tl ON tl.id_user = rf.id_user WHERE rf.id_follow = ? AND rf.notify = FALSE";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -162,7 +162,7 @@ public class UserDao {
 		String sql = "SELECT tt.my_user, tt.id, tt.text, tt.created_at, tl.login, tu.real_name, tu.photo, tu.email FROM tb_tweet tt "
 				+ "join tb_login tl on tt.my_user = tl.id_user "
 				+ "join tb_users tu on tt.my_user = tu.id "
-				+ "left join rl_follow rf on rf.id_follow  = tl.id_user "
+				+ "left join rl_follow rf on rf.id_follow = tl.id_user AND rf.notify = FALSE "
 				+ "WHERE (tt.my_user = ?  OR rf.id_user = ?) "
 				+ "ORDER BY created_at ";
 
