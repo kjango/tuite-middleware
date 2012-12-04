@@ -319,4 +319,30 @@ public class CtrlTwitter {
 		}
 		return alUsr;
 	}
+	
+	public User follow(User user, User followed){
+		try {
+			twitter4j.User twUser = twitter.createFriendship(followed.getId());
+			user.addFollowing(new User(twUser.getId(), twUser.getScreenName(),
+					twUser.getName(), null, null, null, new ImageIcon(
+							twUser.getProfileImageURL())));
+			
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
+	public User unFollow(User user, User unFollowed){
+		try {
+			twitter.destroyFriendship(unFollowed.getId());
+			user.removeFollowing(unFollowed);
+			
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
 }
