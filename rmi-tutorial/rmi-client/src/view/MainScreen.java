@@ -126,6 +126,8 @@ public class MainScreen extends javax.swing.JFrame {
 	private JLabel lblUserPhoto;
 	private boolean isTwitter = false;
 	private CtrlTwitter ctrlTwitter;
+	private JPanel panelShowNotifications;
+	private JTabbedPane tabbedPane;
 
 
 	/**
@@ -205,7 +207,7 @@ public class MainScreen extends javax.swing.JFrame {
 			}
 		});
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panelTuites = new JPanel();
@@ -503,6 +505,22 @@ public class MainScreen extends javax.swing.JFrame {
 		// panelPeopleSearch.add(panelResPeople, BorderLayout.WEST);
 		scrollPaneSearchPeople.setViewportView(panelResPeople);
 		panelResPeople.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panelNotifications = new JPanel();
+		tabbedPane.addTab("", null, panelNotifications, null);
+		panelNotifications.setLayout(new BorderLayout(0, 0));
+		
+		
+		JScrollPane scrollPaneNotifications = new JScrollPane();
+		scrollPaneNotifications.setBorder(new TitledBorder(null, "Your notifications", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneNotifications.setAutoscrolls(true);
+		panelNotifications.add(scrollPaneNotifications, BorderLayout.CENTER);
+		
+		panelShowNotifications = new JPanel();
+		scrollPaneNotifications.setViewportView(panelShowNotifications);
+		panelShowNotifications.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		tabbedPane.setTitleAt(5, "Notifications (" + panelShowNotifications.getComponentCount() + ")");
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -621,6 +639,19 @@ public class MainScreen extends javax.swing.JFrame {
 			otl.update();
 		}
 
+		if (!isTwitter) {
+			tabbedPane.setTitleAt(
+					5,
+					"Notifications ("
+							+ panelShowNotifications.getComponentCount() + ")");
+		}else{
+			panelShowNotifications.removeAll();
+			ArrayList<User> alN = ctrlTwitter.getNotifications();
+			
+			for (User u : alN) {
+				setFollowNotification(u);
+			}
+		}
 		scrollPane.getVerticalScrollBar().setValue(0);
 		JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
 		JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
@@ -702,18 +733,20 @@ public class MainScreen extends javax.swing.JFrame {
 		// System.out.println("User: " + user.getLoginName() +
 		// " want to follow you, Accept?");
 
-		int x = JOptionPane.showConfirmDialog(this, followTO.getFollower()
-				.getRealName() + " wants to follow you. Do you accept?",
-				"Aplicação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
-		if (x == JOptionPane.YES_OPTION) {
-			// dispose();
-			followTO.setNotifyFollower(false);
-			ctrlUser.updateNotifyFromFollow(followTO);
-		} else if (x == JOptionPane.NO_OPTION) {
-			// dispose();
-			followTO.setNotifyFollower(true);
-			ctrlUser.doUnFollow(followTO);
-		}
+//		int x = JOptionPane.showConfirmDialog(this, followTO.getFollower()
+//				.getRealName() + " wants to follow you. Do you accept?",
+//				"Aplicação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+//		if (x == JOptionPane.YES_OPTION) {
+//			// dispose();
+//			followTO.setNotifyFollower(false);
+//			ctrlUser.updateNotifyFromFollow(followTO);
+//		} else if (x == JOptionPane.NO_OPTION) {
+//			// dispose();
+//			followTO.setNotifyFollower(true);
+//			ctrlUser.doUnFollow(followTO);
+//		}
+		
+		setFollowNotification(followTO.getFollower());
 	}
 
 	public boolean isTwitter() {
@@ -737,6 +770,12 @@ public class MainScreen extends javax.swing.JFrame {
 		panelTimeLine.add(t, 0);
 		user.addMyTuite(tuite, 0);
 		user.addTuite(tuite, 0);
+		repaint();
+	}
+	
+	public void setFollowNotification(User user) {
+		panelShowNotifications.add(new NotifyPanel(user, this));
+		tabbedPane.setTitleAt(5, "Notifications (" + panelShowNotifications.getComponentCount() + ")");
 		repaint();
 	}
 
