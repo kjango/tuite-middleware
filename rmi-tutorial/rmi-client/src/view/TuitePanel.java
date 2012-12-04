@@ -124,20 +124,36 @@ public class TuitePanel extends JPanel {
 		if (mainScreen.getUser().getId() != tuite.getMyUser().getId()) {
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					// creating the TO
+					
+					User updated = null;
+					
 					FollowTO followTO = new FollowTO(mainScreen.getUser(),
-							tuite.getMyUser());
+							otherUser);
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						followTO = mainScreen.getCtrlUser().doFollow(followTO);
+						if (!mainScreen.isTwitter()) {
+							followTO = mainScreen.getCtrlUser().doFollow(
+									followTO);
+							updated = followTO.getFollower();
+						}else{
+							updated = mainScreen.getCtrlTwitter().follow(mainScreen.getUser(), otherUser);
+						}
 					} else {
-						followTO = mainScreen.getCtrlUser()
-								.doUnFollow(followTO);
+						if (!mainScreen.isTwitter()) {
+							followTO = mainScreen.getCtrlUser().doUnFollow(
+									followTO);
+							updated = followTO.getFollower();
+						}else{
+							updated = mainScreen.getCtrlTwitter().unFollow(mainScreen.getUser(), otherUser);
+						}
 					}
 
-					mainScreen.setUser(followTO.getFollower());
-
-					mainScreen.update();
+					mainScreen.setUser(updated);
+					if (!mainScreen.isTwitter()) {
+						mainScreen.updateUser();
+					}else{
+						mainScreen.update();
+					}
 				}
 			});
 			btnFollowUnfollow.setPreferredSize(new Dimension(90, 13));
@@ -204,17 +220,35 @@ public class TuitePanel extends JPanel {
 			btnFollowUnfollow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					User updated = null;
+					
 					FollowTO followTO = new FollowTO(mainScreen.getUser(),
 							otherUser);
 
 					if (btnFollowUnfollow.getText().equals("Follow")) {
-						followTO = mainScreen.getCtrlUser().doFollow(followTO);
+						if (!mainScreen.isTwitter()) {
+							followTO = mainScreen.getCtrlUser().doFollow(
+									followTO);
+							updated = followTO.getFollower();
+						}else{
+							updated = mainScreen.getCtrlTwitter().follow(mainScreen.getUser(), otherUser);
+						}
 					} else {
-						followTO = mainScreen.getCtrlUser().doUnFollow(followTO);
+						if (!mainScreen.isTwitter()) {
+							followTO = mainScreen.getCtrlUser().doUnFollow(
+									followTO);
+							updated = followTO.getFollower();
+						}else{
+							updated = mainScreen.getCtrlTwitter().unFollow(mainScreen.getUser(), otherUser);
+						}
 					}
 
-					mainScreen.setUser(followTO.getFollower());
-					mainScreen.updateUser();
+					mainScreen.setUser(updated);
+					if (!mainScreen.isTwitter()) {
+						mainScreen.updateUser();
+					}else{
+						mainScreen.update();
+					}
 				}
 			});
 
