@@ -101,7 +101,9 @@ public class NotifyPanel extends JPanel {
 //			followTO.setNotifyFollower(true);
 //			ctrlUser.doUnFollow(followTO);
 //		}
-				
+				FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
+				followTO.setNotifyFollower(false);
+				mainScreen.getCtrlUser().updateNotifyFromFollow(followTO);
 			}
 		});
 		btnPanel.add(btnAllow, BorderLayout.NORTH);
@@ -109,7 +111,9 @@ public class NotifyPanel extends JPanel {
 		JButton btnDeny = new JButton("Deny");
 		btnDeny.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
+				followTO.setNotifyFollower(true);
+				mainScreen.getCtrlUser().doUnFollow(followTO);
 			}
 		});
 		btnPanel.add(btnDeny, BorderLayout.SOUTH);

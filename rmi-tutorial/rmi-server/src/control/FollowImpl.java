@@ -15,10 +15,10 @@ public class FollowImpl {
 		followTO.setNotifyFollower(usr.isProtectedTuite());
 		followTO = UserDao.addFollower(followTO);
 	
-		if (usr.isProtectedTuite()) {
-			followTO.setNotifyFollower(true);
+//		if (usr.isProtectedTuite()) {
+//			followTO.setNotifyFollower(true);
 			followTO = doNotifyFollow(followTO);
-		}
+//		}
 		
 		return followTO;
 	}
