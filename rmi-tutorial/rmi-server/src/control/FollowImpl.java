@@ -7,12 +7,14 @@ public class FollowImpl {
 
 	public FollowTO doFollow(FollowTO followTO) {
 
-//		if (followTO.getFollowed().isProtectedTuite()) {
-//			// TODO dar um jeito de avisar o followed q tem gente querendo
-//			// followar ele
-//		}
+		followTO = UserDao.addFollower(followTO);
 		
-		return UserDao.addFollower(followTO);
+		if (followTO.getFollowed().isProtectedTuite()) {
+			followTO.setNotifyFollower(true);
+			followTO = doNotifyFollow(followTO);
+		}
+		
+		return followTO;
 	}
 	
 	public FollowTO doNotifyFollow(FollowTO followTO){
