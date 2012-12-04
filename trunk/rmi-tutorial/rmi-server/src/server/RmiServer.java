@@ -267,9 +267,11 @@ public class RmiServer extends Observable implements RmiService {
 	    private User isLoggedUser(String user){
 	    	for (int i=0 ; i < listLogins.size(); i++){
     			User userLogged = listLogins.get(i);
-    			if (userLogged.getLoginName().equals(user)){
-    				return userLogged;
-    			}
+    			if (userLogged != null) {
+					if (userLogged.getLoginName().equals(user)) {
+						return userLogged;
+					}
+				}
     		}
     		return null;
 	    }

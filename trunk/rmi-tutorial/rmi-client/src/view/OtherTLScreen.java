@@ -86,6 +86,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		panelName = new JPanel();
+		panelName.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPane.setColumnHeaderView(panelName);
 		panelName.setLayout(new BorderLayout(0, 0));
 		

@@ -137,7 +137,6 @@ public class UserDao {
 			stmt.close();
 		} catch (SQLException e) {
 			System.out.println("Erro no SQL returnFollowers");
-			e.printStackTrace();
 		}
 
 		for (int i = 0; i < preList.size(); i++) {

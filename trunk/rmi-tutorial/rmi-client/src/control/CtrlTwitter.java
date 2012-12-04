@@ -304,4 +304,19 @@ public class CtrlTwitter {
 		return user;
 	}
 
+	public ArrayList<User> getNotifications() {
+		ArrayList<User> alUsr = new ArrayList<User>();
+		
+		try {
+			IDs ids;
+			ids = twitter.getOutgoingFriendships(twitter.getId());
+			for (long id : ids.getIDs()) {
+				alUsr.add(getSimpleUser(id));
+			}
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return alUsr;
+	}
 }
