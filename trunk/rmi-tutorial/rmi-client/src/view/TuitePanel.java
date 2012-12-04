@@ -97,9 +97,19 @@ public class TuitePanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if ( e.getClickCount() == 2){
-					User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
-					otherTLScreen = new OtherTLScreen(mainScreen, usr);
-					otherTLScreen.setVisible(true);
+					if (!mainScreen.isTwitter()) {
+						User usr = mainScreen.getCtrlUser().refreshUser(
+								otherUser);
+						otherTLScreen = new OtherTLScreen(mainScreen, usr);
+						otherTLScreen.setVisible(true);
+					}else{
+						User usr = mainScreen.getCtrlTwitter().getUserTimeline(
+								otherUser);
+						usr = mainScreen.getCtrlTwitter().getFollowers(usr);
+						usr = mainScreen.getCtrlTwitter().getFollowing(usr);
+						otherTLScreen = new OtherTLScreen(mainScreen, usr);
+						otherTLScreen.setVisible(true);
+					}
 				}
 			}
 		});
@@ -161,9 +171,19 @@ public class TuitePanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if ( e.getClickCount() == 2){
-					User usr = mainScreen.getCtrlUser().refreshUser(otherUser);
-					otherTLScreen = new OtherTLScreen(mainScreen, usr);
-					otherTLScreen.setVisible(true);
+					if (!mainScreen.isTwitter()) {
+						User usr = mainScreen.getCtrlUser().refreshUser(
+								otherUser);
+						otherTLScreen = new OtherTLScreen(mainScreen, usr);
+						otherTLScreen.setVisible(true);
+					}else{
+						User usr = mainScreen.getCtrlTwitter().getUserTimeline(
+								otherUser);
+						usr = mainScreen.getCtrlTwitter().getFollowers(usr);
+						usr = mainScreen.getCtrlTwitter().getFollowing(usr);
+						otherTLScreen = new OtherTLScreen(mainScreen, usr);
+						otherTLScreen.setVisible(true);
+					}
 				}
 			}
 		});
