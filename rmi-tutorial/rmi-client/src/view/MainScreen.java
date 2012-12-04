@@ -44,6 +44,8 @@ import control.CtrlSearch;
 import control.CtrlTuite;
 import control.CtrlTwitter;
 import control.CtrlUser;
+import control.RunUpdate;
+
 import java.awt.Window.Type;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -186,6 +188,10 @@ public class MainScreen extends javax.swing.JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		Thread thread = new Thread(new RunUpdate(me));
+		thread.start();
+		
 		setTitle("Tuite - " + user.getRealName());
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

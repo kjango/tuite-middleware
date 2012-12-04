@@ -108,6 +108,23 @@ public class CtrlTwitter {
 
 		return alFollowers;
 	}
+	
+	public User getFollowers(User user) {
+		ArrayList<User> alFollowers = new ArrayList<User>();
+
+		try {
+			IDs ids = twitter.getFollowersIDs(user.getId(), -1);
+
+			for (long id : ids.getIDs()) {
+				alFollowers.add(getSimpleUser(id));
+			}
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		user.setFollowers(alFollowers);
+		return user;
+	}
 
 	// following = friends
 	public ArrayList<User> getFollowing() {
@@ -125,6 +142,24 @@ public class CtrlTwitter {
 		}
 
 		return alFollowing;
+	}
+	
+	// following = friends
+	public User getFollowing(User user) {
+		ArrayList<User> alFollowing = new ArrayList<User>();
+
+		try {
+			IDs ids = twitter.getFriendsIDs(user.getId(), -1);
+
+			for (long id : ids.getIDs()) {
+				alFollowing.add(getSimpleUser(id));
+			}
+
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		user.setFollowing(alFollowing);
+		return user;
 	}
 
 	public Tuite twittar(String text) {
@@ -255,6 +290,18 @@ public class CtrlTwitter {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public User getUserTimeline(User user) {
+		try {
+			ResponseList<Status> rl = twitter.getUserTimeline(user.getId());
+			for (Status status : rl) {
+				user.addTuite(getTuite(status), 0);
+			}
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 }

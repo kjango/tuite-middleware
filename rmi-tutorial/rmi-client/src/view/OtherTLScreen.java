@@ -144,7 +144,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		lblRealName.setText(timeLineOwner.getRealName());
 		panelTimeLine.removeAll();
 		
-		for (Tuite tu : timeLineOwner.getMyTuites()) {
+		for (Tuite tu : timeLineOwner.getTuites()) {
 			TuitePanel t = new TuitePanel(tu, mainScreen);
 			panelTimeLine.add(t, 0);
 		}

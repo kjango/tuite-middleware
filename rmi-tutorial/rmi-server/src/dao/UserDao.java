@@ -124,12 +124,11 @@ public class UserDao {
 		ArrayList<String> preList = new ArrayList<String>();
 
 		Connection con = Connections.getConnection();
-		String sql = "SELECT DISTINCT (login) FROM tb_login WHERE id_user = (select rf.id_user FROM rl_follow rf "
-				+ "JOIN tb_login tl ON tl.id_user = rf.id_follow WHERE rf.id_follow = "
-				+ loginTO.getUser().getId() + ")";
+		String sql = "SELECT rf.id_user, tl.login FROM rl_follow rf JOIN tb_login tl ON tl.id_user = rf.id_user WHERE rf.id_follow = ?";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setLong(1, loginTO.getUser().getId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				preList.add(rs.getString("login"));
@@ -138,6 +137,7 @@ public class UserDao {
 			stmt.close();
 		} catch (SQLException e) {
 			System.out.println("Erro no SQL returnFollowers");
+			e.printStackTrace();
 		}
 
 		for (int i = 0; i < preList.size(); i++) {
