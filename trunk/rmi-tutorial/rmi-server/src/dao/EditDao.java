@@ -69,7 +69,7 @@ public class EditDao {
 			stmt.setLong(5, registerTO.getUser().getId());
 
 			stmt.executeUpdate();
-			stmt.close();
+			stmt.close();			
 			con.close();
 		} catch (SQLException e){
 			System.out.println("Erro no SQL");
@@ -86,6 +86,32 @@ public class EditDao {
 			return registerTO;
 		}
 
+		//When the user statuses are no longer protected, we must delete the pending requests
+		if(!registerTO.getUser().isProtectedTuite()){
+			con = null;
+			sql = null;
+			con = Connections.getConnection();
+			sql = "DELETE FROM rl_follow WHERE id_follow = ? AND notify = TRUE";
+			try {
+				PreparedStatement stmt = con.prepareStatement(sql);
+
+				stmt.setLong(1, registerTO.getUser().getId());
+
+				stmt.executeUpdate();
+
+				stmt.close();
+				con.close();
+			}catch (SQLException e){
+				System.out.println("Erro no SQL");
+				e.printStackTrace();
+				registerTO.setErrorMessage("SQL Error!");
+
+				updateTO(registerTO);
+				return registerTO;
+			}
+			
+		}
+		
 		if(registerTO.getUserPassword() != null){
 			con = null;
 			sql = null;
@@ -112,7 +138,7 @@ public class EditDao {
 				return registerTO;
 			}
 		}
-		//If the user's passaword was not changed, update the profile without a new password
+		//If the user's password was not changed, update the profile without a new password
 		else{
 			con = null;
 			sql = null;
