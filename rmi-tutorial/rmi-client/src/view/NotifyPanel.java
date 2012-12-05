@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -16,21 +17,25 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import model.FollowTO;
+import model.NotifyTO;
 import model.User;
-import javax.swing.JButton;
 
 public class NotifyPanel extends JPanel {
 
 	private User otherUser;
 	private MainScreen mainScreen;
+	private NotifyTO notifyTO;
+	private NotifyPanel me;
 	protected OtherTLScreen otherTLScreen;
 
 	/**
 	 * Create the panel.
 	 */
-	public NotifyPanel(User otherUser, MainScreen ms) {
-		this.otherUser = otherUser;
+	public NotifyPanel(NotifyTO notifyTO, MainScreen ms) {
+		this.otherUser = (User) notifyTO.getObjectBaseSource();
 		this.mainScreen = ms;
+		this.notifyTO = notifyTO;
+		me = this;
 		initialize();
 	}
 	
@@ -89,21 +94,13 @@ public class NotifyPanel extends JPanel {
 		JButton btnAllow = new JButton("Allow");
 		btnAllow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				int x = JOptionPane.showConfirmDialog(this, followTO.getFollower()
-//				.getRealName() + " wants to follow you. Do you accept?",
-//				"Aplicação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
-//		if (x == JOptionPane.YES_OPTION) {
-//			// dispose();
-//			followTO.setNotifyFollower(false);
-//			ctrlUser.updateNotifyFromFollow(followTO);
-//		} else if (x == JOptionPane.NO_OPTION) {
-//			// dispose();
-//			followTO.setNotifyFollower(true);
-//			ctrlUser.doUnFollow(followTO);
-//		}
-				FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
-				followTO.setNotifyFollower(false);
-				mainScreen.getCtrlUser().updateNotifyFromFollow(followTO);
+				if (!mainScreen.isTwitter()) {
+					notifyTO.setOptionYesNo(true);
+					//TODO enviar de volta pro servidor...
+				}else{
+				}
+				
+				mainScreen.removeFollowNotification(me);
 			}
 		});
 		btnPanel.add(btnAllow, BorderLayout.NORTH);
@@ -111,9 +108,12 @@ public class NotifyPanel extends JPanel {
 		JButton btnDeny = new JButton("Deny");
 		btnDeny.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FollowTO followTO = new FollowTO(mainScreen.getUser(), otherUser);
-				followTO.setNotifyFollower(true);
-				mainScreen.getCtrlUser().doUnFollow(followTO);
+				if (!mainScreen.isTwitter()) {
+					notifyTO.setOptionYesNo(false);
+					//TODO enviar de volta pro servidor...
+				}else{
+				}
+				mainScreen.removeFollowNotification(me);
 			}
 		});
 		btnPanel.add(btnDeny, BorderLayout.SOUTH);
