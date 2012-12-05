@@ -177,7 +177,7 @@ public class UserDao {
 			User user = returnUser(loginTOSourceNotification, false);
 			
 			NotifyTO notify = new NotifyTO();
-			notify.setTextMessage("User " + user.getRealName() + " want to follow you! Accept?");
+			notify.setTextMessage("User " + user.getRealName() + " wants to follow you. Do you accept?");
 			notify.setOptionYesNo(true);
 			notify.setObjectBaseSource(user);
 			notify.setEro(EnumRemoteObject.FOLLOW);
@@ -192,13 +192,6 @@ public class UserDao {
 		ArrayList<Tuite> listAllTweets = new ArrayList<Tuite>();
 
 		Connection con = Connections.getConnection();
-		// String sql =
-		// "SELECT * FROM tb_tweet tt join tb_login tl on tt.my_user = tl.id_user join tb_users tu on tt.my_user = tu.id "
-		// +
-		// "WHERE tt.my_user = "
-		// + loginTO.getUser().getId()
-		// + " OR my_user = (SELECT id_follow FROM rl_follow WHERE id_user = "
-		// + loginTO.getUser().getId() + ") ORDER BY created_at DESC";
 
 		String sql = "SELECT tt.my_user, tt.id, tt.text, tt.created_at, tl.login, tu.real_name, tu.photo, tu.email FROM tb_tweet tt "
 				+ "join tb_login tl on tt.my_user = tl.id_user "

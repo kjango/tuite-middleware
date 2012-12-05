@@ -63,7 +63,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		setTitle("Tuite - " + timeLineOwner.getRealName());
+		setTitle("Tuite - " + timeLineOwner.getLoginName());
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -78,10 +78,10 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		scrollPane = new JScrollPane();
 		panelTuites.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setAutoscrolls(true);
-		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		panelTimeLine = new JPanel();
-//		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		panelTimeLine.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPane.setViewportView(panelTimeLine);
 		panelTimeLine.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -103,7 +103,7 @@ public class OtherTLScreen extends javax.swing.JFrame{
 		}
 		lblPhoto.setIcon(photo);
 		
-		lblRealName.setText(timeLineOwner.getRealName());
+		lblRealName.setText(timeLineOwner.getLoginName());
 		
 		panelFollowing = new JPanel();
 		tabbedPane.addTab("Following", null, panelFollowing, null);
@@ -139,10 +139,10 @@ public class OtherTLScreen extends javax.swing.JFrame{
 	}
 	
 	public void update(){
-		setTitle(timeLineOwner.getRealName());
-		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getRealName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		setTitle(timeLineOwner.getLoginName());
+		scrollPane.setBorder(new TitledBorder(null, "Timeline for " + timeLineOwner.getLoginName(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		lblPhoto.setIcon(timeLineOwner.getPhoto());
-		lblRealName.setText(timeLineOwner.getRealName());
+		lblRealName.setText(timeLineOwner.getLoginName());
 		panelTimeLine.removeAll();
 		
 		for (Tuite tu : timeLineOwner.getTuites()) {

@@ -11,6 +11,7 @@ public class FollowImpl {
 		
 		LoginTO aux = new LoginTO(followTO.getFollowed().getLoginName());
 		User usr = UserDao.returnUser(aux, false);
+		
 		followTO.getFollowed().setProtectedTuite(usr.isProtectedTuite());
 		followTO.setNotifyFollower(usr.isProtectedTuite());
 		followTO = UserDao.addFollower(followTO);

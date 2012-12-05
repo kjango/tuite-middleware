@@ -8,10 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -34,7 +34,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import model.FollowTO;
+import model.NotifyTO;
 import model.SearchTO;
 import model.Tuite;
 import model.TuiteTO;
@@ -45,10 +45,6 @@ import control.CtrlTuite;
 import control.CtrlTwitter;
 import control.CtrlUser;
 import control.RunUpdate;
-
-import java.awt.Window.Type;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -191,9 +187,10 @@ public class MainScreen extends javax.swing.JFrame {
 	 */
 	private void initialize() {
 		
-		Thread thread = new Thread(new RunUpdate(me));
-		thread.start();
-		
+		if (isTwitter) {
+			Thread thread = new Thread(new RunUpdate(me));
+			thread.start();
+		}
 		setTitle("Tuite - " + user.getRealName());
 		setBounds(100, 100, 611, 442);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -640,16 +637,20 @@ public class MainScreen extends javax.swing.JFrame {
 		}
 
 		if (!isTwitter) {
-			tabbedPane.setTitleAt(
-					5,
-					"Notifications ("
-							+ panelShowNotifications.getComponentCount() + ")");
+			panelShowNotifications.removeAll();
+			ArrayList<NotifyTO> alN = user.getNotifications();
+			
+			for (NotifyTO u : alN) {
+				addFollowNotification(u);
+			}
 		}else{
 			panelShowNotifications.removeAll();
 			ArrayList<User> alN = ctrlTwitter.getNotifications();
 			
 			for (User u : alN) {
-				setFollowNotification(u);
+				NotifyTO notifyTO = new NotifyTO();
+				notifyTO.setObjectBaseSource(u);
+				addFollowNotification(notifyTO);
 			}
 		}
 		scrollPane.getVerticalScrollBar().setValue(0);
@@ -729,25 +730,25 @@ public class MainScreen extends javax.swing.JFrame {
 	 *
 	 * @param followTO: the follow to
 	 */
-	public void notifyUserForFollow(FollowTO followTO) {
-		// System.out.println("User: " + user.getLoginName() +
-		// " want to follow you, Accept?");
-
-//		int x = JOptionPane.showConfirmDialog(this, followTO.getFollower()
-//				.getRealName() + " wants to follow you. Do you accept?",
-//				"Aplicação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
-//		if (x == JOptionPane.YES_OPTION) {
-//			// dispose();
-//			followTO.setNotifyFollower(false);
-//			ctrlUser.updateNotifyFromFollow(followTO);
-//		} else if (x == JOptionPane.NO_OPTION) {
-//			// dispose();
-//			followTO.setNotifyFollower(true);
-//			ctrlUser.doUnFollow(followTO);
-//		}
-		
-		setFollowNotification(followTO.getFollower());
-	}
+//	public void notifyUserForFollow(FollowTO followTO) {
+//		// System.out.println("User: " + user.getLoginName() +
+//		// " want to follow you, Accept?");
+//
+////		int x = JOptionPane.showConfirmDialog(this, followTO.getFollower()
+////				.getRealName() + " wants to follow you. Do you accept?",
+////				"Aplicação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+////		if (x == JOptionPane.YES_OPTION) {
+////			// dispose();
+////			followTO.setNotifyFollower(false);
+////			ctrlUser.updateNotifyFromFollow(followTO);
+////		} else if (x == JOptionPane.NO_OPTION) {
+////			// dispose();
+////			followTO.setNotifyFollower(true);
+////			ctrlUser.doUnFollow(followTO);
+////		}
+//		
+//		setFollowNotification(followTO.getFollower());
+//	}
 
 	public boolean isTwitter() {
 		return isTwitter;
@@ -773,8 +774,14 @@ public class MainScreen extends javax.swing.JFrame {
 		repaint();
 	}
 	
-	public void setFollowNotification(User user) {
-		panelShowNotifications.add(new NotifyPanel(user, this));
+	public void addFollowNotification(NotifyTO notifyTO) {
+		panelShowNotifications.add(new NotifyPanel(notifyTO, this));
+		tabbedPane.setTitleAt(5, "Notifications (" + panelShowNotifications.getComponentCount() + ")");
+		repaint();
+	}
+
+	public void removeFollowNotification(NotifyPanel np) {
+		panelShowNotifications.remove(np);
 		tabbedPane.setTitleAt(5, "Notifications (" + panelShowNotifications.getComponentCount() + ")");
 		repaint();
 	}
