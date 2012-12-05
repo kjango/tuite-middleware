@@ -45,6 +45,9 @@ public class User extends BaseTO implements Serializable {
 	/** The followers. */
 	private ArrayList<User> followers = new ArrayList<User>();
 	
+	/** The user´s notifications */
+	private ArrayList<NotifyTO> Notifications = new ArrayList<NotifyTO>();
+	
 	/** The user's photo. */
 	private ImageIcon photo;
 
@@ -95,8 +98,6 @@ public class User extends BaseTO implements Serializable {
 	
 	}
 	
-
-
 	/**
 	 * Instantiates a new user.
 	 *
@@ -133,6 +134,22 @@ public class User extends BaseTO implements Serializable {
 		this.id = id;
 		this.loginName = loginName;
 		this.photo = photo;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<NotifyTO> getNotifications() {
+		return Notifications;
+	}
+
+	/**
+	 * 
+	 * @param notifications
+	 */
+	public void setNotifications(ArrayList<NotifyTO> notifications) {
+		Notifications = notifications;
 	}
 
 	/**

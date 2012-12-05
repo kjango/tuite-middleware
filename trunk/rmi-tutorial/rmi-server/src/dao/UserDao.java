@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import base.EnumRemoteObject;
+
 import model.FollowTO;
 import model.LoginTO;
+import model.NotifyTO;
 import model.SearchTO;
 import model.Tuite;
 import model.User;
@@ -52,6 +55,7 @@ public class UserDao {
 			user.setFollowing(returnFollowing(loginTO));
 			user.setFollowers(returnFollowers(loginTO));
 			user.setTuites(returnAllTweets(loginTO));
+			user.setNotifications(returnNotificationsFollow(loginTO));
 		}
 
 		return user;
@@ -147,6 +151,43 @@ public class UserDao {
 		return listFollowers;
 	}
 
+	private static ArrayList<NotifyTO> returnNotificationsFollow(LoginTO loginTO) {
+		ArrayList<NotifyTO> listNotify = new ArrayList<NotifyTO>();
+		
+		ArrayList<String> preList = new ArrayList<String>();
+
+		Connection con = Connections.getConnection();
+		String sql = "SELECT rf.id_user, tl.login FROM rl_follow rf JOIN tb_login tl ON tl.id_user = rf.id_user WHERE rf.id_follow = ? AND rf.notify = TRUE";
+		
+		try {
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setLong(1, loginTO.getUser().getId());
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				preList.add(rs.getString("login"));
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println("Erro no SQL returnNotificationsFollow");
+		}
+
+		for (int i = 0; i < preList.size(); i++) {
+			LoginTO loginTOSourceNotification = new LoginTO(preList.get(i), null);
+			User user = returnUser(loginTOSourceNotification, false);
+			
+			NotifyTO notify = new NotifyTO();
+			notify.setTextMessage("User " + user.getRealName() + " want to follow you! Accept?");
+			notify.setOptionYesNo(true);
+			notify.setObjectBaseSource(user);
+			notify.setEro(EnumRemoteObject.FOLLOW);
+			notify.setObjectBaseDestination(loginTO.getUser());
+			listNotify.add(notify);
+		}
+	
+		return listNotify;
+	}
+	
 	private static ArrayList<Tuite> returnAllTweets(LoginTO loginTO) {
 		ArrayList<Tuite> listAllTweets = new ArrayList<Tuite>();
 
