@@ -3,10 +3,10 @@ package control;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import view.MainScreen;
-
 import model.FollowTO;
+import model.NotifyTO;
 import model.User;
+import view.MainScreen;
 import base.EnumRemoteObject;
 import base.RemoteObserver;
 import base.RmiService;
@@ -88,6 +88,17 @@ public class CtrlUser extends UnicastRemoteObject implements RemoteObserver {
 		}
 	}
 
+	public void doNotifyForUser(NotifyTO notifyTO){
+		if (notifyTO != null) {
+			try {
+				remoteService = Util.getRemoteService();
+				remoteService.sendMessage(notifyTO, EnumRemoteObject.NOTIFY, "Update user destiny");
+			} catch (RemoteException e) {
+				System.out.println("Message: " + "\nException: " + e.toString());
+			}
+		}
+	}
+	
 	public FollowTO doUnFollow(FollowTO followTO){
 		if (followTO != null) {
 			try {
