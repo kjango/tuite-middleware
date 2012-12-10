@@ -112,6 +112,10 @@ public class NotifyPanel extends JPanel {
 						FollowTO followTO = new FollowTO((User)notTO.getObjectBaseSource(), (User)notTO.getObjectBaseDestination());
 						mainScreen.getCtrlUser().updateNotifyFromFollow(followTO);
 						
+						NotifyTO notTODestiny = new NotifyTO();
+						notTODestiny.setObjectBaseDestination(getNotifyTO().getObjectBaseSource());
+						notTODestiny.setObjectBaseSource(getNotifyTO().getObjectBaseDestination());
+						mainScreen.getCtrlUser().doNotifyForUser(notTODestiny);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

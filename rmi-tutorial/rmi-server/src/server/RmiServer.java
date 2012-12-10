@@ -13,6 +13,7 @@ import java.util.Observer;
 import model.BaseTO;
 import model.FollowTO;
 import model.LoginTO;
+import model.NotifyTO;
 import model.RegisterTO;
 import model.SearchTO;
 import model.TuiteTO;
@@ -185,6 +186,19 @@ public class RmiServer extends Observable implements RmiService {
 							}
 						}
 					}
+			    	setChanged();
+			    	notifyObservers(Default);
+			    	deleteObservers();
+					break;
+				case NOTIFY:
+					User userTONotify = (User)((NotifyTO)baseTO).getObjectBaseDestination();
+						for (int j = 0; j < ObservableFollow.size(); j++){
+							WrappedObserver wp = ObservableFollow.get(j);
+							User userDestiny = (User)wp.getBaseTO();
+							if (userDestiny.getLoginName().equals(userTONotify.getLoginName())){
+								addObserver(wp);	
+							}
+						}
 			    	setChanged();
 			    	notifyObservers(Default);
 			    	deleteObservers();
