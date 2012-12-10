@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -96,8 +97,13 @@ public class NotifyPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!mainScreen.isTwitter()) {
 					notifyTO.setOptionYesNo(true);
-					//TODO enviar de volta pro servidor...
+					try {
+						mainScreen.getCtrlUser().update(mainScreen.getCtrlUser(), "yes");
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
 				}else{
+					
 				}
 				
 				mainScreen.removeFollowNotification(me);
@@ -110,8 +116,13 @@ public class NotifyPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (!mainScreen.isTwitter()) {
 					notifyTO.setOptionYesNo(false);
-					//TODO enviar de volta pro servidor...
+					try {
+						mainScreen.getCtrlUser().update(mainScreen.getCtrlUser(), "no");
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
 				}else{
+					
 				}
 				mainScreen.removeFollowNotification(me);
 			}
