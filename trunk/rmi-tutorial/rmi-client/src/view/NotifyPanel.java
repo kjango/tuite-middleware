@@ -29,6 +29,16 @@ public class NotifyPanel extends JPanel {
 	private NotifyPanel me;
 	protected OtherTLScreen otherTLScreen;
 
+	
+	
+	public NotifyTO getNotifyTO() {
+		return notifyTO;
+	}
+
+	public void setNotifyTO(NotifyTO notifyTO) {
+		this.notifyTO = notifyTO;
+	}
+
 	/**
 	 * Create the panel.
 	 */
@@ -98,8 +108,11 @@ public class NotifyPanel extends JPanel {
 				if (!mainScreen.isTwitter()) {
 					notifyTO.setOptionYesNo(true);
 					try {
-						mainScreen.getCtrlUser().update(mainScreen.getCtrlUser(), "yes");
-					} catch (RemoteException e) {
+						NotifyTO notTO = getNotifyTO();
+						FollowTO followTO = new FollowTO((User)notTO.getObjectBaseSource(), (User)notTO.getObjectBaseDestination());
+						mainScreen.getCtrlUser().updateNotifyFromFollow(followTO);
+						
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}else{
@@ -117,8 +130,11 @@ public class NotifyPanel extends JPanel {
 				if (!mainScreen.isTwitter()) {
 					notifyTO.setOptionYesNo(false);
 					try {
-						mainScreen.getCtrlUser().update(mainScreen.getCtrlUser(), "no");
-					} catch (RemoteException e1) {
+						NotifyTO notTO = getNotifyTO();
+						FollowTO followTO = new FollowTO((User)notTO.getObjectBaseSource(), (User)notTO.getObjectBaseDestination());
+						mainScreen.getCtrlUser().doUnFollow(followTO);
+
+					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 				}else{
