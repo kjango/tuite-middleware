@@ -1,1 +1,3 @@
-SERVER_ADDRESS=localhost
+debug=false
+oauth.consumerKey=npl8FKK3mAm5KDsQ4k4YOg
+oauth.consumerSecret=9vy7qbDyiVd542kCMbgA3WjRaYFEX0V3DhvpXfvbBLI
