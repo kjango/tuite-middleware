@@ -23,6 +23,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import base.Util;
+
 import model.LoginTO;
 import model.User;
 import twitter4j.Twitter;
@@ -88,6 +90,7 @@ public class LoginScreen extends javax.swing.JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		me = this;
+		Util.createTwitter4jConfig();
 
 		try {
 			ctrlLogin = new CtrlLogin();

@@ -66,6 +66,7 @@ public class Util {
                  }
 			}
 			br.close();
+				
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,6 +85,26 @@ public class Util {
     		System.err.println("Error returning RmiService: Verify the correct address from Service and Service Name\n" + e.toString());
     	}
     	return null;
+    }
+    
+    public static void createTwitter4jConfig(){
+		
+    	File f = new File("twitter4j.properties");
+    	
+		try {
+			if (f.createNewFile()){
+				FileWriter fw = new FileWriter(f);
+				PrintWriter pw = new PrintWriter(fw);
+				pw.println("debug=false");
+				pw.println("oauth.consumerKey=npl8FKK3mAm5KDsQ4k4YOg");
+				pw.println("oauth.consumerSecret=9vy7qbDyiVd542kCMbgA3WjRaYFEX0V3DhvpXfvbBLI");
+				pw.close();
+				fw.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
 }
