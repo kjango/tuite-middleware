@@ -89,19 +89,10 @@ public class RmiServer extends Observable implements RmiService {
 	    public void sendMessage(BaseTO baseTO, EnumRemoteObject ero, String Default) throws RemoteException{
 	    		switch (ero) {
 				case LOGIN:
-					/*	
-					for (int i = 0; i < ObservableLogins.size(); i++){
-							addObserver(ObservableLogins.get(i));
-						}
-				    	setChanged();
-				    	notifyObservers(Default);
-				    	deleteObservers();
-				    	*/
 					for (int i = 0; i < listLogins.size(); i ++){
 						String userToSend = listLogins.get(i).getLoginName();
 						jmsTopicLogin.writeMessage(baseTO, ero, userToSend);
 					}
-					
 					break;
 				case FOLLOW:
 					String userToBeFollowed = ((FollowTO)baseTO).getFollowed().getLoginName();
@@ -115,19 +106,6 @@ public class RmiServer extends Observable implements RmiService {
 							}
 						}
 					}
-					
-					/*
-					for (int i=0; i < ObservableFollow.size(); i++){
-						WrappedObserver wp = ObservableFollow.get(i);
-						User userLocal = (User)wp.getBaseTO();
-						if (userLocal.getLoginName().equals(userToBeFollowed.getLoginName())){
-							addObserver(wp);
-						}
-					}
-			    	setChanged();
-			    	notifyObservers((FollowTO)baseTO);
-			    	deleteObservers();
-			    	*/
 					break;
 				case TUITE:
 					User userSource = (User)baseTO;
@@ -142,24 +120,8 @@ public class RmiServer extends Observable implements RmiService {
 								jmsTopicTuites.writeMessage(new BaseTO(), ero, userOnLineToBeNotify);	
 							}
 						}
-						
-						/*
-						for (int j = 0; j < ObservableTuites.size(); j++){
-							WrappedObserver wp = ObservableTuites.get(j);
-							User userDestiny = (User)wp.getBaseTO();
-							if (userDestiny.getLoginName().equals(userFollower.getLoginName())){
-								addObserver(wp);	
-							}
-						}
-						*/
 					}
-			    	/*
-					setChanged();
-			    	notifyObservers(Default);
-			    	deleteObservers();
-			    	*/
 					break;
-					
 				case NOTIFY:
 					User userToBeNofity = (User)((NotifyTO)baseTO).getObjectBaseDestination();
 					
@@ -170,26 +132,13 @@ public class RmiServer extends Observable implements RmiService {
 							jmsTopicTuites.writeMessage(new BaseTO(), ero, userOnLineToBeNotify);	
 						}
 					}
-					/*
-					for (int j = 0; j < ObservableFollow.size(); j++){
-							WrappedObserver wp = ObservableFollow.get(j);
-							User userDestiny = (User)wp.getBaseTO();
-							if (userDestiny.getLoginName().equals(userTONotify.getLoginName())){
-								addObserver(wp);	
-							}
-						}
-			    	setChanged();
-			    	notifyObservers(Default);
-			    	deleteObservers();
-			    	*/
 					break;
 				default:
 					break;
 	    		}
 	    }
 	    
-   
-	    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
+   	    public LoginTO executeLogin(LoginTO loginTO) throws RemoteException {
 	    	if (listLogins == null){
 	    		listLogins = new ArrayList<User>();
 	    	}
