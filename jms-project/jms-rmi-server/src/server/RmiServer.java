@@ -5,7 +5,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Observable;
 
 import model.BaseTO;
 import model.FollowTO;
@@ -26,7 +25,7 @@ import control.RegisterImpl;
 import control.SearchImpl;
 import control.TuitarImpl;
 
-public class RmiServer extends Observable implements RmiService {
+public class RmiServer implements RmiService {
 	
 	private ArrayList<User> listLogins;
 	
