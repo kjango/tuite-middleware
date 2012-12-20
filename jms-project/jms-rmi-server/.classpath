@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jms-rmi-base"/>
 	<classpathentry kind="lib" path="postgresql-9.2-1001.jdbc4.jar"/>
-	<classpathentry kind="lib" path="C:/apache/activemq-all-5.7.0.jar"/>
+	<classpathentry kind="lib" path="/jms-rmi-base/activemq-all-5.7.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
